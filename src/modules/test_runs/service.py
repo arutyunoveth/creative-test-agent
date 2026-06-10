@@ -2,22 +2,19 @@ from datetime import datetime, timezone
 from uuid import uuid4
 
 from src.modules.test_runs.models import TestRun
-from src.modules.test_runs.schemas import CreateTestRunRequest, FindingItem, TestRunResponse
+from src.modules.test_runs.pipeline import run_pipeline
+from src.modules.test_runs.schemas import (
+    AudienceReaction,
+    CreateTestRunRequest,
+    FindingItem,
+    RiskEntry,
+    ScorecardEntry,
+    TestRunResponse,
+)
 from src.shared.llm.factory import get_llm_provider
 from src.shared.llm.policy import validate_llm_provider
 
 _store: dict[str, TestRun] = {}
-
-_DEFAULT_FINDINGS = [
-    FindingItem(criterion="message_clarity", score=7.5, explanation="The core message is reasonably clear."),
-    FindingItem(criterion="memorability", score=6.0, explanation="Moderate memorability; could use a stronger hook."),
-    FindingItem(criterion="audience_fit", score=8.0, explanation="Good alignment with target audience."),
-    FindingItem(criterion="call_to_action", score=7.0, explanation="CTA is present but could be more compelling."),
-    FindingItem(criterion="trust", score=8.5, explanation="High trust signals."),
-    FindingItem(criterion="brand_fit", score=9.0, explanation="Strong brand alignment."),
-    FindingItem(criterion="negativity_risk", score=3.0, explanation="Low risk of negative perception."),
-    FindingItem(criterion="distinctiveness", score=6.5, explanation="Moderately distinct from competitors."),
-]
 
 
 def _to_response(run: TestRun) -> TestRunResponse:
@@ -30,6 +27,12 @@ def _to_response(run: TestRun) -> TestRunResponse:
         status=run.status,
         input_context=run.input_context,
         findings=[FindingItem(**f) if isinstance(f, dict) else f for f in run.findings],
+        summary=run.summary,
+        overall_score=run.overall_score,
+        scorecard=[ScorecardEntry(**s) if isinstance(s, dict) else s for s in run.scorecard],
+        risks=[RiskEntry(**r) if isinstance(r, dict) else r for r in run.risks],
+        audience_reactions=[AudienceReaction(**a) if isinstance(a, dict) else a for a in run.audience_reactions],
+        final_recommendation=run.final_recommendation,
         created_at=run.created_at,
         completed_at=run.completed_at,
     )
@@ -66,19 +69,37 @@ def run_test_run(run_id: str, audit_writer=None) -> TestRunResponse:
         audit_writer("test_run_started", "test_run", run_id, {})
 
     provider = get_llm_provider()
-    result = provider.generate(
-        prompt=f"Score creative {run.creative_asset_id} against rubric {run.rubric_id or 'default'}",
-        metadata={"test_run_id": run_id},
-    )
 
     run.status = "running"
 
-    findings_data = [f.model_dump() for f in _DEFAULT_FINDINGS]
-    run.findings = findings_data
-    run.status = "completed"
-    run.completed_at = datetime.now(timezone.utc)
+    try:
+        result = run_pipeline(
+            creative_asset_id=run.creative_asset_id,
+            brand_profile_id=run.brand_profile_id,
+            audience_profile_ids=run.audience_profile_ids,
+            rubric_id=run.rubric_id,
+            provider=provider,
+        )
 
-    if audit_writer:
-        audit_writer("test_run_completed", "test_run", run_id, {"findings_count": len(findings_data)})
+        run.findings = result["findings"]
+        run.summary = result["summary"]
+        run.overall_score = result.get("overall_score", 0.0)
+        run.scorecard = result["scorecard"]
+        run.risks = result["risks"]
+        run.audience_reactions = result["audience_reactions"]
+        run.final_recommendation = result["final_recommendation"]
+        run.status = "completed"
+        run.completed_at = datetime.now(timezone.utc)
+
+        if audit_writer:
+            audit_writer("test_run_completed", "test_run", run_id, {
+                "findings_count": len(result["findings"]),
+                "final_recommendation": result["final_recommendation"],
+            })
+
+    except Exception:
+        run.status = "failed"
+        run.completed_at = datetime.now(timezone.utc)
+        raise
 
     return _to_response(run)

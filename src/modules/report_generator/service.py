@@ -15,39 +15,49 @@ def generate_report(test_run_id: str) -> ReportResponse | None:
     if run.status != "completed":
         return None
 
-    scorecard = [
-        ScorecardItem(criterion=f.criterion, score=f.score)
-        for f in run.findings
-    ]
+    scorecard = []
+    if run.scorecard:
+        for s in run.scorecard:
+            scorecard.append(ScorecardItem(criterion=s.criterion, score=s.score))
+    else:
+        scorecard = [
+            ScorecardItem(criterion=f.criterion, score=f.score)
+            for f in run.findings
+        ]
 
     risks = []
-    for f in run.findings:
-        if f.criterion == "negativity_risk" and f.score > 5:
-            risks.append(RiskItem(risk="Negative perception risk detected", severity="medium"))
-        if f.score < 5:
-            risks.append(RiskItem(risk=f"Low score on '{f.criterion}'", severity="low"))
+    for r in run.risks:
+        risks.append(RiskItem(risk=r.description or r.risk_type, severity=r.level))
 
     recommendations = []
-    for f in run.findings:
-        if f.score < 6:
+    for s in run.scorecard:
+        if s.score < 6 and s.recommendation:
             recommendations.append(
                 RecommendationItem(
-                    recommendation=f"Improve '{f.criterion}': {f.explanation}",
-                    priority="high" if f.score < 4 else "medium",
+                    recommendation=s.recommendation,
+                    priority="high" if s.score < 4 else "medium",
                 )
             )
 
-    avg_score = sum(f.score for f in run.findings) / max(len(run.findings), 1)
+    if not recommendations:
+        for f in run.findings:
+            if f.score < 6:
+                recommendations.append(
+                    RecommendationItem(
+                        recommendation=f"Improve '{f.criterion}': {f.explanation}",
+                        priority="high" if f.score < 4 else "medium",
+                    )
+                )
 
-    if avg_score >= 7.5:
-        final_rec = "show_to_client"
-    elif avg_score >= 5.0:
-        final_rec = "revise"
-    else:
-        final_rec = "reject"
+    final_rec = run.final_recommendation or "revise"
+    avg_score = run.overall_score or (
+        sum(f.score for f in run.findings) / max(len(run.findings), 1) if run.findings else 0
+    )
 
+    base_summary = run.summary or f"Test run {test_run_id} completed."
     summary = (
-        f"Test run {test_run_id} completed with average score {avg_score:.1f}/10. "
+        f"{base_summary} "
+        f"Average score: {avg_score:.1f}/10. "
         f"Recommendation: {final_rec.replace('_', ' ')}."
     )
 
@@ -57,10 +67,13 @@ def generate_report(test_run_id: str) -> ReportResponse | None:
         f"**Average Score:** {avg_score:.1f}/10",
         f"**Final Recommendation:** {final_rec.replace('_', ' ')}",
         "",
+        "## Summary",
+        run.summary or "No summary available.",
+        "",
         "## Scorecard",
     ]
-    for f in run.findings:
-        report_markdown_lines.append(f"- {f.criterion}: {f.score}/10")
+    for s in scorecard:
+        report_markdown_lines.append(f"- {s.criterion}: {s.score}/10")
     report_markdown_lines.append("")
     if risks:
         report_markdown_lines.append("## Risks")

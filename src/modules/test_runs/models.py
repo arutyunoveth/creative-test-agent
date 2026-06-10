@@ -19,5 +19,11 @@ class TestRun:
         self.status = "created"
         self.input_context = input_context or {}
         self.findings: list[dict] = []
+        self.summary: str = ""
+        self.overall_score: float = 0.0
+        self.scorecard: list[dict] = []
+        self.risks: list[dict] = []
+        self.audience_reactions: list[dict] = []
+        self.final_recommendation: str = ""
         self.created_at = datetime.now(timezone.utc)
         self.completed_at: datetime | None = None
