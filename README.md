@@ -32,6 +32,8 @@ All settings are prefixed with `CTA_`. Copy `.env.example` to `.env` to customiz
 | `CTA_LLM_BASE_URL` | — | Base URL for local LLM provider |
 | `CTA_LLM_TIMEOUT_SECONDS` | `60` | Timeout for LLM requests |
 | `CTA_STORAGE_ROOT` | `./data/storage` | Local file storage root |
+| `CTA_MAX_UPLOAD_SIZE_MB` | `25` | Maximum upload file size in MB |
+| `CTA_ALLOWED_UPLOAD_TYPES` | `txt,md,pdf,png,jpg,jpeg,webp` | Comma-separated allowed upload extensions |
 | `CTA_RUN_LOCAL_LLM_SMOKE_TESTS` | `false` | Run optional local LLM smoke tests |
 
 ## Running Tests
@@ -49,6 +51,7 @@ python -m pytest tests/ -v
 | `/agents` | GET | List agent roles |
 | `/agents/register` | POST | Register a new agent role |
 | `/creative-assets` | GET/POST | Manage creative materials |
+| `/creative-assets/upload` | POST | Upload a creative file (txt, md, pdf, png, jpg, webp) |
 | `/brand-profiles` | GET/POST | Manage brand profiles |
 | `/audience-profiles` | GET/POST | Manage audience profiles |
 | `/test-rubrics` | GET/POST | Manage scoring rubrics |
@@ -61,4 +64,4 @@ python -m pytest tests/ -v
 
 ## Architecture
 
-See [docs/architecture.md](docs/architecture.md), [docs/closed_loop_requirements.md](docs/closed_loop_requirements.md), [docs/mvp_scope.md](docs/mvp_scope.md), and [docs/local_llm_setup.md](docs/local_llm_setup.md) for detailed documentation.
+See [docs/architecture.md](docs/architecture.md), [docs/closed_loop_requirements.md](docs/closed_loop_requirements.md), [docs/mvp_scope.md](docs/mvp_scope.md), [docs/local_llm_setup.md](docs/local_llm_setup.md), and [docs/file_intake.md](docs/file_intake.md) for detailed documentation.
