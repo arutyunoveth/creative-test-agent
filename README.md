@@ -28,8 +28,11 @@ All settings are prefixed with `CTA_`. Copy `.env.example` to `.env` to customiz
 | `CTA_LOCAL_ONLY_MODE` | `true` | Enforce local-only processing |
 | `CTA_ALLOW_CLOUD_LLM` | `false` | Allow cloud LLM providers |
 | `CTA_LLM_PROVIDER` | `stub` | LLM provider (stub, ollama, lmstudio) |
+| `CTA_LLM_MODEL` | — | Model name for local LLM provider |
 | `CTA_LLM_BASE_URL` | — | Base URL for local LLM provider |
+| `CTA_LLM_TIMEOUT_SECONDS` | `60` | Timeout for LLM requests |
 | `CTA_STORAGE_ROOT` | `./data/storage` | Local file storage root |
+| `CTA_RUN_LOCAL_LLM_SMOKE_TESTS` | `false` | Run optional local LLM smoke tests |
 
 ## Running Tests
 
@@ -54,7 +57,8 @@ python -m pytest tests/ -v
 | `/test-runs/{id}/run` | POST | Execute a test run |
 | `/reports/{test_run_id}` | GET | Generate report from test run |
 | `/audit-log` | GET | View audit trail |
+| `/llm/health` | GET | LLM provider health check |
 
 ## Architecture
 
-See [docs/architecture.md](docs/architecture.md), [docs/closed_loop_requirements.md](docs/closed_loop_requirements.md), and [docs/mvp_scope.md](docs/mvp_scope.md) for detailed documentation.
+See [docs/architecture.md](docs/architecture.md), [docs/closed_loop_requirements.md](docs/closed_loop_requirements.md), [docs/mvp_scope.md](docs/mvp_scope.md), and [docs/local_llm_setup.md](docs/local_llm_setup.md) for detailed documentation.
