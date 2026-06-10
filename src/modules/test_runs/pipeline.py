@@ -16,7 +16,7 @@ import json
 
 from src.modules.audience_profiles.service import get_profile as get_audience
 from src.modules.brand_profiles.service import get_profile as get_brand
-from src.modules.creative_assets.service import get_asset
+from src.modules.creative_assets.service import get_asset_model
 from src.modules.test_rubrics.service import get_rubric
 from src.shared.llm.base import LLMProvider
 
@@ -53,15 +53,20 @@ def _parse_stage_result(raw: dict | None, default: dict) -> dict:
     return raw
 
 
+def _asset_text(asset) -> str:
+    return (asset.text_content or asset.extracted_text or "") if asset else ""
+
+
 def creative_summary(asset_id: str, provider: LLMProvider) -> dict:
-    asset = get_asset(asset_id)
+    asset = get_asset_model(asset_id)
     if asset is None:
         return {"summary": "Creative asset not found.", "key_message": "", "tone": "", "target_audience_vibe": ""}
+    text = _asset_text(asset)
 
     if _is_stub(provider):
         return {
             "summary": f"A {asset.asset_type} creative titled '{asset.title}' that communicates a promotional message.",
-            "key_message": asset.text_content or "",
+            "key_message": text,
             "tone": "persuasive",
             "target_audience_vibe": "general consumers",
         }
@@ -70,20 +75,20 @@ def creative_summary(asset_id: str, provider: LLMProvider) -> dict:
         "creative_summary",
         title=asset.title,
         asset_type=asset.asset_type,
-        text_content=asset.text_content or "",
+        text_content=text,
     )
     raw = _call_llm_json(provider, prompt)
     return _parse_stage_result(raw, {
         "summary": f"Creative titled '{asset.title}'.",
-        "key_message": asset.text_content or "",
+        "key_message": text,
         "tone": "neutral",
         "target_audience_vibe": "general",
     })
 
 
 def audience_simulation(asset_id: str, audience_ids: list[str], provider: LLMProvider) -> list[dict]:
-    asset = get_asset(asset_id)
-    asset_text = asset.text_content if asset else ""
+    asset = get_asset_model(asset_id)
+    asset_text = _asset_text(asset)
     asset_title = asset.title if asset else ""
     asset_type = asset.asset_type if asset else "text"
 
@@ -142,8 +147,8 @@ def audience_simulation(asset_id: str, audience_ids: list[str], provider: LLMPro
 
 
 def brand_safety_review(asset_id: str, brand_profile_id: str | None, provider: LLMProvider) -> list[dict]:
-    asset = get_asset(asset_id)
-    asset_text = asset.text_content if asset else ""
+    asset = get_asset_model(asset_id)
+    asset_text = _asset_text(asset)
     asset_title = asset.title if asset else ""
     asset_type = asset.asset_type if asset else "text"
 
@@ -182,8 +187,8 @@ def brand_safety_review(asset_id: str, brand_profile_id: str | None, provider: L
 
 
 def rubric_scoring(asset_id: str, rubric_id: str | None, provider: LLMProvider) -> tuple[list[dict], float]:
-    asset = get_asset(asset_id)
-    asset_text = asset.text_content if asset else ""
+    asset = get_asset_model(asset_id)
+    asset_text = _asset_text(asset)
     asset_title = asset.title if asset else ""
     asset_type = asset.asset_type if asset else "text"
 
@@ -229,7 +234,7 @@ def final_recommendation(
     audience_reactions: list[dict],
     provider: LLMProvider,
 ) -> str:
-    asset = get_asset(asset_id)
+    asset = get_asset_model(asset_id)
     asset_title = asset.title if asset else ""
 
     if _is_stub(provider):
