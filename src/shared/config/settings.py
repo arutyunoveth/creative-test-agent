@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     llm_base_url: str | None = None
     llm_timeout_seconds: int = 60
     storage_root: str = "./data/storage"
+    max_upload_size_mb: int = 25
+    allowed_upload_types: str = "txt,md,pdf,png,jpg,jpeg,webp"
 
 
 @lru_cache()
