@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      CTA_DATABASE_URL: postgresql+psycopg://cta:cta@db:5432/cta
+      CTA_LOCAL_ONLY_MODE: "true"
+      CTA_ALLOW_CLOUD_LLM: "false"
+      CTA_LLM_PROVIDER: stub
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cta
+      POSTGRES_PASSWORD: cta
+      POSTGRES_DB: cta
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: pg_isready -U cta
+      interval: 5s
+      timeout: 3s
+      retries: 5
