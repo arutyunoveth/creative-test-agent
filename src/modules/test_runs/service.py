@@ -3,8 +3,8 @@ from uuid import uuid4
 
 from src.modules.test_runs.models import TestRun
 from src.modules.test_runs.schemas import CreateTestRunRequest, FindingItem, TestRunResponse
+from src.shared.llm.factory import get_llm_provider
 from src.shared.llm.policy import validate_llm_provider
-from src.shared.llm.stub import StubProvider
 
 _store: dict[str, TestRun] = {}
 
@@ -65,7 +65,7 @@ def run_test_run(run_id: str, audit_writer=None) -> TestRunResponse:
     if audit_writer:
         audit_writer("test_run_started", "test_run", run_id, {})
 
-    provider = StubProvider()
+    provider = get_llm_provider()
     result = provider.generate(
         prompt=f"Score creative {run.creative_asset_id} against rubric {run.rubric_id or 'default'}",
         metadata={"test_run_id": run_id},

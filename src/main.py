@@ -10,6 +10,7 @@ from src.modules.test_rubrics.router import router as test_rubrics_router
 from src.modules.test_runs.router import router as test_runs_router
 from src.shared.api.errors import register_exception_handlers
 from src.shared.config.settings import get_settings
+from src.shared.llm.router import router as llm_router
 
 settings = get_settings()
 
@@ -25,6 +26,7 @@ app.include_router(test_rubrics_router)
 app.include_router(test_runs_router)
 app.include_router(report_generator_router)
 app.include_router(audit_log_router)
+app.include_router(llm_router)
 
 
 @app.get("/health")
