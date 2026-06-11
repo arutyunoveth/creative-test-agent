@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}New Test Run — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header"><h1>New Test Run</h1></div>
+
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+
+{% if not assets %}
+<div class="card">
+  <p>No creative assets available. <a href="/ui/creative-assets/new">Create one first</a>.</p>
+</div>
+{% else %}
+<div class="card">
+  <form method="post" action="/ui/test-runs">
+    <div class="form-group">
+      <label for="creative_asset_id">Creative Asset</label>
+      <select name="creative_asset_id" id="creative_asset_id" required>
+        <option value="">-- Select --</option>
+        {% for a in assets %}
+        <option value="{{ a.id }}">{{ a.title }} ({{ a.asset_type }})</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="brand_profile_id">Brand Profile (optional)</label>
+      <select name="brand_profile_id" id="brand_profile_id">
+        <option value="">-- None --</option>
+        {% for p in brand_profiles %}
+        <option value="{{ p.id }}">{{ p.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="audience_profile_ids">Audience Profiles (optional, hold Ctrl/Cmd for multiple)</label>
+      <select name="audience_profile_ids" id="audience_profile_ids" multiple size="4">
+        {% for p in audience_profiles %}
+        <option value="{{ p.id }}">{{ p.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="rubric_id">Rubric (optional)</label>
+      <select name="rubric_id" id="rubric_id">
+        <option value="">-- Default --</option>
+        {% for r in rubrics %}
+        <option value="{{ r.id }}">{{ r.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="input_context">Input Context (JSON, optional)</label>
+      <textarea name="input_context" id="input_context" rows="4" placeholder='{"channel": "social", "region": "US"}'></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Test Run</button>
+    <a href="/ui/test-runs" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endif %}
+
+{% endblock %}

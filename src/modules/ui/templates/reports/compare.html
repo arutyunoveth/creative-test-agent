@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Compare Test Runs — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header"><h1>A/B Comparison</h1></div>
+
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+
+{% if completed_runs|length < 2 %}
+<div class="card">
+  <p>At least 2 completed test runs are required for comparison.</p>
+  <p>Currently {{ completed_runs|length }} completed run(s) available.</p>
+  <a href="/ui/test-runs" class="btn btn-secondary">Go to Test Runs</a>
+</div>
+{% else %}
+<div class="card compare-form">
+  <form method="post" action="/ui/compare">
+    <div class="form-group">
+      <label for="test_run_ids">Test Runs (select 2 or more, hold Ctrl/Cmd)</label>
+      <select name="test_run_ids" id="test_run_ids" multiple required size="6">
+        {% for run in completed_runs %}
+        <option value="{{ run.id }}">{{ run.id[:12] }}... (score: {{ run.overall_score | round(1) }})</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="report_mode">Report Mode</label>
+      <select name="report_mode" id="report_mode">
+        <option value="internal">Internal</option>
+        <option value="client_facing">Client-Facing</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Compare</button>
+    <a href="/ui/test-runs" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endif %}
+
+{% endblock %}

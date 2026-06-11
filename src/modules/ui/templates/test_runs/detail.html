@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Test Run Detail — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header"><h1>Test Run #{{ run.id[:12] }}...</h1></div>
+
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+
+<div class="card">
+  <div class="detail-grid">
+    <div class="detail-field"><span class="field-label">ID</span><div class="field-value">{{ run.id }}</div></div>
+    <div class="detail-field"><span class="field-label">Status</span><div class="field-value"><span class="badge badge-{{ run.status }}">{{ run.status }}</span></div></div>
+    <div class="detail-field"><span class="field-label">Creative Asset</span><div class="field-value"><a href="/ui/creative-assets/{{ run.creative_asset_id }}">{{ run.creative_asset_id[:12] }}...</a></div></div>
+    <div class="detail-field"><span class="field-label">Brand Profile</span><div class="field-value">{% if run.brand_profile_id %}<a href="/ui/brand-profiles/{{ run.brand_profile_id }}">{{ run.brand_profile_id[:12] }}...</a>{% else %}None{% endif %}</div></div>
+    <div class="detail-field"><span class="field-label">Audience Profiles</span><div class="field-value">{% if run.audience_profile_ids %}{{ run.audience_profile_ids | join(', ') }}{% else %}None{% endif %}</div></div>
+    <div class="detail-field"><span class="field-label">Created</span><div class="field-value">{{ run.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</div></div>
+    {% if run.completed_at %}
+    <div class="detail-field"><span class="field-label">Completed</span><div class="field-value">{{ run.completed_at.strftime('%Y-%m-%d %H:%M:%S') }}</div></div>
+    {% endif %}
+  </div>
+
+  {% if run.input_context and run.input_context.keys()|length > 0 %}
+  <div class="detail-section">
+    <h3>Input Context</h3>
+    <div class="metadata">{{ run.input_context | tojson(indent=2) }}</div>
+  </div>
+  {% endif %}
+
+  {% if run.status == 'created' %}
+  <form method="post" action="/ui/test-runs/{{ run.id }}/run">
+    <button type="submit" class="btn btn-success">Run Analysis</button>
+  </form>
+  {% elif run.status == 'running' %}
+  <p class="alert alert-info">Analysis is running...</p>
+  {% elif run.status == 'failed' %}
+  <p class="alert alert-error">Test run failed.</p>
+  {% endif %}
+
+  {% if run.findings and run.findings|length > 0 %}
+  <div class="detail-section">
+    <h3>Findings</h3>
+    <table>
+      <tr><th>Criterion</th><th>Score</th><th>Explanation</th></tr>
+      {% for f in run.findings %}
+      <tr>
+        <td>{{ f.criterion }}</td>
+        <td>{{ f.score }}/10</td>
+        <td>{{ f.explanation }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %}
+
+  {% if run.scorecard and run.scorecard|length > 0 %}
+  <div class="detail-section">
+    <h3>Scorecard</h3>
+    <table class="scorecard-table">
+      <tr><th>Criterion</th><th>Score</th><th>Rationale</th></tr>
+      {% for s in run.scorecard %}
+      <tr>
+        <td>{{ s.criterion }}</td>
+        <td>{{ s.score }}/10</td>
+        <td>{{ s.rationale }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <div class="score-average">Average score: {{ run.overall_score | round(1) }}/10</div>
+  </div>
+  {% endif %}
+
+  {% if run.risks and run.risks|length > 0 %}
+  <div class="detail-section">
+    <h3>Risks</h3>
+    {% for r in run.risks %}
+    <div class="risk-{{ r.level }}">
+      <strong>{{ r.level | upper }}</strong> {{ r.description or r.risk_type }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if run.summary %}
+  <div class="detail-section">
+    <h3>Summary</h3>
+    <p>{{ run.summary }}</p>
+  </div>
+  {% endif %}
+
+  {% if run.final_recommendation %}
+  <div class="detail-section">
+    <h3>Final Recommendation</h3>
+    <div class="final-rec">{{ run.final_recommendation | replace('_', ' ') }}</div>
+  </div>
+  {% endif %}
+</div>
+
+{% if run.status == 'completed' %}
+<div class="btn-group">
+  <a href="/ui/reports/{{ run.id }}" class="btn btn-primary">View Report</a>
+  <a href="/ui/creative-assets" class="btn btn-secondary">Back to Assets</a>
+</div>
+{% else %}
+<a href="/ui/test-runs" class="btn btn-secondary">Back to Test Runs</a>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Report — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header"><h1>Report: {{ report.id[:12] }}...</h1></div>
+
+<div class="status-grid">
+  <div class="status-item"><div class="label">Mode</div><div class="value">{{ report.report_mode | replace('_', ' ') }}</div></div>
+  <div class="status-item"><div class="label">Format</div><div class="value">{{ report.report_format }}</div></div>
+  <div class="status-item"><div class="label">Version</div><div class="value">{{ report.version }}</div></div>
+  <div class="status-item"><div class="label">Test Run</div><div class="value"><a href="/ui/test-runs/{{ report.test_run_id }}">{{ report.test_run_id[:12] }}...</a></div></div>
+</div>
+
+{% if report.final_recommendation %}
+<div class="final-rec">{{ report.final_recommendation | replace('_', ' ') }}</div>
+{% endif %}
+
+<div class="export-links">
+  <a href="/reports/{{ report.test_run_id }}?format=json" target="_blank" class="btn btn-sm btn-secondary">JSON</a>
+  <a href="/reports/{{ report.test_run_id }}?format=markdown" target="_blank" class="btn btn-sm btn-secondary">Markdown</a>
+  <a href="/reports/{{ report.test_run_id }}?format=html" target="_blank" class="btn btn-sm btn-secondary">HTML</a>
+  <a href="/reports/{{ report.test_run_id }}?format=html&mode=client_facing" target="_blank" class="btn btn-sm btn-secondary">Client HTML</a>
+  <a href="/reports/{{ report.test_run_id }}?format=pdf_stub" target="_blank" class="btn btn-sm btn-secondary">PDF Stub</a>
+</div>
+
+<div class="card">
+  {% if report.scorecard %}
+  <div class="detail-section">
+    <h3>Scorecard</h3>
+    <table>
+      <tr><th>Criterion</th><th>Score</th></tr>
+      {% for s in report.scorecard %}
+      <tr><td>{{ s.criterion }}</td><td>{{ s.score }}/10</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %}
+
+  {% if report.risks %}
+  <div class="detail-section">
+    <h3>Risks</h3>
+    {% for r in report.risks %}
+    <div class="risk-{{ r.severity }}"><strong>{{ r.severity | upper }}</strong> {{ r.risk }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if report.recommendations %}
+  <div class="detail-section">
+    <h3>Recommendations</h3>
+    {% for r in report.recommendations %}
+    <div class="risk-{{ r.priority }}"><strong>{{ r.priority | upper }}</strong> {{ r.recommendation }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if report.main_message %}
+  <div class="detail-section">
+    <h3>Main Message</h3>
+    <p>{{ report.main_message }}</p>
+  </div>
+  {% endif %}
+
+  {% if report.report_markdown %}
+  <div class="detail-section">
+    <h3>Report (Markdown)</h3>
+    <div class="markdown-content">{{ report.report_markdown }}</div>
+  </div>
+  {% endif %}
+</div>
+
+<a href="/ui/test-runs/{{ report.test_run_id }}" class="btn btn-secondary">Back to Test Run</a>
+
+{% endblock %}
