@@ -36,6 +36,29 @@ All settings are prefixed with `CTA_`. Copy `.env.example` to `.env` to customiz
 | `CTA_ALLOWED_UPLOAD_TYPES` | `txt,md,pdf,png,jpg,jpeg,webp` | Comma-separated allowed upload extensions |
 | `CTA_RUN_LOCAL_LLM_SMOKE_TESTS` | `false` | Run optional local LLM smoke tests |
 
+## Demo / Pilot Package
+
+The project includes a ready-to-use demo package for client presentations:
+
+```bash
+# Start the server
+uvicorn src.main:app --reload
+
+# In a second terminal, seed demo data (NovaBank freelancer card scenario)
+python scripts/seed_demo_data.py
+
+# Open http://localhost:8000/
+```
+
+The demo includes:
+- **NovaBank** brand profile (fictional)
+- **3 audience segments** (Beginner Freelancer, Experienced Self-Employed, Skeptical Small Business Owner)
+- **3 creative variants** (Practical, Freedom, and a Risky variant for brand safety demo)
+- **Default rubric** with 8 criteria
+- **Client-facing summary** in Russian
+
+See [docs/demo_pilot.md](docs/demo_pilot.md), [docs/client_pitch_summary.md](docs/client_pitch_summary.md), and [docs/pilot_checklist.md](docs/pilot_checklist.md) for full details.
+
 ## Running Tests
 
 ```bash
@@ -65,4 +88,4 @@ python -m pytest tests/ -v
 
 ## Architecture
 
-See [docs/architecture.md](docs/architecture.md), [docs/closed_loop_requirements.md](docs/closed_loop_requirements.md), [docs/mvp_scope.md](docs/mvp_scope.md), [docs/local_llm_setup.md](docs/local_llm_setup.md), [docs/file_intake.md](docs/file_intake.md), [docs/reporting.md](docs/reporting.md), and [docs/local_web_ui.md](docs/local_web_ui.md) for detailed documentation.
+See [docs/architecture.md](docs/architecture.md), [docs/closed_loop_requirements.md](docs/closed_loop_requirements.md), [docs/mvp_scope.md](docs/mvp_scope.md), [docs/local_llm_setup.md](docs/local_llm_setup.md), [docs/file_intake.md](docs/file_intake.md), [docs/reporting.md](docs/reporting.md), [docs/local_web_ui.md](docs/local_web_ui.md), [docs/demo_pilot.md](docs/demo_pilot.md), [docs/client_pitch_summary.md](docs/client_pitch_summary.md), and [docs/pilot_checklist.md](docs/pilot_checklist.md) for detailed documentation.
