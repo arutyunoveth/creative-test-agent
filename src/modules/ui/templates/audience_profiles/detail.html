@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Audience Profile Detail — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header"><h1>Audience Profile: {{ profile.name }}</h1></div>
+
+<div class="card">
+  <div class="detail-grid">
+    <div class="detail-field"><span class="field-label">ID</span><div class="field-value">{{ profile.id }}</div></div>
+    <div class="detail-field"><span class="field-label">Created</span><div class="field-value">{{ profile.created_at.strftime('%Y-%m-%d %H:%M') }}</div></div>
+  </div>
+
+  {% if profile.segment_description %}
+  <div class="detail-section"><h3>Segment Description</h3><p>{{ profile.segment_description }}</p></div>
+  {% endif %}
+
+  {% if profile.pains %}
+  <div class="detail-section"><h3>Pains</h3><p>{{ profile.pains }}</p></div>
+  {% endif %}
+
+  {% if profile.motivations %}
+  <div class="detail-section"><h3>Motivations</h3><p>{{ profile.motivations }}</p></div>
+  {% endif %}
+
+  {% if profile.objections %}
+  <div class="detail-section"><h3>Objections</h3><p>{{ profile.objections }}</p></div>
+  {% endif %}
+</div>
+
+<a href="/ui/audience-profiles" class="btn btn-secondary">Back to Profiles</a>
+
+{% endblock %}

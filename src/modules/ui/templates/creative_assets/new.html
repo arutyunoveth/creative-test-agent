@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}New Creative Asset — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header"><h1>New Creative Asset</h1></div>
+
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+
+<div class="card">
+  <form method="post" action="/ui/creative-assets" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" required>
+    </div>
+    <div class="form-group">
+      <label for="asset_type">Type</label>
+      <select name="asset_type" id="asset_type" onchange="toggleTextContent()">
+        <option value="text">Text</option>
+        <option value="file">File upload</option>
+      </select>
+    </div>
+    <div class="form-group" id="text-content-group">
+      <label for="text_content">Text Content</label>
+      <textarea name="text_content" id="text_content" rows="6" placeholder="Paste your creative copy here..."></textarea>
+    </div>
+    <div class="form-group" id="file-group" style="display:none;">
+      <label for="file">File</label>
+      <input type="file" name="file" id="file">
+      <div class="form-help">Accepted: txt, md, pdf, png, jpg, jpeg, webp</div>
+    </div>
+    <div class="form-group">
+      <label for="metadata">Metadata (JSON, optional)</label>
+      <textarea name="metadata" id="metadata" rows="3" placeholder='{"key": "value"}'></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a href="/ui/creative-assets" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+
+<script>
+function toggleTextContent() {
+  var t = document.getElementById('asset_type').value;
+  document.getElementById('text-content-group').style.display = t === 'text' ? 'block' : 'none';
+  document.getElementById('file-group').style.display = t === 'file' ? 'block' : 'none';
+}
+</script>
+
+{% endblock %}

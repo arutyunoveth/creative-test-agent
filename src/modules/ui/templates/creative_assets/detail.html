@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Asset Detail — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header"><h1>Creative Asset: {{ asset.title[:50] }}</h1></div>
+
+<div class="card">
+  <div class="detail-grid">
+    <div class="detail-field"><span class="field-label">ID</span><div class="field-value">{{ asset.id }}</div></div>
+    <div class="detail-field"><span class="field-label">Type</span><div class="field-value">{{ asset.asset_type }}</div></div>
+    <div class="detail-field"><span class="field-label">Title</span><div class="field-value">{{ asset.title }}</div></div>
+    <div class="detail-field"><span class="field-label">Created</span><div class="field-value">{{ asset.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</div></div>
+    {% if asset.original_filename %}
+    <div class="detail-field"><span class="field-label">Original File</span><div class="field-value">{{ asset.original_filename }}</div></div>
+    {% endif %}
+    {% if asset.mime_type %}
+    <div class="detail-field"><span class="field-label">MIME Type</span><div class="field-value">{{ asset.mime_type }}</div></div>
+    {% endif %}
+    {% if asset.file_size_bytes %}
+    <div class="detail-field"><span class="field-label">File Size</span><div class="field-value">{{ asset.file_size_bytes }} bytes</div></div>
+    {% endif %}
+  </div>
+
+  {% if asset.text_content %}
+  <div class="detail-section">
+    <h3>Text Content</h3>
+    <div class="metadata">{{ asset.text_content }}</div>
+  </div>
+  {% endif %}
+
+  {% if asset.extracted_text %}
+  <div class="detail-section">
+    <h3>Extracted Text</h3>
+    <div class="metadata">{{ asset.extracted_text[:2000] }}{% if asset.extracted_text|length > 2000 %}... (truncated){% endif %}</div>
+  </div>
+  {% endif %}
+
+  {% if asset.metadata %}
+  <div class="detail-section">
+    <h3>Metadata</h3>
+    <div class="metadata">{{ asset.metadata | tojson(indent=2) }}</div>
+  </div>
+  {% endif %}
+</div>
+
+<a href="/ui/creative-assets" class="btn btn-secondary">Back to Assets</a>
+
+{% endblock %}

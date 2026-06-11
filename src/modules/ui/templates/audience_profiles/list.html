@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Audience Profiles — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Audience Profiles</h1>
+  <a href="/ui/audience-profiles/new" class="btn btn-primary">New Profile</a>
+</div>
+
+{% if profiles %}
+<table>
+  <tr><th>Name</th><th>Segment Description</th><th>Created</th><th></th></tr>
+  {% for p in profiles %}
+  <tr>
+    <td>{{ p.name }}</td>
+    <td>{{ p.segment_description[:60] if p.segment_description else '' }}</td>
+    <td>{{ p.created_at.strftime('%Y-%m-%d') }}</td>
+    <td><a href="/ui/audience-profiles/{{ p.id }}" class="btn btn-secondary btn-sm">View</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div class="card"><p>No audience profiles yet. <a href="/ui/audience-profiles/new">Create one</a>.</p></div>
+{% endif %}
+
+{% endblock %}
