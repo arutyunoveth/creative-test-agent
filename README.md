@@ -58,10 +58,11 @@ python -m pytest tests/ -v
 | `/test-runs` | POST | Create a test run |
 | `/test-runs/{id}` | GET | Get test run details |
 | `/test-runs/{id}/run` | POST | Execute a test run |
-| `/reports/{test_run_id}` | GET | Generate report from test run |
+| `/reports/{test_run_id}` | GET | Generate report (supports `?format=` and `?mode=`) |
+| `/reports/compare` | POST | A/B comparison of completed test runs |
 | `/audit-log` | GET | View audit trail |
 | `/llm/health` | GET | LLM provider health check |
 
 ## Architecture
 
-See [docs/architecture.md](docs/architecture.md), [docs/closed_loop_requirements.md](docs/closed_loop_requirements.md), [docs/mvp_scope.md](docs/mvp_scope.md), [docs/local_llm_setup.md](docs/local_llm_setup.md), and [docs/file_intake.md](docs/file_intake.md) for detailed documentation.
+See [docs/architecture.md](docs/architecture.md), [docs/closed_loop_requirements.md](docs/closed_loop_requirements.md), [docs/mvp_scope.md](docs/mvp_scope.md), [docs/local_llm_setup.md](docs/local_llm_setup.md), [docs/file_intake.md](docs/file_intake.md), and [docs/reporting.md](docs/reporting.md) for detailed documentation.
