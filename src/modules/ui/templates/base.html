@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Creative Test Agent{% endblock %}</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<div class="status-banner">
+  <span>Closed-loop mode: <span class="{% if local_only %}status-on{% else %}status-off{% endif %}">{{ 'ON' if local_only else 'OFF' }}</span></span>
+  <span>Cloud LLMs: <span class="{% if cloud_blocked %}status-blocked{% else %}status-allowed{% endif %}">{{ 'BLOCKED' if cloud_blocked else 'ALLOWED' }}</span></span>
+  <span>Provider: <strong>{{ provider }}</strong></span>
+  {% if model %}<span>Model: {{ model }}</span>{% endif %}
+</div>
+
+<nav>
+  <span class="brand">Creative Test Agent</span>
+  <a href="/ui">Dashboard</a>
+  <a href="/ui/creative-assets">Assets</a>
+  <a href="/ui/brand-profiles">Brands</a>
+  <a href="/ui/audience-profiles">Audiences</a>
+  <a href="/ui/test-runs">Test Runs</a>
+  <a href="/ui/compare">Compare</a>
+</nav>
+
+<div class="container">
+{% block content %}{% endblock %}
+</div>
+
+<footer>Creative Test Agent &mdash; local-first, closed-loop creative pre-testing</footer>
+</body>
+</html>
