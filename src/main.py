@@ -7,6 +7,7 @@ from src.modules.brand_profiles.router import router as brand_profiles_router
 from src.modules.creative_assets.router import router as creative_assets_router
 from src.modules.report_generator.router import router as report_generator_router
 from src.modules.test_rubrics.router import router as test_rubrics_router
+from src.modules.ui.router import router as ui_router
 from src.modules.test_runs.router import router as test_runs_router
 from src.shared.api.errors import register_exception_handlers
 from src.shared.config.settings import get_settings
@@ -26,6 +27,7 @@ app.include_router(test_rubrics_router)
 app.include_router(test_runs_router)
 app.include_router(report_generator_router)
 app.include_router(audit_log_router)
+app.include_router(ui_router)
 app.include_router(llm_router)
 
 

@@ -51,6 +51,15 @@ def create_test_run(req: CreateTestRunRequest) -> TestRunResponse:
     return _to_response(run)
 
 
+def list_test_runs() -> list[TestRunResponse]:
+    sorted_runs = sorted(
+        _store.values(),
+        key=lambda r: r.created_at,
+        reverse=True,
+    )
+    return [_to_response(r) for r in sorted_runs]
+
+
 def get_test_run(run_id: str) -> TestRunResponse | None:
     run = _store.get(run_id)
     if run is None:
