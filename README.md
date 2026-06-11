@@ -15,7 +15,7 @@ pip install -e ".[dev]"
 uvicorn src.main:app --reload --port 8000
 ```
 
-Open http://localhost:8000/docs for the interactive API docs.
+Open http://localhost:8000/ for the local web UI or http://localhost:8000/docs for the interactive API docs.
 
 ## Environment Variables
 
@@ -65,4 +65,4 @@ python -m pytest tests/ -v
 
 ## Architecture
 
-See [docs/architecture.md](docs/architecture.md), [docs/closed_loop_requirements.md](docs/closed_loop_requirements.md), [docs/mvp_scope.md](docs/mvp_scope.md), [docs/local_llm_setup.md](docs/local_llm_setup.md), [docs/file_intake.md](docs/file_intake.md), and [docs/reporting.md](docs/reporting.md) for detailed documentation.
+See [docs/architecture.md](docs/architecture.md), [docs/closed_loop_requirements.md](docs/closed_loop_requirements.md), [docs/mvp_scope.md](docs/mvp_scope.md), [docs/local_llm_setup.md](docs/local_llm_setup.md), [docs/file_intake.md](docs/file_intake.md), [docs/reporting.md](docs/reporting.md), and [docs/local_web_ui.md](docs/local_web_ui.md) for detailed documentation.
