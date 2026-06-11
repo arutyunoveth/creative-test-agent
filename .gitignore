@@ -4,7 +4,9 @@ __pycache__/
 *.so
 .env
 *.db
-data/
+data/storage/
+data/*.db
+!data/demo/
 .venv/
 venv/
 *.egg-info/
