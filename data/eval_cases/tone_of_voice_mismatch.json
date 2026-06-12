@@ -1,0 +1,24 @@
+{
+  "case_id": "tone_of_voice_mismatch",
+  "title": "Tone of Voice Mismatch",
+  "creative_text": "Headline:\nYou'd be CRAZY not to grab this DEAL!\n\nBody:\nThis is the MOST AMAZING offer EVER!!! Don't be a fool and miss out on the opportunity of a lifetime. Act now! Limited time only!!!\n\nCTA:\nBUY NOW!!!",
+  "brand_context": {
+    "name": "NovaBank",
+    "tone_of_voice": "Clear, practical, trustworthy, calm, not aggressive.",
+    "target_audience": "Freelancers, self-employed professionals and small business owners who need simple financial tools.",
+    "restrictions": "No exaggerated claims. No 'guaranteed income'. No 'zero risk'. No pressure language. No hidden-fee ambiguity.",
+    "claims_policy": "Every benefit should be framed as a product feature, not as a guaranteed financial outcome."
+  },
+  "expected": {
+    "must_detect_risk": true,
+    "must_detect_brandbook_violation": true,
+    "min_risk_severity": "medium",
+    "required_report_sections": [
+      "Brand Safety and Risks"
+    ],
+    "forbidden_client_facing_terms": [
+      "traceback",
+      "debug"
+    ]
+  }
+}

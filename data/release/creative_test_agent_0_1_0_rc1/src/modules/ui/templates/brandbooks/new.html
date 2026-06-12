@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Upload Brandbook — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header"><h1>Upload Brandbook Document</h1></div>
+
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+
+<div class="card">
+  <form method="POST" action="/ui/brandbooks" enctype="multipart/form-data">
+    <div class="form-group">
+      <label>Title (optional)</label>
+      <input type="text" name="title" class="form-control" placeholder="Defaults to filename">
+    </div>
+    <div class="form-group">
+      <label>Document Type</label>
+      <select name="document_type" class="form-control">
+        <option value="brandbook">Brandbook</option>
+        <option value="tone_of_voice">Tone of Voice</option>
+        <option value="claims_policy">Claims Policy</option>
+        <option value="legal_guidelines">Legal Guidelines</option>
+        <option value="campaign_brief">Campaign Brief</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>File (.txt, .md, .pdf)</label>
+      <input type="file" name="file" class="form-control" required accept=".txt,.md,.pdf">
+    </div>
+    <div class="form-group">
+      <label>Brand Profile ID (optional)</label>
+      <input type="text" name="brand_profile_id" class="form-control" placeholder="Link to brand profile">
+    </div>
+    <div class="form-group">
+      <label>Client ID (optional)</label>
+      <input type="text" name="client_id" class="form-control" placeholder="Client identifier">
+    </div>
+    <div class="form-group">
+      <label>Project ID (optional)</label>
+      <input type="text" name="project_id" class="form-control" placeholder="Project identifier">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+    <a href="/ui/brandbooks" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}

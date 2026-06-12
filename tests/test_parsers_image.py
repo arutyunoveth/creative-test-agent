@@ -21,7 +21,7 @@ def test_image_parser_png():
     assert result.metadata["image"]["width"] == 100
     assert result.metadata["image"]["height"] == 50
     assert result.metadata["image"]["format"] == "PNG"
-    assert "image_text_extraction_not_implemented" in result.warnings
+    assert "vision_stub_mode" in result.warnings
 
 
 def test_image_parser_jpg():
@@ -38,7 +38,7 @@ def test_image_parser_metadata():
     assert result.extracted_text == ""
 
 
-def test_image_parser_warning_not_implemented():
+def test_image_parser_warning_stub_mode():
     path = _create_test_image(".png")
     result = ImageParser().parse(path)
-    assert "image_text_extraction_not_implemented" in result.warnings
+    assert "vision_stub_mode" in result.warnings

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Clients — Creative Test Agent{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Clients</h1>
+  <a href="/ui/clients/new" class="btn btn-primary">New Client</a>
+</div>
+{% if clients %}
+<table>
+  <tr><th>Name</th><th>Industry</th><th>Projects</th><th>Created</th><th></th></tr>
+  {% for c in clients %}
+  <tr>
+    <td>{{ c.name }}</td>
+    <td>{{ c.industry or '—' }}</td>
+    <td>{{ project_counts.get(c.id, 0) }}</td>
+    <td>{{ c.created_at.strftime('%Y-%m-%d') }}</td>
+    <td><a href="/ui/clients/{{ c.id }}" class="btn btn-secondary btn-sm">View</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div class="card empty-state">
+  <h3>No clients yet</h3>
+  <p>Clients are brand advertisers or agencies whose creative materials you test. Each client can have multiple projects.</p>
+  <p><strong>Next step:</strong> Create your first client to start organising campaigns.</p>
+  <a href="/ui/clients/new" class="btn btn-primary">Create Client</a>
+</div>
+{% endif %}
+{% endblock %}

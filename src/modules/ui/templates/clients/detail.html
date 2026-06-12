@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Client: {{ client.name }} — Creative Test Agent{% endblock %}
+{% block content %}
+<div class="breadcrumbs">
+  <a href="/ui">Dashboard</a> &gt; <a href="/ui/clients">Clients</a> &gt; {{ client.name }}
+</div>
+<div class="page-header">
+  <h1>{{ client.name }}</h1>
+  <a href="/ui/clients/{{ client.id }}/projects/new" class="btn btn-primary">New Project</a>
+</div>
+<div class="card">
+  <div class="detail-grid">
+    <div class="detail-field"><span class="field-label">ID</span><div class="field-value">{{ client.id }}</div></div>
+    <div class="detail-field"><span class="field-label">Industry</span><div class="field-value">{{ client.industry or '—' }}</div></div>
+    {% if client.description %}
+    <div class="detail-field"><span class="field-label">Description</span><div class="field-value">{{ client.description }}</div></div>
+    {% endif %}
+    <div class="detail-field"><span class="field-label">Contact</span><div class="field-value">{{ client.contact_name or '—' }} {% if client.contact_email %}({{ client.contact_email }}){% endif %}</div></div>
+    <div class="detail-field"><span class="field-label">Created</span><div class="field-value">{{ client.created_at.strftime('%Y-%m-%d %H:%M') }}</div></div>
+  </div>
+</div>
+<div class="card">
+  <h2>Projects ({{ projects|length }})</h2>
+  {% if projects %}
+  <table>
+    <tr><th>Name</th><th>Status</th><th>Created</th><th></th></tr>
+    {% for p in projects %}
+    <tr>
+      <td>{{ p.name }}</td>
+      <td><span class="badge badge-{{ p.status }}">{{ p.status }}</span></td>
+      <td>{{ p.created_at.strftime('%Y-%m-%d') }}</td>
+      <td><a href="/ui/projects/{{ p.id }}" class="btn btn-secondary btn-sm">Open</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No projects yet. <a href="/ui/clients/{{ client.id }}/projects/new">Create one</a>.</p>
+  {% endif %}
+</div>
+<a href="/ui/clients" class="btn btn-secondary">Back to Clients</a>
+{% endblock %}

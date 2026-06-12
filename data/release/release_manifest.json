@@ -1,0 +1,23 @@
+{
+  "app_name": "Creative Test Agent",
+  "version": "0.1.0-rc1",
+  "stage": "pilot",
+  "build_channel": "local",
+  "created_at": "2026-06-12T09:00:11.007833+00:00",
+  "counts": {
+    "docs": 60,
+    "eval_cases": 5,
+    "model_profiles": 3
+  },
+  "checks": {
+    "no_cloud_sdks": true,
+    "client_pack_exists": false,
+    "server_docs_exist": true
+  },
+  "policy": {
+    "local_only": true,
+    "cloud_llm": false,
+    "cloud_storage": false,
+    "external_apis": false
+  }
+}

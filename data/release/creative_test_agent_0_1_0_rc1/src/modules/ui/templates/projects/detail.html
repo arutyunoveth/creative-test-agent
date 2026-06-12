@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Project: {{ project.name }} — Creative Test Agent{% endblock %}
+{% block content %}
+<div class="breadcrumbs">
+  <a href="/ui">Dashboard</a> &gt; <a href="/ui/clients">Clients</a> &gt; <a href="/ui/clients/{{ project.client_id }}">{{ client_name }}</a> &gt; {{ project.name }}
+</div>
+<div class="page-header"><h1>{{ project.name }}</h1></div>
+
+<div class="card">
+  <div class="detail-grid">
+    <div class="detail-field"><span class="field-label">ID</span><div class="field-value">{{ project.id }}</div></div>
+    <div class="detail-field"><span class="field-label">Client</span><div class="field-value"><a href="/ui/clients/{{ project.client_id }}">{{ client_name }}</a></div></div>
+    <div class="detail-field"><span class="field-label">Status</span><div class="field-value"><span class="badge badge-{{ project.status }}">{{ project.status }}</span></div></div>
+    {% if project.description %}
+    <div class="detail-field"><span class="field-label">Description</span><div class="field-value">{{ project.description }}</div></div>
+    {% endif %}
+    <div class="detail-field"><span class="field-label">Created</span><div class="field-value">{{ project.created_at.strftime('%Y-%m-%d %H:%M') }}</div></div>
+  </div>
+</div>
+
+<div class="dashboard-grid">
+  <a href="/ui/creative-assets/new?project_id={{ project.id }}" class="dashboard-card" style="text-decoration:none;color:inherit;">
+    <h3>Creative Assets</h3>
+    <div class="count">{{ counts.creative_assets }}</div>
+    <span style="font-size:0.8rem;">Add asset</span>
+  </a>
+  <a href="/ui/brand-profiles/new?project_id={{ project.id }}" class="dashboard-card" style="text-decoration:none;color:inherit;">
+    <h3>Brand Profile</h3>
+    <div class="count">{{ counts.brand_profiles }}</div>
+    <span style="font-size:0.8rem;">Set brand</span>
+  </a>
+  <a href="/ui/audience-profiles/new?project_id={{ project.id }}" class="dashboard-card" style="text-decoration:none;color:inherit;">
+    <h3>Audiences</h3>
+    <div class="count">{{ counts.audience_profiles }}</div>
+    <span style="font-size:0.8rem;">Define audience</span>
+  </a>
+  <a href="/ui/brandbooks/new?project_id={{ project.id }}" class="dashboard-card" style="text-decoration:none;color:inherit;">
+    <h3>Brandbooks</h3>
+    <div class="count">{{ counts.brandbooks }}</div>
+    <span style="font-size:0.8rem;">Upload brandbook</span>
+  </a>
+  <a href="/ui/knowledge-base?project_id={{ project.id }}" class="dashboard-card" style="text-decoration:none;color:inherit;">
+    <h3>Knowledge</h3>
+    <div class="count">{{ counts.knowledge_items }}</div>
+    <span style="font-size:0.8rem;">Add notes</span>
+  </a>
+  <a href="/ui/projects/{{ project.id }}/test-runs/new" class="dashboard-card" style="text-decoration:none;color:inherit;">
+    <h3>Test Runs</h3>
+    <div class="count">{{ counts.test_runs }}</div>
+    <span style="font-size:0.8rem;">Run test</span>
+  </a>
+  <a href="/ui/projects/{{ project.id }}/compare" class="dashboard-card" style="text-decoration:none;color:inherit;">
+    <h3>Compare</h3>
+    <div class="count">{{ counts.completed_runs }}</div>
+    <span style="font-size:0.8rem;">A/B compare</span>
+  </a>
+  <a href="/ui/projects/{{ project.id }}/reports" class="dashboard-card" style="text-decoration:none;color:inherit;">
+    <h3>Reports</h3>
+    <div class="count">{{ counts.reports }}</div>
+    <span style="font-size:0.8rem;">View reports</span>
+  </a>
+  <a href="/ui/projects/{{ project.id }}/exports" class="dashboard-card" style="text-decoration:none;color:inherit;">
+    <h3>Exports</h3>
+    <div class="count">{{ counts.exports }}</div>
+    <span style="font-size:0.8rem;">Download exports</span>
+  </a>
+  <a href="/ui/batches?project_id={{ project.id }}" class="dashboard-card" style="text-decoration:none;color:inherit;">
+    <h3>Campaign Batches</h3>
+    <div class="count">{{ counts.batches }}</div>
+    <span style="font-size:0.8rem;">Batch testing</span>
+  </a>
+</div>
+
+<div class="card">
+  <h2>Project History</h2>
+  {% if history %}
+  <table>
+    <tr><th>Type</th><th>Title</th><th>Detail</th><th>Date</th></tr>
+    {% for h in history %}
+    <tr>
+      <td><span class="badge badge-{{ h.entity_type }}">{{ h.entity_type }}</span></td>
+      <td>{{ h.title[:60] }}</td>
+      <td>{{ h.detail[:40] }}</td>
+      <td>{{ h.timestamp[:16] if h.timestamp else '—' }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No activity yet.</p>
+  {% endif %}
+</div>
+
+<a href="/ui/projects" class="btn btn-secondary">Back to Projects</a>
+{% endblock %}

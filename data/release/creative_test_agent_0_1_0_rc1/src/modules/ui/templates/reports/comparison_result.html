@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Comparison Result — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header"><h1>Comparison Result</h1></div>
+
+<div class="{% if result.winner == 'no_clear_winner' %}winner-box no-winner{% else %}winner-box{% endif %}">
+  <h2>{% if result.winner == 'no_clear_winner' %}No Clear Winner{% else %}Winner: {{ result.winner[:12] }}...{% endif %}</h2>
+  <p>{{ result.rationale }}</p>
+  <p><strong>Recommendation:</strong> {{ result.recommendation | replace('_', ' ') }}</p>
+</div>
+
+<div class="card">
+  <h2>Score Deltas</h2>
+  {% if result.score_deltas %}
+  <table>
+    <tr><th>Criterion</th><th>Difference</th></tr>
+    {% for d in result.score_deltas %}
+    <tr>
+      <td>{{ d.criterion }}</td>
+      <td>{{ d.difference_summary }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No score deltas available.</p>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h2>Variant Summaries</h2>
+  {% for vs in result.variant_summaries %}
+  <div class="detail-section">
+    <h3>{{ vs.test_run_id[:12] }}...</h3>
+    <p>{{ vs.summary }}</p>
+    <h4>Strengths</h4>
+    <ul>
+    {% for s in vs.strengths %}
+      <li>{{ s }}</li>
+    {% endfor %}
+    </ul>
+    <h4>Weaknesses</h4>
+    <ul>
+    {% for w in vs.weaknesses %}
+      <li>{{ w }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</div>
+
+<a href="/ui/compare" class="btn btn-secondary">Compare Again</a>
+<a href="/ui/test-runs" class="btn btn-secondary">Back to Test Runs</a>
+
+{% endblock %}

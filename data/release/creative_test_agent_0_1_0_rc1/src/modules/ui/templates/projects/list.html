@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Projects — Creative Test Agent{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Projects</h1>
+  <a href="/ui/projects/new" class="btn btn-primary">New Project</a>
+</div>
+{% if projects %}
+<table>
+  <tr><th>Name</th><th>Client</th><th>Status</th><th>Created</th><th></th></tr>
+  {% for p in projects %}
+  <tr>
+    <td>{{ p.name }}</td>
+    <td>{{ client_names.get(p.client_id, p.client_id[:12] ~ '...') }}</td>
+    <td><span class="badge badge-{{ p.status }}">{{ p.status }}</span></td>
+    <td>{{ p.created_at.strftime('%Y-%m-%d') }}</td>
+    <td><a href="/ui/projects/{{ p.id }}" class="btn btn-secondary btn-sm">Dashboard</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div class="card empty-state">
+  <h3>No projects yet</h3>
+  <p>Projects group creative assets, brandbooks, tests, and reports for one campaign. A project belongs to a client.</p>
+  <p><strong>Next step:</strong> Create a project under a client to start testing.</p>
+  <a href="/ui/projects/new" class="btn btn-primary">Create Project</a>
+</div>
+{% endif %}
+{% endblock %}

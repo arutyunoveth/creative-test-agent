@@ -1,0 +1,27 @@
+{
+  "case_id": "novabank_variant_b",
+  "title": "NovaBank Freelancer Card — Freedom Variant B",
+  "creative_text": "Headline:\nYour freelance money, finally under control.\n\nBody:\nSpend less time sorting payments and more time doing the work you love. NovaBank helps you keep income, expenses and taxes easier to manage.\n\nCTA:\nStart managing your freelance money.",
+  "brand_context": {
+    "name": "NovaBank",
+    "tone_of_voice": "Clear, practical, trustworthy, calm, not aggressive.",
+    "target_audience": "Freelancers, self-employed professionals and small business owners who need simple financial tools.",
+    "restrictions": "No exaggerated claims. No 'guaranteed income'. No 'zero risk'. No pressure language. No hidden-fee ambiguity.",
+    "claims_policy": "Every benefit should be framed as a product feature, not as a guaranteed financial outcome."
+  },
+  "expected": {
+    "must_detect_risk": false,
+    "must_detect_brandbook_violation": false,
+    "min_risk_severity": "low",
+    "required_report_sections": [
+      "Executive Summary",
+      "Final Recommendation"
+    ],
+    "forbidden_client_facing_terms": [
+      "traceback",
+      "debug",
+      "raw finding",
+      "stub provider"
+    ]
+  }
+}

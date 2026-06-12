@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Evaluation {{ eval_id[:12] }} — Creative Test Agent{% endblock %}
+{% block content %}
+<div class="page-header"><h1>Evaluation: {{ eval_id[:12] }}...</h1></div>
+
+{% if result %}
+<div class="card">
+  <h2>Summary</h2>
+  <table>
+    <tr><td>Provider</td><td>{{ result.provider }}</td></tr>
+    <tr><td>Model</td><td>{{ result.model }}</td></tr>
+    <tr><td>Status</td><td><span class="badge badge-{{ result.status }}">{{ result.status }}</span></td></tr>
+    <tr><td>Overall Score</td><td><strong>{{ result.summary.get('overall_score', '—') }}</strong></td></tr>
+    <tr><td>Total Cases</td><td>{{ result.summary.get('total_cases', '—') }}</td></tr>
+    <tr><td>Completed</td><td>{{ result.summary.get('completed_cases', '—') }}</td></tr>
+    <tr><td>Failed Cases</td><td>{{ result.summary.get('failed_cases', '—') }}</td></tr>
+    <tr><td>Passed Checks</td><td>{{ result.summary.get('total_passed_checks', '—') }} / {{ result.summary.get('total_checks', '—') }}</td></tr>
+  </table>
+</div>
+
+{% for r in result.results %}
+<div class="card">
+  <h2>Case: {{ r.case_id }}</h2>
+  <table>
+    <tr><td>Status</td><td><span class="badge badge-{{ 'completed' if r.status == 'completed' and not r.failures else 'failed' }}">{{ r.status }}</span></td></tr>
+    <tr><td>Score</td><td><strong>{{ r.score }}</strong></td></tr>
+    <tr><td>Passed</td><td>{{ r.passed }} / {{ r.total_checks }}</td></tr>
+  </table>
+  {% if r.failures %}
+  <h3>Failures</h3>
+  <ul>
+    {% for f in r.failures %}
+    <li class="alert alert-error">{{ f }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% if r.warnings %}
+  <h3>Warnings</h3>
+  <ul>
+    {% for w in r.warnings %}
+    <li class="alert alert-warning">{{ w }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% if r.output_summary %}
+  <h3>Output Summary</h3>
+  <div class="metadata">{{ r.output_summary | tojson(indent=2) }}</div>
+  {% endif %}
+</div>
+{% endfor %}
+{% else %}
+<div class="card"><p>Evaluation not found.</p></div>
+{% endif %}
+<a href="/ui/evaluations" class="btn btn-secondary">Back to Evaluations</a>
+{% endblock %}

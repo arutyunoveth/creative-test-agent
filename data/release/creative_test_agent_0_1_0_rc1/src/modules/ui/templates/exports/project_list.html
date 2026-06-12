@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Project Exports — Creative Test Agent{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Exports</h1>
+  <a href="/ui/projects/{{ project_id }}" class="btn btn-secondary">Back to Project</a>
+</div>
+{% if jobs %}
+<table>
+  <tr><th>ID</th><th>Entity</th><th>Type</th><th>Status</th><th>Created</th></tr>
+  {% for j in jobs %}
+  <tr>
+    <td>{{ j.id[:12] }}...</td>
+    <td>{{ j.entity_type }} ({{ j.entity_id[:12] }}...)</td>
+    <td>{{ j.export_type }}</td>
+    <td><span class="badge badge-{{ j.status }}">{{ j.status }}</span></td>
+    <td>{{ j.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<div class="card"><p>No exports for this project yet.</p></div>
+{% endif %}
+{% endblock %}

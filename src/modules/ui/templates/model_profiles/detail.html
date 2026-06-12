@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Profile: {{ profile.profile_name }} — Creative Test Agent{% endblock %}
+{% block content %}
+<div class="page-header"><h1>{{ profile.profile_name }}</h1></div>
+
+<div class="card">
+  <div class="detail-grid">
+    <div class="detail-field"><span class="field-label">ID</span><div class="field-value">{{ profile.id }}</div></div>
+    <div class="detail-field"><span class="field-label">Provider</span><div class="field-value">{{ profile.provider }}</div></div>
+    <div class="detail-field"><span class="field-label">Model</span><div class="field-value">{{ profile.model }}</div></div>
+    <div class="detail-field"><span class="field-label">Base URL</span><div class="field-value">{{ profile.base_url or '—' }}</div></div>
+    <div class="detail-field"><span class="field-label">Enabled</span><div class="field-value">{{ 'Yes' if profile.enabled else 'No' }}</div></div>
+    <div class="detail-field"><span class="field-label">Demo Default</span><div class="field-value">{{ 'Yes' if profile.default_for_demo else 'No' }}</div></div>
+    <div class="detail-field"><span class="field-label">Timeout</span><div class="field-value">{{ profile.timeout_seconds }}s</div></div>
+    {% if profile.notes %}
+    <div class="detail-field"><span class="field-label">Notes</span><div class="field-value">{{ profile.notes }}</div></div>
+    {% endif %}
+  </div>
+</div>
+
+{% if health %}
+<div class="card">
+  <h2>Health Check</h2>
+  <table>
+    <tr><td>Reachable</td><td><span class="badge badge-{{ 'completed' if health.reachable else 'failed' }}">{{ 'Yes' if health.reachable else 'No' }}</span></td></tr>
+    <tr><td>Detail</td><td>{{ health.detail }}</td></tr>
+  </table>
+  {% if health.warnings %}
+  <h3>Warnings</h3>
+  <ul>
+    {% for w in health.warnings %}
+    <li class="alert alert-warning">{{ w }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endif %}
+
+<form method="post" action="/ui/model-profiles/{{ profile.id }}/health" style="display:inline;">
+  <button type="submit" class="btn btn-secondary">Check Health</button>
+</form>
+<a href="/ui/model-profiles" class="btn btn-secondary">Back to Profiles</a>
+{% endblock %}

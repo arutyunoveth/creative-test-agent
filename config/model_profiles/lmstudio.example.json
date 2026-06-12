@@ -1,0 +1,10 @@
+{
+  "profile_name": "lmstudio-local",
+  "provider": "lmstudio",
+  "model": "local-model",
+  "base_url": "http://localhost:1234/v1",
+  "enabled": false,
+  "default_for_demo": false,
+  "timeout_seconds": 120,
+  "notes": "Example local LM Studio OpenAI-compatible profile. No OpenAI SDK."
+}

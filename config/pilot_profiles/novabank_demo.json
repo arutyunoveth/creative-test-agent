@@ -1,0 +1,86 @@
+{
+  "profile_name": "novabank_demo",
+  "demo": true,
+  "description": "NovaBank freelancer card demo scenario for pilot presentation",
+  "brand": {
+    "name": "NovaBank",
+    "tone_of_voice": "Clear, practical, trustworthy, calm, not aggressive.",
+    "target_audience": "Freelancers, self-employed professionals and small business owners who need simple financial tools.",
+    "restrictions": "No exaggerated claims. No 'guaranteed income'. No 'zero risk'. No pressure language. No hidden-fee ambiguity.",
+    "claims_policy": "Every benefit should be framed as a product feature, not as a guaranteed financial outcome."
+  },
+  "audiences": [
+    {
+      "name": "Beginner Freelancer",
+      "segment_description": "Начинающий фрилансер, недавно ушёл из найма или совмещает работу с подработками.",
+      "pains": "Сложно отделять личные и рабочие деньги. Нет уверенности в налогах. Боится банковских комиссий.",
+      "motivations": "Простота. Прозрачность. Быстрый старт.",
+      "objections": "Не хочет сложных финансовых продуктов. Не доверяет 'банковскому маркетингу'."
+    },
+    {
+      "name": "Experienced Self-Employed Specialist",
+      "segment_description": "Самозанятый специалист с постоянными клиентами.",
+      "pains": "Много платежей от разных клиентов. Нужен контроль расходов. Важно быстро видеть финансовую картину.",
+      "motivations": "Удобство. Аналитика. Экономия времени.",
+      "objections": "Не хочет менять привычный банк без сильной причины."
+    },
+    {
+      "name": "Skeptical Small Business Owner",
+      "segment_description": "Владелец малого бизнеса, осторожно относится к новым финансовым сервисам.",
+      "pains": "Боится скрытых условий. Не доверяет слишком громким обещаниям. Хочет понятные тарифы.",
+      "motivations": "Надёжность. Контроль. Снижение рисков.",
+      "objections": "'Слишком хорошо, чтобы быть правдой'. Опасается мелкого шрифта."
+    }
+  ],
+  "client": {
+    "name": "NovaBank Corp",
+    "industry": "Fintech",
+    "description": "Digital bank focused on freelancers and small business owners."
+  },
+  "project": {
+    "name": "Freelancer Card Campaign 2026",
+    "description": "Pre-testing campaign creatives for the NovaBank freelancer card launch."
+  },
+  "rubric": {
+    "name": "Default Creative Pre-Test Rubric",
+    "criteria": [
+      {"name": "message_clarity", "description": "How clear and understandable is the core message?"},
+      {"name": "memorability", "description": "How likely is the creative to be remembered?"},
+      {"name": "audience_fit", "description": "How well does the creative resonate with the target audience?"},
+      {"name": "call_to_action", "description": "How effective and compelling is the call to action?"},
+      {"name": "trust", "description": "Does the creative build or erode trust?"},
+      {"name": "brand_fit", "description": "How well does the creative align with the brand's tone and guidelines?"},
+      {"name": "negativity_risk", "description": "Risk of negative perception or backlash."},
+      {"name": "distinctiveness", "description": "How distinctive is the creative compared to competitors?"}
+    ],
+    "scale_min": 1,
+    "scale_max": 10
+  },
+  "creative_assets": [
+    {
+      "title": "NovaBank Freelancer Card — Practical Variant",
+      "asset_type": "text",
+      "variant": "A",
+      "variant_description": "clear/practical",
+      "text_content": "Headline:\nOne card for your freelance income and expenses.\n\nBody:\nReceive client payments, separate work expenses and keep your freelance finances clear in one simple account.\n\nCTA:\nOpen your freelancer account."
+    },
+    {
+      "title": "NovaBank Freelancer Card — Freedom Variant",
+      "asset_type": "text",
+      "variant": "B",
+      "variant_description": "emotional/freedom",
+      "text_content": "Headline:\nYour freelance money, finally under control.\n\nBody:\nSpend less time sorting payments and more time doing the work you love. NovaBank helps you keep income, expenses and taxes easier to manage.\n\nCTA:\nStart managing your freelance money."
+    },
+    {
+      "title": "NovaBank Freelancer Card — Risky Variant",
+      "asset_type": "text",
+      "variant": "C",
+      "variant_description": "risky/overclaim",
+      "text_content": "Headline:\nThe only card freelancers will ever need.\n\nBody:\nForget financial stress forever. NovaBank guarantees full control over your money with zero hassle and no risks.\n\nCTA:\nJoin now."
+    }
+  ],
+  "report_preferences": {
+    "default_mode": "internal",
+    "formats": ["markdown", "html"]
+  }
+}

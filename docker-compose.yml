@@ -1,28 +1,26 @@
 version: "3.9"
+
 services:
   api:
     build: .
     ports:
-      - "8000:8000"
+      - "${CTA_PORT:-8000}:8000"
+    env_file:
+      - .env
     environment:
-      CTA_DATABASE_URL: postgresql+psycopg://cta:cta@db:5432/cta
+      CTA_DATABASE_URL: sqlite:///data/creative_test_agent.db
       CTA_LOCAL_ONLY_MODE: "true"
       CTA_ALLOW_CLOUD_LLM: "false"
       CTA_LLM_PROVIDER: stub
-    depends_on:
-      db:
-        condition: service_healthy
+      CTA_VISION_PROVIDER: stub
+      CTA_ENABLE_AUTH: "false"
+      CTA_ENABLE_PROJECTS: "false"
+      CTA_ENABLE_BRANDBOOKS: "false"
+      CTA_ENABLE_ADVANCED_EXPORTS: "false"
+      CTA_STORAGE_ROOT: /app/data/storage
+    volumes:
+      - cta_data:/app/data
+    restart: unless-stopped
 
-  db:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_USER: cta
-      POSTGRES_PASSWORD: cta
-      POSTGRES_DB: cta
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: pg_isready -U cta
-      interval: 5s
-      timeout: 3s
-      retries: 5
+volumes:
+  cta_data:

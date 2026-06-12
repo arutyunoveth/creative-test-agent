@@ -1,6 +1,6 @@
 from httpx import ASGITransport, AsyncClient
 from src.main import app
-from src.modules.audit_log.service import _store as audit_store
+from src.modules.audit_log.service import list_audit_events
 
 
 async def _setup_completed_run(client, text="Audit event test"):
@@ -16,35 +16,37 @@ async def _setup_completed_run(client, text="Audit event test"):
 
 
 async def test_report_generated_audit_event():
-    audit_store.clear()
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         run_id = await _setup_completed_run(client)
         await client.get(f"/reports/{run_id}")
-    event_types = [e.event_type for e in audit_store]
+    events = list_audit_events()
+    event_types = {e.event_type for e in events}
     assert "report_requested" in event_types
     assert "report_generated" in event_types
 
 
 async def test_version_created_triggers_audit():
-    audit_store.clear()
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         run_id = await _setup_completed_run(client)
         await client.get(f"/reports/{run_id}")
-    generated_events = [e for e in audit_store if e.event_type == "report_generated"]
+    events = list_audit_events()
+    generated_events = [e for e in events if e.event_type == "report_generated"]
     assert len(generated_events) >= 1
-    assert generated_events[0].payload.get("version") is not None
+    # Use the most recent report_generated event
+    latest = max(generated_events, key=lambda e: e.created_at)
+    assert latest.payload.get("version") is not None
 
 
 async def test_comparison_failed_audit_event():
-    audit_store.clear()
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         await client.post(
             "/reports/compare",
             json={"test_run_ids": ["bad-a", "bad-b"], "report_mode": "internal"},
         )
-    event_types = [e.event_type for e in audit_store]
+    events = list_audit_events()
+    event_types = {e.event_type for e in events}
     assert "comparison_report_requested" in event_types
     assert "comparison_report_failed" in event_types

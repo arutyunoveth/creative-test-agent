@@ -5,8 +5,13 @@ __pycache__/
 .env
 *.db
 data/storage/
+data/exports/
+data/backups/
+data/release/smoke_*
+data/release/*.zip
 data/*.db
 !data/demo/
+data/server_readiness_check*
 .venv/
 venv/
 *.egg-info/

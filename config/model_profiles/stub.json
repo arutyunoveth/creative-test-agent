@@ -1,0 +1,10 @@
+{
+  "profile_name": "stub",
+  "provider": "stub",
+  "model": "stub",
+  "base_url": "",
+  "enabled": true,
+  "default_for_demo": true,
+  "timeout_seconds": 60,
+  "notes": "Deterministic local stub profile for tests and demos."
+}

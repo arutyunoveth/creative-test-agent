@@ -90,9 +90,8 @@ async def test_comparison_rejects_missing_findings():
 
 
 async def test_comparison_writes_audit_events():
-    from src.modules.audit_log.service import _store as audit_store
+    from src.modules.audit_log.service import list_audit_events
 
-    audit_store.clear()
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         run_a = await _setup_completed_run(client, "Audit A")
@@ -101,7 +100,8 @@ async def test_comparison_writes_audit_events():
             "/reports/compare",
             json={"test_run_ids": [run_a, run_b], "report_mode": "internal"},
         )
-    event_types = [e.event_type for e in audit_store]
+    events = list_audit_events()
+    event_types = [e.event_type for e in events]
     assert "comparison_report_requested" in event_types
     assert "comparison_report_generated" in event_types
 

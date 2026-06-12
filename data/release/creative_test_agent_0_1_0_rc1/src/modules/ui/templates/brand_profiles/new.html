@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}New Brand Profile — Creative Test Agent{% endblock %}
+{% block content %}
+
+<div class="page-header"><h1>New Brand Profile</h1></div>
+
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+
+<div class="card">
+  <form method="post" action="/ui/brand-profiles">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" required>
+    </div>
+    <div class="form-group">
+      <label for="tone_of_voice">Tone of Voice</label>
+      <textarea name="tone_of_voice" id="tone_of_voice" rows="3" placeholder="e.g. professional, friendly, authoritative"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="target_audience">Target Audience</label>
+      <textarea name="target_audience" id="target_audience" rows="3" placeholder="Describe the brand's target audience"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="restrictions">Restrictions</label>
+      <textarea name="restrictions" id="restrictions" rows="3" placeholder="e.g. no religious references, no competitor mentions"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="claims_policy">Claims Policy</label>
+      <textarea name="claims_policy" id="claims_policy" rows="3" placeholder="e.g. all claims must be substantiated"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a href="/ui/brand-profiles" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}

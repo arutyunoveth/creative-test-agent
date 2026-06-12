@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Trace: {{ trace.stage_name }} — Creative Test Agent{% endblock %}
+{% block content %}
+<div class="page-header"><h1>Prompt Trace: {{ trace.stage_name }}</h1></div>
+
+<div class="card">
+  <div class="detail-grid">
+    <div class="detail-field"><span class="field-label">Trace ID</span><div class="field-value">{{ trace.id }}</div></div>
+    <div class="detail-field"><span class="field-label">Stage</span><div class="field-value"><span class="badge badge-stage">{{ trace.stage_name }}</span></div></div>
+    <div class="detail-field"><span class="field-label">Provider</span><div class="field-value">{{ trace.provider }}</div></div>
+    <div class="detail-field"><span class="field-label">Model</span><div class="field-value">{{ trace.model }}</div></div>
+    <div class="detail-field"><span class="field-label">Parsed Successfully</span><div class="field-value">{{ 'Yes' if trace.parsed_success else 'No' }}</div></div>
+    <div class="detail-field"><span class="field-label">Repaired</span><div class="field-value">{{ 'Yes' if trace.repaired else 'No' }}</div></div>
+    <div class="detail-field"><span class="field-label">Latency</span><div class="field-value">{% if trace.latency_ms %}{{ '%.0f' | format(trace.latency_ms) }}ms{% else %}—{% endif %}</div></div>
+    <div class="detail-field"><span class="field-label">Token Estimate</span><div class="field-value">{{ trace.token_estimate_input or '?' }} in / {{ trace.token_estimate_output or '?' }} out</div></div>
+    <div class="detail-field"><span class="field-label">Prompt Hash</span><div class="field-value"><code>{{ trace.prompt_hash[:16] }}...</code></div></div>
+    <div class="detail-field"><span class="field-label">Created</span><div class="field-value">{{ trace.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</div></div>
+  </div>
+</div>
+
+{% if trace.repair_steps %}
+<div class="card">
+  <h2>Repair Steps</h2>
+  <ul>
+    {% for s in trace.repair_steps %}
+    <li><code>{{ s }}</code></li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+{% if trace.validation_warnings %}
+<div class="card">
+  <h2>Validation Warnings</h2>
+  <ul>
+    {% for w in trace.validation_warnings %}
+    <li class="alert alert-warning">{{ w }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+{% if trace.validation_errors %}
+<div class="card">
+  <h2>Validation Errors</h2>
+  <ul>
+    {% for e in trace.validation_errors %}
+    <li class="alert alert-error">{{ e }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<div class="card">
+  <h2>Prompt Preview</h2>
+  <pre class="metadata">{{ trace.prompt_preview or 'No prompt stored (CTA_PROMPT_TRACE_STORE_FULL=false)' }}</pre>
+</div>
+
+<div class="card">
+  <h2>Raw Response Preview</h2>
+  <pre class="metadata">{{ trace.raw_response_preview or 'No response stored' }}</pre>
+</div>
+
+{% if trace.test_run_id %}
+<p>Part of <a href="/ui/test-runs/{{ trace.test_run_id }}">test run {{ trace.test_run_id[:12] }}...</a></p>
+{% endif %}
+{% if trace.evaluation_run_id %}
+<p>Part of <a href="/ui/evaluations/{{ trace.evaluation_run_id }}">evaluation run {{ trace.evaluation_run_id[:12] }}...</a></p>
+{% endif %}
+
+<a href="/ui/prompt-traces" class="btn btn-secondary">Back to Traces</a>
+{% endblock %}

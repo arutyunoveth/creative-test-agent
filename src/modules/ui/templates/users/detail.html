@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>User: {{ u.display_name }}</h2>
+<p><strong>Email:</strong> {{ u.email }}</p>
+<p><strong>Role:</strong> {{ u.role }}</p>
+<p><strong>Active:</strong> {{ 'Yes' if u.is_active else 'No' }}</p>
+<p><strong>Created:</strong> {{ u.created_at }}</p>
+{% if u.is_active %}
+<form method="POST" action="/ui/users/{{ u.id }}/deactivate" style="display:inline;">
+  <button type="submit" onclick="return confirm('Deactivate this user?')">Deactivate</button>
+</form>
+{% endif %}
+<a href="/ui/users">← Back to users</a>
+{% endblock %}

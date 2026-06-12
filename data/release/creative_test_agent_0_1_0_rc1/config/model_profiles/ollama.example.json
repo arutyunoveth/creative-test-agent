@@ -1,0 +1,10 @@
+{
+  "profile_name": "ollama-local",
+  "provider": "ollama",
+  "model": "qwen2.5:7b",
+  "base_url": "http://localhost:11434",
+  "enabled": false,
+  "default_for_demo": false,
+  "timeout_seconds": 120,
+  "notes": "Example local Ollama profile. Adjust model name."
+}

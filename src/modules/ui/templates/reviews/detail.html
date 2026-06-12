@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Review Detail — Creative Test Agent{% endblock %}
+{% block content %}
+<div class="breadcrumbs">
+  <a href="/ui">Dashboard</a> &gt; <a href="/ui/reviews">Reviews</a> &gt; Review {{ review.id[:12] }}...
+</div>
+<div class="page-header"><h1>Review: {{ review.id[:8] }}...</h1></div>
+
+<div class="card">
+  <div class="detail-grid">
+    <div class="detail-field"><span class="field-label">ID</span><div class="field-value">{{ review.id }}</div></div>
+    <div class="detail-field"><span class="field-label">Creative Asset</span><div class="field-value"><a href="/ui/creative-assets/{{ review.creative_asset_id }}">{{ review.creative_asset_id[:8] }}...</a></div></div>
+    <div class="detail-field"><span class="field-label">Reviewer</span><div class="field-value">{{ review.reviewer }}</div></div>
+    <div class="detail-field"><span class="field-label">Status</span><div class="field-value">{{ review.status }}</div></div>
+    <div class="detail-field"><span class="field-label">Decision</span><div class="field-value">{{ review.decision or 'N/A' }}</div></div>
+    <div class="detail-field"><span class="field-label">Rating</span><div class="field-value">{{ review.rating or 'N/A' }}</div></div>
+    <div class="detail-field"><span class="field-label">Created</span><div class="field-value">{{ review.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</div></div>
+    {% if review.updated_at %}
+    <div class="detail-field"><span class="field-label">Updated</span><div class="field-value">{{ review.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</div></div>
+    {% endif %}
+    {% if review.report_id %}
+    <div class="detail-field"><span class="field-label">Source Report</span><div class="field-value">{{ review.report_id[:8] }}...</div></div>
+    {% endif %}
+  </div>
+
+  {% if review.summary %}
+  <div class="detail-section">
+    <h3>Summary</h3>
+    <div class="metadata">{{ review.summary }}</div>
+  </div>
+  {% endif %}
+
+  {% if review.strengths %}
+  <div class="detail-section">
+    <h3>Strengths</h3>
+    <div class="metadata">{{ review.strengths }}</div>
+  </div>
+  {% endif %}
+
+  {% if review.concerns %}
+  <div class="detail-section">
+    <h3>Concerns</h3>
+    <div class="metadata">{{ review.concerns }}</div>
+  </div>
+  {% endif %}
+
+  {% if review.revision_requests %}
+  <div class="detail-section">
+    <h3>Revision Requests</h3>
+    <div class="metadata">{{ review.revision_requests }}</div>
+  </div>
+  {% endif %}
+
+  {% if review.requested_changes %}
+  <div class="detail-section">
+    <h3>Requested Changes</h3>
+    <ul>
+    {% for change in review.requested_changes %}
+      <li><strong>{{ change.get('action', '') }}</strong>: {{ change.get('description', '') }} ({{ change.get('priority', '') }})</li>
+    {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if review.feedback_details %}
+  <div class="detail-section">
+    <h3>Feedback Details</h3>
+    <div class="metadata">{{ review.feedback_details | tojson(indent=2) }}</div>
+  </div>
+  {% endif %}
+</div>
+
+<div class="card" style="margin-top:1rem;">
+  <h2>Actions</h2>
+  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+    <button class="btn btn-primary" onclick="updateStatus('in_review')">Move to In Review</button>
+    <button class="btn btn-success" onclick="updateStatus('approved')">Approve</button>
+    <button class="btn btn-warning" onclick="updateStatus('changes_requested')">Request Changes</button>
+    <button class="btn btn-danger" onclick="updateStatus('rejected')">Reject</button>
+    <button class="btn btn-secondary" onclick="updateStatus('archived')">Archive</button>
+  </div>
+  <hr>
+  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+    <button class="btn btn-secondary" onclick="saveToKnowledge()">Save to Knowledge Base</button>
+    {% if review.report_id %}
+    <a href="/ui/reviews/new?asset_id={{ review.creative_asset_id }}&report_id={{ review.report_id }}" class="btn btn-secondary">Create Version from Review</a>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+async function updateStatus(status) {
+  const resp = await fetch('/reviews/{{ review.id }}', {
+    method: 'PATCH',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({status: status}),
+  });
+  if (resp.ok) {
+    window.location.reload();
+  } else {
+    const err = await resp.json();
+    alert('Error: ' + (err.detail || 'Unknown error'));
+  }
+}
+
+async function saveToKnowledge() {
+  const resp = await fetch('/reviews/{{ review.id }}/save-to-knowledge', {
+    method: 'POST',
+  });
+  const data = await resp.json();
+  if (data.saved) {
+    alert('Saved to knowledge base!');
+  } else {
+    alert('Not saved: ' + (data.reason || 'Unknown reason'));
+  }
+}
+</script>
+
+<div style="margin-top:1rem;">
+  <a href="/ui/reviews" class="btn btn-secondary">Back to Reviews</a>
+  <a href="/ui/creative-assets/{{ review.creative_asset_id }}" class="btn btn-secondary">View Asset</a>
+</div>
+
+{% endblock %}

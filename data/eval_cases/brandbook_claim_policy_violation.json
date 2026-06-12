@@ -1,0 +1,25 @@
+{
+  "case_id": "brandbook_claim_policy_violation",
+  "title": "Brandbook Claims Policy Violation",
+  "creative_text": "Headline:\nEarn guaranteed income with zero risk!\n\nBody:\nOur service guarantees you will double your revenue in the first month. There is absolutely no risk involved. This is a once-in-a-lifetime opportunity you cannot afford to miss.\n\nCTA:\nSign up now before it's too late!",
+  "brand_context": {
+    "name": "NovaBank",
+    "tone_of_voice": "Clear, practical, trustworthy, calm, not aggressive.",
+    "target_audience": "Freelancers, self-employed professionals and small business owners who need simple financial tools.",
+    "restrictions": "No exaggerated claims. No 'guaranteed income'. No 'zero risk'. No pressure language. No hidden-fee ambiguity.",
+    "claims_policy": "Every benefit should be framed as a product feature, not as a guaranteed financial outcome."
+  },
+  "expected": {
+    "must_detect_risk": true,
+    "must_detect_brandbook_violation": true,
+    "min_risk_severity": "high",
+    "required_report_sections": [
+      "Brandbook Compliance",
+      "Brand Safety and Risks"
+    ],
+    "forbidden_client_facing_terms": [
+      "traceback",
+      "stub provider"
+    ]
+  }
+}

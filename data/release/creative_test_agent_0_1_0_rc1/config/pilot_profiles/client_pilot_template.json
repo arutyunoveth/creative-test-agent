@@ -1,0 +1,33 @@
+{
+  "profile_name": "client_pilot_template",
+  "demo": false,
+  "description": "Шаблон для создания pilot profile нового клиента",
+  "brand": {
+    "name": "",
+    "tone_of_voice": "",
+    "target_audience": "",
+    "restrictions": "",
+    "claims_policy": ""
+  },
+  "audiences": [],
+  "rubric": {
+    "name": "Creative Pre-Test Rubric",
+    "criteria": [
+      {"name": "message_clarity", "description": "How clear and understandable is the core message?"},
+      {"name": "memorability", "description": "How likely is the creative to be remembered?"},
+      {"name": "audience_fit", "description": "How well does the creative resonate with the target audience?"},
+      {"name": "call_to_action", "description": "How effective and compelling is the call to action?"},
+      {"name": "trust", "description": "Does the creative build or erode trust?"},
+      {"name": "brand_fit", "description": "How well does the creative align with the brand's tone and guidelines?"},
+      {"name": "negativity_risk", "description": "Risk of negative perception or backlash."},
+      {"name": "distinctiveness", "description": "How distinctive is the creative compared to competitors?"}
+    ],
+    "scale_min": 1,
+    "scale_max": 10
+  },
+  "creative_assets": [],
+  "report_preferences": {
+    "default_mode": "internal",
+    "formats": ["markdown", "html"]
+  }
+}

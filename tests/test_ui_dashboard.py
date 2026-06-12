@@ -26,3 +26,13 @@ async def test_dashboard_shows_closed_loop_status():
     assert "Closed-loop mode" in resp.text
     assert "Cloud LLMs" in resp.text
     assert "Provider" in resp.text
+
+
+async def test_dashboard_shows_database_status():
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        resp = await client.get("/")
+    assert resp.status_code == 200
+    assert "Storage" in resp.text
+    assert "SQLite" in resp.text
+    assert "connected" in resp.text
