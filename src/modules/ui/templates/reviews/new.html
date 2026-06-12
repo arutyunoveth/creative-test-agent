@@ -1,55 +1,55 @@
 {% extends "base.html" %}
-{% block title %}New Review — Creative Test Agent{% endblock %}
+{% block title %}{{ t("New Review") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
-<div class="page-header"><h1>New Review</h1></div>
+<div class="page-header"><h1>{{ t("New Review") }}</h1></div>
 
 <div class="card">
   <form method="POST" action="/ui/reviews">
     <div class="form-field">
-      <label>Creative Asset ID</label>
+      <label>{{ t("Creative Asset ID") }}</label>
       <input type="text" name="creative_asset_id" value="{{ asset_id or '' }}" required />
     </div>
     <div class="form-field">
-      <label>Report ID (optional)</label>
+      <label>{{ t("Report ID (optional)") }}</label>
       <input type="text" name="report_id" value="{{ report_id or '' }}" />
     </div>
     <div class="form-field">
-      <label>Reviewer Name</label>
+      <label>{{ t("Reviewer Name") }}</label>
       <input type="text" name="reviewer" value="system" />
     </div>
     <div class="form-field">
-      <label>Decision</label>
+      <label>{{ t("Decision") }}</label>
       <select name="decision">
-        <option value="">-- None --</option>
-        <option value="approve">Approve</option>
-        <option value="revise">Revise</option>
-        <option value="reject">Reject</option>
-        <option value="needs_discussion">Needs Discussion</option>
+        <option value="">{{ t("-- None --") }}</option>
+        <option value="approve">{{ t("Approve") }}</option>
+        <option value="revise">{{ t("Revise") }}</option>
+        <option value="reject">{{ t("Reject") }}</option>
+        <option value="needs_discussion">{{ t("Needs Discussion") }}</option>
       </select>
     </div>
     <div class="form-field">
-      <label>Rating (1-5)</label>
+      <label>{{ t("Rating (1-5)") }}</label>
       <input type="number" name="rating" min="1" max="5" />
     </div>
     <div class="form-field">
-      <label>Summary</label>
+      <label>{{ t("Summary") }}</label>
       <textarea name="summary" rows="3"></textarea>
     </div>
     <div class="form-field">
-      <label>Strengths</label>
+      <label>{{ t("Strengths") }}</label>
       <textarea name="strengths" rows="3"></textarea>
     </div>
     <div class="form-field">
-      <label>Concerns</label>
+      <label>{{ t("Concerns") }}</label>
       <textarea name="concerns" rows="3"></textarea>
     </div>
     <div class="form-field">
-      <label>Revision Requests</label>
+      <label>{{ t("Revision Requests") }}</label>
       <textarea name="revision_requests" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Create Review</button>
-    <a href="/ui/reviews" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">{{ t("Create Review") }}</button>
+    <a href="/ui/reviews" class="btn btn-secondary">{{ t("Cancel") }}</a>
   </form>
 </div>
 

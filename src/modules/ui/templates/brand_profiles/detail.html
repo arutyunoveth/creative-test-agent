@@ -1,32 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Brand Profile Detail — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Brand Profile Detail") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
-<div class="page-header"><h1>Brand Profile: {{ profile.name }}</h1></div>
+<div class="page-header"><h1>{{ t("Brand Profile") }}: {{ profile.name }}</h1></div>
 
 <div class="card">
   <div class="detail-grid">
-    <div class="detail-field"><span class="field-label">ID</span><div class="field-value">{{ profile.id }}</div></div>
-    <div class="detail-field"><span class="field-label">Created</span><div class="field-value">{{ profile.created_at.strftime('%Y-%m-%d %H:%M') }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("ID") }}</span><div class="field-value">{{ profile.id }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Created") }}</span><div class="field-value">{{ profile.created_at.strftime('%Y-%m-%d %H:%M') }}</div></div>
   </div>
 
   {% if profile.tone_of_voice %}
-  <div class="detail-section"><h3>Tone of Voice</h3><p>{{ profile.tone_of_voice }}</p></div>
+  <div class="detail-section"><h3>{{ t("Tone of Voice") }}</h3><p>{{ profile.tone_of_voice }}</p></div>
   {% endif %}
 
   {% if profile.target_audience %}
-  <div class="detail-section"><h3>Target Audience</h3><p>{{ profile.target_audience }}</p></div>
+  <div class="detail-section"><h3>{{ t("Target Audience") }}</h3><p>{{ profile.target_audience }}</p></div>
   {% endif %}
 
   {% if profile.restrictions %}
-  <div class="detail-section"><h3>Restrictions</h3><p>{{ profile.restrictions }}</p></div>
+  <div class="detail-section"><h3>{{ t("Restrictions") }}</h3><p>{{ profile.restrictions }}</p></div>
   {% endif %}
 
   {% if profile.claims_policy %}
-  <div class="detail-section"><h3>Claims Policy</h3><p>{{ profile.claims_policy }}</p></div>
+  <div class="detail-section"><h3>{{ t("Claims Policy") }}</h3><p>{{ profile.claims_policy }}</p></div>
   {% endif %}
 </div>
 
-<a href="/ui/brand-profiles" class="btn btn-secondary">Back to Profiles</a>
+<a href="/ui/brand-profiles" class="btn btn-secondary">{{ t("Back to Profiles") }}</a>
 
 {% endblock %}

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}New Audience Profile — Creative Test Agent{% endblock %}
+{% block title %}{{ t("New Audience Profile") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
-<div class="page-header"><h1>New Audience Profile</h1></div>
+<div class="page-header"><h1>{{ t("New Audience Profile") }}</h1></div>
 
 {% if error %}
 <div class="alert alert-error">{{ error }}</div>
@@ -11,27 +11,27 @@
 <div class="card">
   <form method="post" action="/ui/audience-profiles">
     <div class="form-group">
-      <label for="name">Name</label>
+      <label for="name">{{ t("Name") }}</label>
       <input type="text" name="name" id="name" required>
     </div>
     <div class="form-group">
-      <label for="segment_description">Segment Description</label>
-      <textarea name="segment_description" id="segment_description" rows="3" required placeholder="Describe this audience segment"></textarea>
+      <label for="segment_description">{{ t("Segment Description") }}</label>
+      <textarea name="segment_description" id="segment_description" rows="3" required placeholder='{{ t("Describe this audience segment") }}'></textarea>
     </div>
     <div class="form-group">
-      <label for="pains">Pains</label>
-      <textarea name="pains" id="pains" rows="3" placeholder="What pain points does this audience have?"></textarea>
+      <label for="pains">{{ t("Pains") }}</label>
+      <textarea name="pains" id="pains" rows="3" placeholder='{{ t("What pain points does this audience have?") }}'></textarea>
     </div>
     <div class="form-group">
-      <label for="motivations">Motivations</label>
-      <textarea name="motivations" id="motivations" rows="3" placeholder="What motivates this audience?"></textarea>
+      <label for="motivations">{{ t("Motivations") }}</label>
+      <textarea name="motivations" id="motivations" rows="3" placeholder='{{ t("What motivates this audience?") }}'></textarea>
     </div>
     <div class="form-group">
-      <label for="objections">Objections</label>
-      <textarea name="objections" id="objections" rows="3" placeholder="Common objections from this audience"></textarea>
+      <label for="objections">{{ t("Objections") }}</label>
+      <textarea name="objections" id="objections" rows="3" placeholder='{{ t("Common objections from this audience") }}'></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a href="/ui/audience-profiles" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">{{ t("Create") }}</button>
+    <a href="/ui/audience-profiles" class="btn btn-secondary">{{ t("Cancel") }}</a>
   </form>
 </div>
 

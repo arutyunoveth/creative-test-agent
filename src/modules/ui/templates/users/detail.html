@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>User: {{ u.display_name }}</h2>
-<p><strong>Email:</strong> {{ u.email }}</p>
-<p><strong>Role:</strong> {{ u.role }}</p>
-<p><strong>Active:</strong> {{ 'Yes' if u.is_active else 'No' }}</p>
-<p><strong>Created:</strong> {{ u.created_at }}</p>
+<h2>{{ t("User:") }} {{ u.display_name }}</h2>
+<p><strong>{{ t("Email:") }}</strong> {{ u.email }}</p>
+<p><strong>{{ t("Role:") }}</strong> {{ u.role }}</p>
+<p><strong>{{ t("Active:") }}</strong> {{ t("Yes") if u.is_active else t("No") }}</p>
+<p><strong>{{ t("Created:") }}</strong> {{ u.created_at }}</p>
 {% if u.is_active %}
 <form method="POST" action="/ui/users/{{ u.id }}/deactivate" style="display:inline;">
-  <button type="submit" onclick="return confirm('Deactivate this user?')">Deactivate</button>
+  <button type="submit" onclick="return confirm('{{ t("Deactivate this user?")|e }}')">{{ t("Deactivate") }}</button>
 </form>
 {% endif %}
-<a href="/ui/users">← Back to users</a>
+<a href="/ui/users">{{ t("← Back to users") }}</a>
 {% endblock %}

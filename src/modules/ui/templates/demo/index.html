@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Guided Demo — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Guided Demo") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
 <div class="page-header">
-  <h1>Guided Demo</h1>
-  <span class="badge badge-{{ 'completed' if completed == total else 'running' }}">{{ completed }}/{{ total }} steps</span>
+  <h1>{{ t("Guided Demo") }}</h1>
+  <span class="badge badge-{{ 'completed' if completed == total else 'running' }}">{{ completed }}/{{ total }} {{ t("steps") }}</span>
 </div>
 
 {% if error %}
@@ -12,58 +12,58 @@
 {% endif %}
 
 <div class="card">
-  <h2>Demo Status</h2>
+  <h2>{{ t("Demo Status") }}</h2>
   <div class="status-grid">
-    <div class="status-item"><div class="label">Profile loaded</div><div class="value">{{ 'Yes' if status.profile_loaded else 'No' }}</div></div>
-    <div class="status-item"><div class="label">Client</div><div class="value">{{ 'Yes' if status.client_exists else 'No' }}</div></div>
-    <div class="status-item"><div class="label">Project</div><div class="value">{{ 'Yes' if status.project_exists else 'No' }}</div></div>
-    <div class="status-item"><div class="label">Creatives</div><div class="value">{{ status.creatives_count }}</div></div>
-    <div class="status-item"><div class="label">Brandbooks</div><div class="value">{{ status.brandbooks_count }}</div></div>
-    <div class="status-item"><div class="label">Batch completed</div><div class="value">{{ 'Yes' if status.batch_completed else 'No' }}</div></div>
-    <div class="status-item"><div class="label">Reports</div><div class="value">{{ status.reports_count }}</div></div>
-    <div class="status-item"><div class="label">Reviews</div><div class="value">{{ status.reviews_count }}</div></div>
-    <div class="status-item"><div class="label">Knowledge items</div><div class="value">{{ status.knowledge_items_count }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Profile loaded") }}</div><div class="value">{{ t("Yes") if status.profile_loaded else t("No") }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Client") }}</div><div class="value">{{ t("Yes") if status.client_exists else t("No") }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Project") }}</div><div class="value">{{ t("Yes") if status.project_exists else t("No") }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Creatives") }}</div><div class="value">{{ status.creatives_count }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Brandbooks") }}</div><div class="value">{{ status.brandbooks_count }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Batch completed") }}</div><div class="value">{{ t("Yes") if status.batch_completed else t("No") }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Reports") }}</div><div class="value">{{ status.reports_count }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Reviews") }}</div><div class="value">{{ status.reviews_count }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Knowledge items") }}</div><div class="value">{{ status.knowledge_items_count }}</div></div>
   </div>
-  <p><strong>Recommended next action:</strong> {{ status.next_recommended_action }}</p>
+  <p><strong>{{ t("Recommended next action:") }}</strong> {{ status.next_recommended_action }}</p>
 </div>
 
 <div class="card">
-  <h2>Quick Actions</h2>
+  <h2>{{ t("Quick Actions") }}</h2>
   <div class="btn-group">
     <form method="POST" action="/ui/demo/load-profile" style="display:inline;">
-      <button type="submit" class="btn btn-primary">Load demo profile</button>
+      <button type="submit" class="btn btn-primary">{{ t("Load demo profile") }}</button>
     </form>
     <form method="POST" action="/ui/demo/create-batch" style="display:inline;">
-      <button type="submit" class="btn btn-success">Create demo batch</button>
+      <button type="submit" class="btn btn-success">{{ t("Create demo batch") }}</button>
     </form>
-    <a href="/ui/batches" class="btn btn-secondary">View batches</a>
-    <a href="/ui/evaluations" class="btn btn-secondary">View evaluations</a>
+    <a href="/ui/batches" class="btn btn-secondary">{{ t("View batches") }}</a>
+    <a href="/ui/evaluations" class="btn btn-secondary">{{ t("View evaluations") }}</a>
   </div>
 </div>
 
 <div class="card">
-  <h2>Demo Steps</h2>
+  <h2>{{ t("Demo Steps") }}</h2>
   <table>
-    <tr><th>#</th><th>Step</th><th>Status</th><th>Description</th><th></th></tr>
+    <tr><th>#</th><th>{{ t("Step") }}</th><th>{{ t("Status") }}</th><th>{{ t("Description") }}</th><th></th></tr>
     {% for step in steps %}
     <tr>
       <td>{{ loop.index }}</td>
       <td><strong>{{ step.title }}</strong></td>
       <td>
         {% if step.status == 'completed' %}
-        <span class="badge badge-completed">completed</span>
+        <span class="badge badge-completed">{{ t("completed") }}</span>
         {% elif step.status == 'available' %}
-        <span class="badge badge-running">available</span>
+        <span class="badge badge-running">{{ t("available") }}</span>
         {% elif step.status == 'missing' %}
-        <span class="badge badge-failed">missing</span>
+        <span class="badge badge-failed">{{ t("missing") }}</span>
         {% else %}
-        <span class="badge badge-created">not started</span>
+        <span class="badge badge-created">{{ t("not started") }}</span>
         {% endif %}
       </td>
       <td>{{ step.description }}</td>
       <td>
         {% if step.link %}
-        <a href="{{ step.link }}" class="btn btn-secondary btn-sm">Open</a>
+        <a href="{{ step.link }}" class="btn btn-secondary btn-sm">{{ t("Open") }}</a>
         {% endif %}
       </td>
     </tr>

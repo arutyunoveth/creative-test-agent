@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Export Jobs — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Export Jobs") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
-<div class="page-header"><h1>Export Jobs</h1></div>
+<div class="page-header"><h1>{{ t("Export Jobs") }}</h1></div>
 
 {% if jobs %}
 <table>
-  <tr><th>Type</th><th>Entity</th><th>Status</th><th>Created</th><th></th></tr>
+  <tr><th>{{ t("Type") }}</th><th>{{ t("Entity") }}</th><th>{{ t("Status") }}</th><th>{{ t("Created") }}</th><th></th></tr>
   {% for j in jobs %}
   <tr>
     <td>{{ j.export_type }}</td>
@@ -15,7 +15,7 @@
     <td>{{ j.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
     <td>
       {% if j.status == 'completed' and j.file_path %}
-      <a href="/exports/{{ j.id }}/download" class="btn btn-secondary btn-sm">Download</a>
+      <a href="/exports/{{ j.id }}/download" class="btn btn-secondary btn-sm">{{ t("Download") }}</a>
       {% elif j.status == 'failed' and j.error_message %}
       <span class="error-text">{{ j.error_message[:50] }}</span>
       {% endif %}
@@ -25,10 +25,10 @@
 </table>
 {% else %}
 <div class="card empty-state">
-  <h3>No exports yet</h3>
-  <p>Exports let you download test reports in DOCX, PPTX, or HTML format for sharing with stakeholders.</p>
-  <p><strong>Next step:</strong> Run a test and generate a report, then export it from the report page.</p>
-  <a href="/ui/test-runs" class="btn btn-primary">View Test Runs</a>
+  <h3>{{ t("No exports yet") }}</h3>
+  <p>{{ t("Exports let you download test reports in DOCX, PPTX, or HTML format for sharing with stakeholders.") }}</p>
+  <p><strong>{{ t("Next step:") }}</strong> {{ t("Run a test and generate a report, then export it from the report page.") }}</p>
+  <a href="/ui/test-runs" class="btn btn-primary">{{ t("View Test Runs") }}</a>
 </div>
 {% endif %}
 

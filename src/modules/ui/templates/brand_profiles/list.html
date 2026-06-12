@@ -1,26 +1,26 @@
 {% extends "base.html" %}
-{% block title %}Brand Profiles — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Brand Profiles") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
 <div class="page-header">
-  <h1>Brand Profiles</h1>
-  <a href="/ui/brand-profiles/new" class="btn btn-primary">New Profile</a>
+  <h1>{{ t("Brand Profiles") }}</h1>
+  <a href="/ui/brand-profiles/new" class="btn btn-primary">{{ t("New Profile") }}</a>
 </div>
 
 {% if profiles %}
 <table>
-  <tr><th>Name</th><th>Target Audience</th><th>Created</th><th></th></tr>
+  <tr><th>{{ t("Name") }}</th><th>{{ t("Target Audience") }}</th><th>{{ t("Created") }}</th><th></th></tr>
   {% for p in profiles %}
   <tr>
     <td>{{ p.name }}</td>
     <td>{{ p.target_audience[:60] if p.target_audience else '' }}</td>
     <td>{{ p.created_at.strftime('%Y-%m-%d') }}</td>
-    <td><a href="/ui/brand-profiles/{{ p.id }}" class="btn btn-secondary btn-sm">View</a></td>
+    <td><a href="/ui/brand-profiles/{{ p.id }}" class="btn btn-secondary btn-sm">{{ t("View") }}</a></td>
   </tr>
   {% endfor %}
 </table>
 {% else %}
-<div class="card"><p>No brand profiles yet. <a href="/ui/brand-profiles/new">Create one</a>.</p></div>
+<div class="card"><p>{{ t("No brand profiles yet.") }} <a href="/ui/brand-profiles/new">{{ t("Create one") }}</a>.</p></div>
 {% endif %}
 
 {% endblock %}

@@ -1,26 +1,26 @@
 {% extends "base.html" %}
-{% block title %}Prompt Traces — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Prompt Traces") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
-<div class="page-header"><h1>Prompt Traces</h1></div>
+<div class="page-header"><h1>{{ t("Prompt Traces") }}</h1></div>
 
 {% if test_run_id %}
-<div class="card"><p>Filtered by test run: <code>{{ test_run_id[:12] }}...</code> <a href="/ui/prompt-traces" class="btn btn-secondary btn-sm">Clear filter</a></p></div>
+<div class="card"><p>{{ t("Filtered by test run:") }} <code>{{ test_run_id[:12] }}...</code> <a href="/ui/prompt-traces" class="btn btn-secondary btn-sm">{{ t("Clear filter") }}</a></p></div>
 {% endif %}
 {% if evaluation_run_id %}
-<div class="card"><p>Filtered by evaluation run: <code>{{ evaluation_run_id[:12] }}...</code> <a href="/ui/prompt-traces" class="btn btn-secondary btn-sm">Clear filter</a></p></div>
+<div class="card"><p>{{ t("Filtered by evaluation run:") }} <code>{{ evaluation_run_id[:12] }}...</code> <a href="/ui/prompt-traces" class="btn btn-secondary btn-sm">{{ t("Clear filter") }}</a></p></div>
 {% endif %}
 
 {% if traces %}
 <table>
   <tr>
-    <th>Stage</th>
-    <th>Provider</th>
-    <th>Model</th>
-    <th>Parsed</th>
-    <th>Repaired</th>
-    <th>Valid. Errors</th>
-    <th>Latency</th>
-    <th>Date</th>
+    <th>{{ t("Stage") }}</th>
+    <th>{{ t("Provider") }}</th>
+    <th>{{ t("Model") }}</th>
+    <th>{{ t("Parsed") }}</th>
+    <th>{{ t("Repaired") }}</th>
+    <th>{{ t("Valid. Errors") }}</th>
+    <th>{{ t("Latency") }}</th>
+    <th>{{ t("Date") }}</th>
     <th></th>
   </tr>
   {% for t in traces %}
@@ -33,16 +33,16 @@
     <td>{{ t.validation_errors | length }}</td>
     <td>{% if t.latency_ms %}{{ '%.0f' | format(t.latency_ms) }}ms{% else %}—{% endif %}</td>
     <td>{{ t.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-    <td><a href="/ui/prompt-traces/{{ t.id }}" class="btn btn-secondary btn-sm">View</a></td>
+    <td><a href="/ui/prompt-traces/{{ t.id }}" class="btn btn-secondary btn-sm">{{ t("View") }}</a></td>
   </tr>
   {% endfor %}
 </table>
 {% else %}
 <div class="card empty-state">
-  <h3>No prompt traces yet</h3>
-  <p>Prompt traces record every LLM interaction for debugging and audit. Traces are created automatically during test runs.</p>
-  <p><strong>Next step:</strong> Run a test to generate prompt traces.</p>
-  <a href="/ui/test-runs" class="btn btn-primary">View Test Runs</a>
+  <h3>{{ t("No prompt traces yet") }}</h3>
+  <p>{{ t("Prompt traces record every LLM interaction for debugging and audit. Traces are created automatically during test runs.") }}</p>
+  <p><strong>{{ t("Next step:") }}</strong> {{ t("Run a test to generate prompt traces.") }}</p>
+  <a href="/ui/test-runs" class="btn btn-primary">{{ t("View Test Runs") }}</a>
 </div>
 {% endif %}
 {% endblock %}

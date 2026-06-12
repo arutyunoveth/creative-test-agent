@@ -1,55 +1,55 @@
 {% extends "base.html" %}
-{% block title %}Batch Detail — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Batch Detail") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 <div class="breadcrumbs">
-  <a href="/ui">Dashboard</a> &gt; <a href="/ui/batches">Batches</a> &gt; {{ batch.name }}
+  <a href="/ui">{{ t("Dashboard") }}</a> &gt; <a href="/ui/batches">{{ t("Batches") }}</a> &gt; {{ batch.name }}
 </div>
 <div class="page-header"><h1>{{ batch.name }}</h1></div>
 
 <div class="card">
   <div class="detail-grid">
-    <div class="detail-field"><span class="field-label">ID</span><div class="field-value">{{ batch.id }}</div></div>
-    <div class="detail-field"><span class="field-label">Status</span><div class="field-value">{{ batch.status }}</div></div>
-    <div class="detail-field"><span class="field-label">Project</span><div class="field-value">{% if batch.project_id %}<a href="/ui/projects/{{ batch.project_id }}">{{ batch.project_id[:12] }}...</a>{% else %}N/A{% endif %}</div></div>
-    <div class="detail-field"><span class="field-label">Created</span><div class="field-value">{{ batch.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</div></div>
-    <div class="detail-field"><span class="field-label">Assets</span><div class="field-value">{{ batch.creative_asset_ids|length }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("ID") }}</span><div class="field-value">{{ batch.id }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Status") }}</span><div class="field-value">{{ batch.status }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Project") }}</span><div class="field-value">{% if batch.project_id %}<a href="/ui/projects/{{ batch.project_id }}">{{ batch.project_id[:12] }}...</a>{% else %}{{ t("N/A") }}{% endif %}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Created") }}</span><div class="field-value">{{ batch.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Assets") }}</span><div class="field-value">{{ batch.creative_asset_ids|length }}</div></div>
   </div>
 
   {% if batch.description %}
   <div class="detail-section">
-    <h3>Description</h3>
+    <h3>{{ t("Description") }}</h3>
     <div class="metadata">{{ batch.description }}</div>
   </div>
   {% endif %}
 </div>
 
 <div class="card" style="margin-top:1rem;">
-  <h2>Actions</h2>
+  <h2>{{ t("Actions") }}</h2>
   <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-    <button class="btn btn-primary" onclick="queueBatch()">Queue</button>
-    <button class="btn btn-success" onclick="runAll()">Run All</button>
-    <button class="btn btn-warning" onclick="runNext()">Run Next</button>
-    <button class="btn btn-secondary" onclick="viewSummary()">View Summary</button>
-    <button class="btn btn-secondary" onclick="compareBatch()">Compare</button>
-    <button class="btn btn-danger" onclick="cancelBatch()">Cancel</button>
+    <button class="btn btn-primary" onclick="queueBatch()">{{ t("Queue") }}</button>
+    <button class="btn btn-success" onclick="runAll()">{{ t("Run All") }}</button>
+    <button class="btn btn-warning" onclick="runNext()">{{ t("Run Next") }}</button>
+    <button class="btn btn-secondary" onclick="viewSummary()">{{ t("View Summary") }}</button>
+    <button class="btn btn-secondary" onclick="compareBatch()">{{ t("Compare") }}</button>
+    <button class="btn btn-danger" onclick="cancelBatch()">{{ t("Cancel") }}</button>
   </div>
 </div>
 
 <div class="card" style="margin-top:1rem;">
-  <h2>Exports</h2>
+  <h2>{{ t("Exports") }}</h2>
   <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-    <button class="btn btn-secondary" onclick="exportBatch('docx')">Export DOCX</button>
-    <button class="btn btn-secondary" onclick="exportBatch('pptx')">Export PPTX</button>
-    <button class="btn btn-secondary" onclick="exportBatch('pdf')">Export PDF</button>
-    <a href="/batches/{{ batch.id }}/report?format=markdown" class="btn btn-secondary" target="_blank">View Report (MD)</a>
-    <a href="/batches/{{ batch.id }}/report?format=html" class="btn btn-secondary" target="_blank">View Report (HTML)</a>
-    <a href="/batches/{{ batch.id }}/summary" class="btn btn-secondary" target="_blank">Summary JSON</a>
+    <button class="btn btn-secondary" onclick="exportBatch('docx')">{{ t("Export DOCX") }}</button>
+    <button class="btn btn-secondary" onclick="exportBatch('pptx')">{{ t("Export PPTX") }}</button>
+    <button class="btn btn-secondary" onclick="exportBatch('pdf')">{{ t("Export PDF") }}</button>
+    <a href="/batches/{{ batch.id }}/report?format=markdown" class="btn btn-secondary" target="_blank">{{ t("View Report (MD)") }}</a>
+    <a href="/batches/{{ batch.id }}/report?format=html" class="btn btn-secondary" target="_blank">{{ t("View Report (HTML)") }}</a>
+    <a href="/batches/{{ batch.id }}/summary" class="btn btn-secondary" target="_blank">{{ t("Summary JSON") }}</a>
   </div>
 </div>
 
 <div class="card" style="margin-top:1rem;">
-  <h2>Items</h2>
-  <div id="batch-items">Loading...</div>
+  <h2>{{ t("Items") }}</h2>
+  <div id="batch-items">{{ t("Loading...") }}</div>
 </div>
 
 <div id="summary-output" style="display:none; margin-top:1rem;" class="card"></div>
@@ -63,10 +63,10 @@ async function loadItems() {
     const items = await resp.json();
     const container = document.getElementById('batch-items');
     if (items.length === 0) {
-      container.innerHTML = '<p>No items yet. Queue the batch first.</p>';
+      container.innerHTML = '<p>{{ t("No items yet. Queue the batch first.") }}</p>';
       return;
     }
-    let html = '<table><tr><th>Asset</th><th>Status</th><th>Test Run</th><th>Report</th><th>Score</th><th>Error</th></tr>';
+    let html = '<table><tr><th>{{ t("Asset") }}</th><th>{{ t("Status") }}</th><th>{{ t("Test Run") }}</th><th>{{ t("Report") }}</th><th>{{ t("Score") }}</th><th>{{ t("Error") }}</th></tr>';
     for (const item of items) {
       const score = item.score_summary?.overall_score ?? '-';
       const testRunLink = item.test_run_id ? `<a href="/ui/test-runs/${item.test_run_id}">${item.test_run_id.slice(0, 8)}...</a>` : '-';
@@ -76,41 +76,41 @@ async function loadItems() {
     html += '</table>';
     container.innerHTML = html;
   } catch (e) {
-    document.getElementById('batch-items').innerHTML = '<p>Error loading items.</p>';
+    document.getElementById('batch-items').innerHTML = '<p>{{ t("Error loading items.") }}</p>';
   }
 }
 
 async function queueBatch() {
   const resp = await fetch('/batches/{{ batch.id }}/queue', { method: 'POST' });
   if (resp.ok) { window.location.reload(); }
-  else { const d = await resp.json(); alert('Error: ' + (d.detail || 'Unknown')); }
+  else { const d = await resp.json(); alert('{{ t("Error:") }} ' + (d.detail || '{{ t("Unknown") }}')); }
 }
 
 async function runNext() {
   const resp = await fetch('/batches/{{ batch.id }}/run-next', { method: 'POST' });
   if (resp.ok) { loadItems(); }
-  else { const d = await resp.json(); alert('Error: ' + (d.detail || 'Unknown')); }
+  else { const d = await resp.json(); alert('{{ t("Error:") }} ' + (d.detail || '{{ t("Unknown") }}')); }
 }
 
 async function runAll() {
   const resp = await fetch('/batches/{{ batch.id }}/run-all', { method: 'POST' });
   if (resp.ok) { window.location.reload(); }
-  else { const d = await resp.json(); alert('Error: ' + (d.detail || 'Unknown')); }
+  else { const d = await resp.json(); alert('{{ t("Error:") }} ' + (d.detail || '{{ t("Unknown") }}')); }
 }
 
 async function cancelBatch() {
   const resp = await fetch('/batches/{{ batch.id }}/cancel', { method: 'POST' });
   if (resp.ok) { window.location.reload(); }
-  else { const d = await resp.json(); alert('Error: ' + (d.detail || 'Unknown')); }
+  else { const d = await resp.json(); alert('{{ t("Error:") }} ' + (d.detail || '{{ t("Unknown") }}')); }
 }
 
 async function viewSummary() {
   const resp = await fetch('/batches/{{ batch.id }}/summary');
-  if (!resp.ok) { alert('Failed to load summary'); return; }
+  if (!resp.ok) { alert('{{ t("Failed to load summary") }}'); return; }
   summaryData = await resp.json();
   const out = document.getElementById('summary-output');
   out.style.display = 'block';
-  out.innerHTML = '<h2>Summary</h2><pre style="max-height: 400px; overflow-y: auto;">' + JSON.stringify(summaryData, null, 2) + '</pre>';
+  out.innerHTML = '<h2>{{ t("Summary") }}</h2><pre style="max-height: 400px; overflow-y: auto;">' + JSON.stringify(summaryData, null, 2) + '</pre>';
 }
 
 async function compareBatch() {
@@ -119,10 +119,10 @@ async function compareBatch() {
     const data = await resp.json();
     const out = document.getElementById('summary-output');
     out.style.display = 'block';
-    out.innerHTML = '<h2>Comparison</h2><pre style="max-height: 400px; overflow-y: auto;">' + JSON.stringify(data, null, 2) + '</pre>';
+    out.innerHTML = '<h2>{{ t("Comparison") }}</h2><pre style="max-height: 400px; overflow-y: auto;">' + JSON.stringify(data, null, 2) + '</pre>';
   } else {
     const d = await resp.json();
-    alert('Error: ' + (d.detail || 'Compare failed'));
+    alert('{{ t("Error:") }} ' + (d.detail || '{{ t("Compare failed") }}'));
   }
 }
 
@@ -130,10 +130,10 @@ async function exportBatch(type) {
   const resp = await fetch('/batches/{{ batch.id }}/export/' + type, { method: 'POST' });
   if (resp.ok) {
     const data = await resp.json();
-    alert('Export created: ' + data.file_path);
+    alert('{{ t("Export created:") }} ' + data.file_path);
   } else {
     const d = await resp.json();
-    alert('Error: ' + (d.detail || 'Export failed'));
+    alert('{{ t("Error:") }} ' + (d.detail || '{{ t("Export failed") }}'));
   }
 }
 
@@ -141,9 +141,9 @@ loadItems();
 </script>
 
 <div style="margin-top:1rem;">
-  <a href="/ui/batches" class="btn btn-secondary">Back to Batches</a>
+  <a href="/ui/batches" class="btn btn-secondary">{{ t("Back to Batches") }}</a>
   {% if batch.project_id %}
-  <a href="/ui/projects/{{ batch.project_id }}" class="btn btn-secondary">View Project</a>
+  <a href="/ui/projects/{{ batch.project_id }}" class="btn btn-secondary">{{ t("View Project") }}</a>
   {% endif %}
 </div>
 

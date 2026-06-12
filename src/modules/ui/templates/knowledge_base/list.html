@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Knowledge Base — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Knowledge Base") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
 <div class="page-header">
-  <h1>Knowledge Base</h1>
-  <button onclick="document.getElementById('manual-note-form').style.display='block'" class="btn btn-primary">Add Note</button>
+  <h1>{{ t("Knowledge Base") }}</h1>
+  <button onclick="document.getElementById('manual-note-form').style.display='block'" class="btn btn-primary">{{ t("Add Note") }}</button>
 </div>
 
 {% if error %}
@@ -12,10 +12,10 @@
 {% endif %}
 
 <div class="card">
-  <h3>Search</h3>
+  <h3>{{ t("Search") }}</h3>
   <form method="GET" action="/ui/knowledge-base">
-    <input type="text" name="q" class="form-control" placeholder="Search knowledge base..." value="{{ query or '' }}" style="width:70%;display:inline;">
-    <button type="submit" class="btn btn-primary">Search</button>
+    <input type="text" name="q" class="form-control" placeholder="{{ t("Search knowledge base...") }}" value="{{ query or '' }}" style="width:70%;display:inline;">
+    <button type="submit" class="btn btn-primary">{{ t("Search") }}</button>
   </form>
 </div>
 
@@ -25,39 +25,39 @@
 
 {% if show_form %}
 <div id="manual-note-form" class="card">
-  <h3>Add Manual Note</h3>
+  <h3>{{ t("Add Manual Note") }}</h3>
   <form method="POST" action="/ui/knowledge-base">
     <div class="form-group">
-      <label>Title</label>
+      <label>{{ t("Title") }}</label>
       <input type="text" name="title" class="form-control" required>
     </div>
     <div class="form-group">
-      <label>Content</label>
+      <label>{{ t("Content") }}</label>
       <textarea name="content" class="form-control" rows="5"></textarea>
     </div>
     <div class="form-group">
-      <label>Tags (comma separated)</label>
+      <label>{{ t("Tags (comma separated)") }}</label>
       <input type="text" name="tags" class="form-control" placeholder="tag1, tag2">
     </div>
-    <button type="submit" class="btn btn-primary">Save Note</button>
-    <button type="button" onclick="this.closest('.card').style.display='none'" class="btn btn-secondary">Cancel</button>
+    <button type="submit" class="btn btn-primary">{{ t("Save Note") }}</button>
+    <button type="button" onclick="this.closest('.card').style.display='none'" class="btn btn-secondary">{{ t("Cancel") }}</button>
   </form>
 </div>
 {% endif %}
 
 {% if items %}
-<h2>Results ({{ total }} found)</h2>
+<h2>{{ t("Results") }} ({{ total }} {{ t("found") }})</h2>
 {% for item in items %}
 <div class="card knowledge-item">
   <div class="detail-grid">
-    <div class="detail-field"><span class="field-label">Title</span><div class="field-value"><strong>{{ item.title }}</strong></div></div>
-    <div class="detail-field"><span class="field-label">Source</span><div class="field-value">{{ item.source_type }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Title") }}</span><div class="field-value"><strong>{{ item.title }}</strong></div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Source") }}</span><div class="field-value">{{ item.source_type }}</div></div>
     {% if item.score is defined %}
-    <div class="detail-field"><span class="field-label">Score</span><div class="field-value">{{ item.score }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Score") }}</span><div class="field-value">{{ item.score }}</div></div>
     {% endif %}
   </div>
-  <div class="detail-section"><h3>Content</h3>
-    <pre class="content-preview">{{ item.content[:500] if item.content else 'No content' }}{% if item.content and item.content|length > 500 %}...{% endif %}</pre>
+  <div class="detail-section"><h3>{{ t("Content") }}</h3>
+    <pre class="content-preview">{{ item.content[:500] if item.content else t("No content") }}{% if item.content and item.content|length > 500 %}...{% endif %}</pre>
   </div>
   {% if item.tags and item.tags|length > 0 %}
   <div class="tag-list">
@@ -68,13 +68,13 @@
 {% endfor %}
 {% else %}
 {% if query %}
-<div class="card"><p>No results for "{{ query }}".</p></div>
+<div class="card"><p>{{ t("No results for") }} "{{ query }}".</p></div>
 {% else %}
 <div class="card empty-state">
-  <h3>No knowledge items yet</h3>
-  <p>The knowledge base stores insights, feedback, and lessons learned from reviews and tests for future reference.</p>
-  <p><strong>Next step:</strong> Save a knowledge item after completing a review or test.</p>
-  <div class="btn-group"><a href="#add-form" class="btn btn-primary">Add Item</a></div>
+  <h3>{{ t("No knowledge items yet") }}</h3>
+  <p>{{ t("The knowledge base stores insights, feedback, and lessons learned from reviews and tests for future reference.") }}</p>
+  <p><strong>{{ t("Next step:") }}</strong> {{ t("Save a knowledge item after completing a review or test.") }}</p>
+  <div class="btn-group"><a href="#add-form" class="btn btn-primary">{{ t("Add Item") }}</a></div>
 </div>
 {% endif %}
 {% endif %}

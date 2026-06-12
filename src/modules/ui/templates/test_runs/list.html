@@ -1,27 +1,27 @@
 {% extends "base.html" %}
-{% block title %}Test Runs — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Test Runs") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
 <div class="page-header">
-  <h1>Test Runs</h1>
-  <a href="/ui/test-runs/new" class="btn btn-primary">New Test Run</a>
+  <h1>{{ t("Test Runs") }}</h1>
+  <a href="/ui/test-runs/new" class="btn btn-primary">{{ t("New Test Run") }}</a>
 </div>
 
 {% if runs %}
 <table>
-  <tr><th>ID</th><th>Status</th><th>Asset</th><th>Created</th><th></th></tr>
+  <tr><th>{{ t("ID") }}</th><th>{{ t("Status") }}</th><th>{{ t("Asset") }}</th><th>{{ t("Created") }}</th><th></th></tr>
   {% for run in runs %}
   <tr>
     <td>{{ run.id[:12] }}...</td>
     <td><span class="badge badge-{{ run.status }}">{{ run.status }}</span></td>
     <td>{{ run.creative_asset_id[:12] }}...</td>
     <td>{{ run.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-    <td><a href="/ui/test-runs/{{ run.id }}" class="btn btn-secondary btn-sm">View</a></td>
+    <td><a href="/ui/test-runs/{{ run.id }}" class="btn btn-secondary btn-sm">{{ t("View") }}</a></td>
   </tr>
   {% endfor %}
 </table>
 {% else %}
-<div class="card"><p>No test runs yet. <a href="/ui/test-runs/new">Create one</a>.</p></div>
+<div class="card"><p>{{ t("No test runs yet.") }} <a href="/ui/test-runs/new">{{ t("Create one") }}</a>.</p></div>
 {% endif %}
 
 {% endblock %}

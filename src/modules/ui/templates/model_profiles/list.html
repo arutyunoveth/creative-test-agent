@@ -1,17 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Model Profiles — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Model Profiles") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 <div class="page-header">
-  <h1>Model Profiles</h1>
-  <a href="/ui/model-profiles/new" class="btn btn-primary">New Profile</a>
+  <h1>{{ t("Model Profiles") }}</h1>
+  <a href="/ui/model-profiles/new" class="btn btn-primary">{{ t("New Profile") }}</a>
   <form method="post" action="/ui/model-profiles/load-from-config" style="display:inline;">
-    <button type="submit" class="btn btn-secondary">Load from Config</button>
+    <button type="submit" class="btn btn-secondary">{{ t("Load from Config") }}</button>
   </form>
 </div>
 
 {% if profiles %}
 <table>
-  <tr><th>Name</th><th>Provider</th><th>Model</th><th>Enabled</th><th>Demo</th><th></th></tr>
+  <tr><th>{{ t("Name") }}</th><th>{{ t("Provider") }}</th><th>{{ t("Model") }}</th><th>{{ t("Enabled") }}</th><th>{{ t("Demo") }}</th><th></th></tr>
   {% for p in profiles %}
   <tr>
     <td>{{ p.profile_name }}</td>
@@ -19,11 +19,11 @@
     <td>{{ p.model }}</td>
     <td>{{ '✓' if p.enabled else '—' }}</td>
     <td>{{ '★' if p.default_for_demo else '' }}</td>
-    <td><a href="/ui/model-profiles/{{ p.id }}" class="btn btn-secondary btn-sm">View</a></td>
+    <td><a href="/ui/model-profiles/{{ p.id }}" class="btn btn-secondary btn-sm">{{ t("View") }}</a></td>
   </tr>
   {% endfor %}
 </table>
 {% else %}
-<div class="card"><p>No model profiles yet. <a href="/ui/model-profiles/new">Create one</a> or load from config.</p></div>
+<div class="card"><p>{{ t("No model profiles yet.") }} <a href="/ui/model-profiles/new">{{ t("Create one") }}</a> {{ t("or load from config.") }}</p></div>
 {% endif %}
 {% endblock %}

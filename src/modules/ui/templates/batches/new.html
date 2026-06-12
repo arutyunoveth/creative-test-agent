@@ -1,45 +1,45 @@
 {% extends "base.html" %}
-{% block title %}New Batch — Creative Test Agent{% endblock %}
+{% block title %}{{ t("New Batch") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
-<div class="page-header"><h1>New Campaign Batch</h1></div>
+<div class="page-header"><h1>{{ t("New Campaign Batch") }}</h1></div>
 
 <div class="card">
   <form method="POST" action="/ui/batches">
     <div class="form-field">
-      <label>Batch Name</label>
+      <label>{{ t("Batch Name") }}</label>
       <input type="text" name="name" required />
     </div>
     <div class="form-field">
-      <label>Description (optional)</label>
+      <label>{{ t("Description (optional)") }}</label>
       <textarea name="description" rows="3"></textarea>
     </div>
     <div class="form-field">
-      <label>Project ID</label>
+      <label>{{ t("Project ID") }}</label>
       <input type="text" name="project_id" value="{{ project_id or '' }}" />
     </div>
     <div class="form-field">
-      <label>Creative Asset IDs (one per line)</label>
-      <textarea name="creative_asset_ids" rows="5" placeholder="asset-id-1&#10;asset-id-2&#10;asset-id-3">{% if asset_ids %}{{ asset_ids|join('\n') }}{% endif %}</textarea>
+      <label>{{ t("Creative Asset IDs (one per line)") }}</label>
+      <textarea name="creative_asset_ids" rows="5" placeholder="{{ t('asset-id-1') }}&#10;{{ t('asset-id-2') }}&#10;{{ t('asset-id-3') }}">{% if asset_ids %}{{ asset_ids|join('\n') }}{% endif %}</textarea>
     </div>
     <div class="form-field">
-      <label>Audience Profile IDs (optional, one per line)</label>
+      <label>{{ t("Audience Profile IDs (optional, one per line)") }}</label>
       <textarea name="audience_profile_ids" rows="3"></textarea>
     </div>
     <div class="form-field">
-      <label>Brand Profile ID (optional)</label>
+      <label>{{ t("Brand Profile ID (optional)") }}</label>
       <input type="text" name="brand_profile_id" />
     </div>
     <div class="form-field">
-      <label>Test Rubric ID (optional)</label>
+      <label>{{ t("Test Rubric ID (optional)") }}</label>
       <input type="text" name="test_rubric_id" />
     </div>
     <div class="form-field">
-      <label>Input Context JSON (optional)</label>
+      <label>{{ t("Input Context JSON (optional)") }}</label>
       <textarea name="input_context" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Create Batch</button>
-    <a href="/ui/batches" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">{{ t("Create Batch") }}</button>
+    <a href="/ui/batches" class="btn btn-secondary">{{ t("Cancel") }}</a>
   </form>
 </div>
 

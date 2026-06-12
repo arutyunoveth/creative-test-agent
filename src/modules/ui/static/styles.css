@@ -141,3 +141,8 @@ td { font-size: 0.9rem; }
 .status-grid .value { font-weight: 600; font-size: 1rem; }
 
 footer { text-align: center; padding: 1rem; font-size: 0.8rem; color: #94a3b8; }
+
+.lang-switch { float: right; }
+.lang-switch a { color: #93c5fd; margin: 0 0.25rem; font-weight: 600; font-size: 0.8rem; }
+.lang-switch a:hover { color: #fff; text-decoration: none; }
+.lang-switch .lang-active { color: #fff; text-decoration: underline; }

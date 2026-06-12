@@ -1,16 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Report — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Report") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 <div class="breadcrumbs">
-  <a href="/ui">Dashboard</a> &gt; <a href="/ui/test-runs">Test Runs</a> &gt; <a href="/ui/test-runs/{{ report.test_run_id or '' }}">Run {{ (report.test_run_id or '')[:12] }}...</a> &gt; Report
+  <a href="/ui">{{ t("Dashboard") }}</a> &gt; <a href="/ui/test-runs">{{ t("Test Runs") }}</a> &gt; <a href="/ui/test-runs/{{ report.test_run_id or '' }}">{{ t("Run") }} {{ (report.test_run_id or '')[:12] }}...</a> &gt; {{ t("Report") }}
 </div>
-<div class="page-header"><h1>Report: {{ report.id[:12] }}...</h1></div>
+<div class="page-header"><h1>{{ t("Report:") }} {{ report.id[:12] }}...</h1></div>
 
 <div class="status-grid">
-  <div class="status-item"><div class="label">Mode</div><div class="value">{{ report.report_mode | replace('_', ' ') }}</div></div>
-  <div class="status-item"><div class="label">Format</div><div class="value">{{ report.report_format }}</div></div>
-  <div class="status-item"><div class="label">Version</div><div class="value">{{ report.version }}</div></div>
-  <div class="status-item"><div class="label">Test Run</div><div class="value"><a href="/ui/test-runs/{{ report.test_run_id }}">{{ report.test_run_id[:12] }}...</a></div></div>
+  <div class="status-item"><div class="label">{{ t("Mode") }}</div><div class="value">{{ report.report_mode | replace('_', ' ') }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Format") }}</div><div class="value">{{ report.report_format }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Version") }}</div><div class="value">{{ report.version }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Test Run") }}</div><div class="value"><a href="/ui/test-runs/{{ report.test_run_id }}">{{ report.test_run_id[:12] }}...</a></div></div>
 </div>
 
 {% if report.final_recommendation %}
@@ -18,34 +18,34 @@
 {% endif %}
 
 <div class="export-links">
-  <a href="/reports/{{ report.test_run_id }}?format=json" target="_blank" class="btn btn-sm btn-secondary">JSON</a>
-  <a href="/reports/{{ report.test_run_id }}?format=markdown" target="_blank" class="btn btn-sm btn-secondary">Markdown</a>
-  <a href="/reports/{{ report.test_run_id }}?format=html" target="_blank" class="btn btn-sm btn-secondary">HTML</a>
-  <a href="/reports/{{ report.test_run_id }}?format=html&mode=client_facing" target="_blank" class="btn btn-sm btn-secondary">Client HTML</a>
+  <a href="/reports/{{ report.test_run_id }}?format=json" target="_blank" class="btn btn-sm btn-secondary">{{ t("JSON") }}</a>
+  <a href="/reports/{{ report.test_run_id }}?format=markdown" target="_blank" class="btn btn-sm btn-secondary">{{ t("Markdown") }}</a>
+  <a href="/reports/{{ report.test_run_id }}?format=html" target="_blank" class="btn btn-sm btn-secondary">{{ t("HTML") }}</a>
+  <a href="/reports/{{ report.test_run_id }}?format=html&mode=client_facing" target="_blank" class="btn btn-sm btn-secondary">{{ t("Client HTML") }}</a>
   <form method="POST" action="/ui/exports/report/{{ report.id }}/docx" style="display:inline;">
-    <button type="submit" class="btn btn-sm btn-primary">DOCX</button>
+    <button type="submit" class="btn btn-sm btn-primary">{{ t("DOCX") }}</button>
   </form>
   <form method="POST" action="/ui/exports/report/{{ report.id }}/pptx" style="display:inline;">
-    <button type="submit" class="btn btn-sm btn-primary">PPTX</button>
+    <button type="submit" class="btn btn-sm btn-primary">{{ t("PPTX") }}</button>
   </form>
   <form method="POST" action="/ui/exports/report/{{ report.id }}/pdf" style="display:inline;">
-    <button type="submit" class="btn btn-sm btn-primary">PDF-ready HTML</button>
+    <button type="submit" class="btn btn-sm btn-primary">{{ t("PDF-ready HTML") }}</button>
   </form>
 </div>
 
 {% if export_job %}
 <div class="alert alert-success">
-  Export created: <a href="/exports/{{ export_job.id }}/download">Download {{ export_job.export_type | upper }}</a>
-  (<a href="/ui/exports">All exports</a>)
+  {{ t("Export created:") }} <a href="/exports/{{ export_job.id }}/download">{{ t("Download") }} {{ export_job.export_type | upper }}</a>
+  (<a href="/ui/exports">{{ t("All exports") }}</a>)
 </div>
 {% endif %}
 
 <div class="card">
   {% if report.scorecard %}
   <div class="detail-section">
-    <h3>Scorecard</h3>
+    <h3>{{ t("Scorecard") }}</h3>
     <table>
-      <tr><th>Criterion</th><th>Score</th></tr>
+      <tr><th>{{ t("Criterion") }}</th><th>{{ t("Score") }}</th></tr>
       {% for s in report.scorecard %}
       <tr><td>{{ s.criterion }}</td><td>{{ s.score }}/10</td></tr>
       {% endfor %}
@@ -55,7 +55,7 @@
 
   {% if report.risks %}
   <div class="detail-section">
-    <h3>Risks</h3>
+    <h3>{{ t("Risks") }}</h3>
     {% for r in report.risks %}
     <div class="risk-{{ r.severity }}"><strong>{{ r.severity | upper }}</strong> {{ r.risk }}</div>
     {% endfor %}
@@ -64,7 +64,7 @@
 
   {% if report.recommendations %}
   <div class="detail-section">
-    <h3>Recommendations</h3>
+    <h3>{{ t("Recommendations") }}</h3>
     {% for r in report.recommendations %}
     <div class="risk-{{ r.priority }}"><strong>{{ r.priority | upper }}</strong> {{ r.recommendation }}</div>
     {% endfor %}
@@ -73,19 +73,19 @@
 
   {% if report.main_message %}
   <div class="detail-section">
-    <h3>Main Message</h3>
+    <h3>{{ t("Main Message") }}</h3>
     <p>{{ report.main_message }}</p>
   </div>
   {% endif %}
 
   {% if report.report_markdown %}
   <div class="detail-section">
-    <h3>Report (Markdown)</h3>
+    <h3>{{ t("Report (Markdown)") }}</h3>
     <div class="markdown-content">{{ report.report_markdown }}</div>
   </div>
   {% endif %}
 </div>
 
-<a href="/ui/test-runs/{{ report.test_run_id }}" class="btn btn-secondary">Back to Test Run</a>
+<a href="/ui/test-runs/{{ report.test_run_id }}" class="btn btn-secondary">{{ t("Back to Test Run") }}</a>
 
 {% endblock %}

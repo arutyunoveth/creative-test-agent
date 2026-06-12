@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Login</h2>
+<h2>{{ t("Login") }}</h2>
 
 {% if auth_disabled %}
 <div style="padding:1rem; background:#f0f0f0; border-radius:4px; margin-bottom:1rem;">
-  <strong>Auth disabled</strong> — The system is running in local/demo mode.
-  No login is required. <a href="/">Go to Dashboard</a>
+  <strong>{{ t("Auth disabled") }}</strong> — {{ t("The system is running in local/demo mode.") }}
+  {{ t("No login is required.") }} <a href="/">{{ t("Go to Dashboard") }}</a>
 </div>
 {% endif %}
 
@@ -20,14 +20,14 @@
 {% if not auth_disabled %}
 <form method="POST" action="/ui/login">
   <div style="margin-bottom:0.75rem;">
-    <label>Email:</label><br>
+    <label>{{ t("Email") }}:</label><br>
     <input type="email" name="email" required style="width:100%; max-width:400px;">
   </div>
   <div style="margin-bottom:0.75rem;">
-    <label>Password:</label><br>
+    <label>{{ t("Password") }}:</label><br>
     <input type="password" name="password" required style="width:100%; max-width:400px;">
   </div>
-  <button type="submit">Login</button>
+  <button type="submit">{{ t("Login") }}</button>
 </form>
 {% endif %}
 {% endblock %}

@@ -1,34 +1,34 @@
 {% extends "base.html" %}
-{% block title %}New Client — Creative Test Agent{% endblock %}
+{% block title %}{{ t("New Client") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
-<div class="page-header"><h1>New Client</h1></div>
+<div class="page-header"><h1>{{ t("New Client") }}</h1></div>
 {% if error %}
 <div class="alert alert-error">{{ error }}</div>
 {% endif %}
 <div class="card">
   <form method="post" action="/ui/clients">
     <div class="form-group">
-      <label for="name">Name</label>
+      <label for="name">{{ t("Name") }}</label>
       <input type="text" name="name" id="name" required>
     </div>
     <div class="form-group">
-      <label for="industry">Industry</label>
-      <input type="text" name="industry" id="industry" placeholder="e.g. Finance, Healthcare">
+      <label for="industry">{{ t("Industry") }}</label>
+      <input type="text" name="industry" id="industry" placeholder="{{ t("e.g. Finance, Healthcare") }}">
     </div>
     <div class="form-group">
-      <label for="description">Description</label>
-      <textarea name="description" id="description" rows="3" placeholder="Client description..."></textarea>
+      <label for="description">{{ t("Description") }}</label>
+      <textarea name="description" id="description" rows="3" placeholder="{{ t("Client description...") }}"></textarea>
     </div>
     <div class="form-group">
-      <label for="contact_name">Contact Name</label>
-      <input type="text" name="contact_name" id="contact_name" placeholder="Primary contact">
+      <label for="contact_name">{{ t("Contact Name") }}</label>
+      <input type="text" name="contact_name" id="contact_name" placeholder="{{ t("Primary contact") }}">
     </div>
     <div class="form-group">
-      <label for="contact_email">Contact Email</label>
-      <input type="email" name="contact_email" id="contact_email" placeholder="contact@example.com">
+      <label for="contact_email">{{ t("Contact Email") }}</label>
+      <input type="email" name="contact_email" id="contact_email" placeholder="{{ t("contact@example.com") }}">
     </div>
-    <button type="submit" class="btn btn-primary">Create Client</button>
-    <a href="/ui/clients" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">{{ t("Create Client") }}</button>
+    <a href="/ui/clients" class="btn btn-secondary">{{ t("Cancel") }}</a>
   </form>
 </div>
 {% endblock %}

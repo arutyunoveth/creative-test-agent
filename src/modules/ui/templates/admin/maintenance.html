@@ -1,64 +1,64 @@
 {% extends "base.html" %}
-{% block title %}Maintenance — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Maintenance") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
-<div class="page-header"><h1>Server Maintenance</h1></div>
+<div class="page-header"><h1>{{ t("Server Maintenance") }}</h1></div>
 
 <div class="status-grid">
-  <div class="status-item"><div class="label">Environment</div><div class="value">{{ status.env }}</div></div>
-  <div class="status-item"><div class="label">Database</div><div class="value {% if status.database_connected %}status-on{% else %}status-off{% endif %}">{{ 'Connected' if status.database_connected else 'Disconnected' }}</div></div>
-  <div class="status-item"><div class="label">DB Type</div><div class="value">{{ status.database_url_type }}</div></div>
-  <div class="status-item"><div class="label">Storage</div><div class="value {% if status.storage_writable %}status-on{% else %}status-off{% endif %}">{{ 'Writable' if status.storage_writable else 'Not writable' }}</div></div>
-  <div class="status-item"><div class="label">Exports</div><div class="value {% if status.exports_writable %}status-on{% else %}status-off{% endif %}">{{ 'Writable' if status.exports_writable else 'Not writable' }}</div></div>
-  <div class="status-item"><div class="label">Backup Root</div><div class="value {% if status.backup_root_writable %}status-on{% else %}status-off{% endif %}">{{ 'Writable' if status.backup_root_writable else 'Not writable' }}</div></div>
-  <div class="status-item"><div class="label">Closed-loop</div><div class="value {% if status.closed_loop_enabled %}status-on{% else %}status-off{% endif %}">{{ 'ON' if status.closed_loop_enabled else 'OFF' }}</div></div>
-  <div class="status-item"><div class="label">Auth</div><div class="value {% if status.auth_enabled %}status-on{% else %}status-off{% endif %}">{{ 'ENABLED' if status.auth_enabled else 'DISABLED' }}</div></div>
-  <div class="status-item"><div class="label">LLM Provider</div><div class="value">{{ status.llm_provider }}</div></div>
-  <div class="status-item"><div class="label">Vision Provider</div><div class="value">{{ status.vision_provider }}</div></div>
-  <div class="status-item"><div class="label">Projects</div><div class="value">{{ 'ENABLED' if status.enable_projects else 'DISABLED' }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Environment") }}</div><div class="value">{{ status.env }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Database") }}</div><div class="value {% if status.database_connected %}status-on{% else %}status-off{% endif %}">{{ t("Connected") if status.database_connected else t("Disconnected") }}</div></div>
+  <div class="status-item"><div class="label">{{ t("DB Type") }}</div><div class="value">{{ status.database_url_type }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Storage") }}</div><div class="value {% if status.storage_writable %}status-on{% else %}status-off{% endif %}">{{ t("Writable") if status.storage_writable else t("Not writable") }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Exports") }}</div><div class="value {% if status.exports_writable %}status-on{% else %}status-off{% endif %}">{{ t("Writable") if status.exports_writable else t("Not writable") }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Backup Root") }}</div><div class="value {% if status.backup_root_writable %}status-on{% else %}status-off{% endif %}">{{ t("Writable") if status.backup_root_writable else t("Not writable") }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Closed-loop") }}</div><div class="value {% if status.closed_loop_enabled %}status-on{% else %}status-off{% endif %}">{{ t("ON") if status.closed_loop_enabled else t("OFF") }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Auth") }}</div><div class="value {% if status.auth_enabled %}status-on{% else %}status-off{% endif %}">{{ t("ENABLED") if status.auth_enabled else t("DISABLED") }}</div></div>
+  <div class="status-item"><div class="label">{{ t("LLM Provider") }}</div><div class="value">{{ status.llm_provider }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Vision Provider") }}</div><div class="value">{{ status.vision_provider }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Projects") }}</div><div class="value">{{ t("ENABLED") if status.enable_projects else t("DISABLED") }}</div></div>
 </div>
 
 {% if status.migration_head %}
 <div class="card">
-  <h2>Migrations</h2>
+  <h2>{{ t("Migrations") }}</h2>
   <table>
-    <tr><td>Current head</td><td>{{ status.migration_head }}</td></tr>
-    <tr><td>DB revision</td><td>{{ status.migration_db_revision or '—' }}</td></tr>
-    <tr><td>Up to date</td><td>
-      {% if status.migration_up_to_date is none %}Unknown
-      {% elif status.migration_up_to_date %}<span class="badge badge-completed">Yes</span>
-      {% else %}<span class="badge badge-failed">No</span>{% endif %}
+    <tr><td>{{ t("Current head") }}</td><td>{{ status.migration_head }}</td></tr>
+    <tr><td>{{ t("DB revision") }}</td><td>{{ status.migration_db_revision or '—' }}</td></tr>
+    <tr><td>{{ t("Up to date") }}</td><td>
+      {% if status.migration_up_to_date is none %}{{ t("Unknown") }}
+      {% elif status.migration_up_to_date %}<span class="badge badge-completed">{{ t("Yes") }}</span>
+      {% else %}<span class="badge badge-failed">{{ t("No") }}</span>{% endif %}
     </td></tr>
   </table>
 </div>
 {% endif %}
 
 <div class="card">
-  <h2>Storage Details</h2>
+  <h2>{{ t("Storage Details") }}</h2>
   {% if storage %}
   <table>
-    <tr><td>Storage path</td><td>{{ storage.storage_root }}</td></tr>
-    <tr><td>Storage files</td><td>{{ storage.total_files }}</td></tr>
-    <tr><td>Storage size</td><td>{{ "{:.1f} MB".format(storage.total_size_bytes / 1048576) if storage.total_size_bytes > 0 else '0 bytes' }}</td></tr>
-    <tr><td>Exports path</td><td>{{ storage.exports_root }}</td></tr>
-    <tr><td>Backup path</td><td>{{ storage.backup_root }}</td></tr>
+    <tr><td>{{ t("Storage path") }}</td><td>{{ storage.storage_root }}</td></tr>
+    <tr><td>{{ t("Storage files") }}</td><td>{{ storage.total_files }}</td></tr>
+    <tr><td>{{ t("Storage size") }}</td><td>{{ "{:.1f} MB".format(storage.total_size_bytes / 1048576) if storage.total_size_bytes > 0 else t("0 bytes") }}</td></tr>
+    <tr><td>{{ t("Exports path") }}</td><td>{{ storage.exports_root }}</td></tr>
+    <tr><td>{{ t("Backup path") }}</td><td>{{ storage.backup_root }}</td></tr>
   </table>
   {% endif %}
 </div>
 
 <div class="card">
-  <h2>Database Details</h2>
+  <h2>{{ t("Database Details") }}</h2>
   {% if db_status %}
   <table>
-    <tr><td>Connected</td><td>{{ 'Yes' if db_status.connected else 'No' }}</td></tr>
-    <tr><td>Tables</td><td>{{ db_status.table_count }}</td></tr>
+    <tr><td>{{ t("Connected") }}</td><td>{{ t("Yes") if db_status.connected else t("No") }}</td></tr>
+    <tr><td>{{ t("Tables") }}</td><td>{{ db_status.table_count }}</td></tr>
   </table>
   {% endif %}
 </div>
 
 <div class="card">
-  <h2>Useful Commands</h2>
+  <h2>{{ t("Useful Commands") }}</h2>
   <pre style="background:#f5f5f5;padding:12px;border-radius:4px;font-size:0.9rem;">
-# Server
+{{ t("# Server") }}
 make server-build
 make server-up
 make server-down
@@ -67,14 +67,14 @@ make server-check
 make server-backup
 make server-restore BACKUP=data/backups/backup.zip
 
-# Migrations
+{{ t("# Migrations") }}
 make migrations-check
 make migrations-upgrade
 
-# Admin
+{{ t("# Admin") }}
 make bootstrap-admin
   </pre>
 </div>
 
-<p><a href="/ui" class="btn btn-secondary">Back to Dashboard</a></p>
+<p><a href="/ui" class="btn btn-secondary">{{ t("Back to Dashboard") }}</a></p>
 {% endblock %}

@@ -52,6 +52,7 @@ from src.modules.test_runs.service import list_test_runs as _list_test_runs
 from src.shared.config.settings import get_settings
 from src.shared.db.session import check_db_connection, get_database_url
 from src.shared.errors import AppError
+from src.shared.i18n import get_translator
 from src.shared.version import get_version_info
 from src.shared.security.auth import get_current_user_from_request
 from src.modules.reviews.schemas import CreateReviewRequest
@@ -67,6 +68,16 @@ STATIC_DIR = Path(__file__).parent / "static"
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
 
+def _detect_lang(request: Request) -> str:
+    lang = request.query_params.get("lang", "")
+    if lang in ("ru", "en"):
+        return lang
+    lang = request.cookies.get("lang", "")
+    if lang in ("ru", "en"):
+        return lang
+    return "ru"
+
+
 def _ctx(request: Request, **extra) -> dict:
     settings = get_settings()
     current_user = {"user_id": "system", "role": "admin", "display_name": "System", "is_active": True}
@@ -76,6 +87,8 @@ def _ctx(request: Request, **extra) -> dict:
         if settings.enable_auth:
             current_user = None
     version_info = get_version_info()
+    lang = _detect_lang(request)
+    tr = get_translator(lang)
     base = {
         "local_only": settings.local_only_mode,
         "cloud_blocked": not settings.allow_cloud_llm,
@@ -87,6 +100,8 @@ def _ctx(request: Request, **extra) -> dict:
         "current_user": current_user,
         "app_version": version_info["version"],
         "app_stage": version_info["stage"],
+        "lang": lang,
+        "t": tr.t,
     }
     base.update(extra)
     return base
@@ -98,6 +113,16 @@ def _render(request: Request, name: str, **context):
 
 def _error(request: Request, message: str):
     return templates.TemplateResponse(request, "error.html", _ctx(request, message=message))
+
+
+@router.get("/lang/{lang}", include_in_schema=False)
+def switch_lang(request: Request, lang: str, ref: str | None = None):
+    if lang not in ("ru", "en"):
+        lang = "ru"
+    redirect_to = ref or request.headers.get("referer", "/")
+    response = RedirectResponse(url=redirect_to, status_code=303)
+    response.set_cookie(key="lang", value=lang, max_age=365*24*3600, samesite="lax")
+    return response
 
 
 @router.get("/static/styles.css", include_in_schema=False)

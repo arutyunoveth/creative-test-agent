@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Users</h2>
-<a href="/ui/users/new"><button>New User</button></a>
+<h2>{{ t("Users") }}</h2>
+<a href="/ui/users/new"><button>{{ t("New User") }}</button></a>
 <table>
   <thead>
     <tr>
-      <th>Email</th>
-      <th>Name</th>
-      <th>Role</th>
-      <th>Active</th>
+      <th>{{ t("Email") }}</th>
+      <th>{{ t("Name") }}</th>
+      <th>{{ t("Role") }}</th>
+      <th>{{ t("Active") }}</th>
       <th></th>
     </tr>
   </thead>
@@ -19,7 +19,7 @@
       <td>{{ u.display_name }}</td>
       <td>{{ u.role }}</td>
       <td>{{ '✓' if u.is_active else '✗' }}</td>
-      <td><a href="/ui/users/{{ u.id }}">detail</a></td>
+      <td><a href="/ui/users/{{ u.id }}">{{ t("detail") }}</a></td>
     </tr>
   {% endfor %}
   </tbody>

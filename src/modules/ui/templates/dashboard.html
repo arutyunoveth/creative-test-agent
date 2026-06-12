@@ -1,86 +1,86 @@
 {% extends "base.html" %}
-{% block title %}Dashboard — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Dashboard") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
 <div class="page-header">
-  <h1>Dashboard</h1>
-  <span class="badge badge-completed">v{{ app_version }}</span>
+  <h1>{{ t("Dashboard") }}</h1>
+  <span class="badge badge-completed">{{ t("v") }}{{ app_version }}</span>
 </div>
 
 <div class="status-grid">
-  <div class="status-item"><div class="label">Closed-loop mode</div><div class="value">{{ 'ON' if local_only else 'OFF' }}</div></div>
-  <div class="status-item"><div class="label">Cloud LLMs</div><div class="value">{{ 'BLOCKED' if cloud_blocked else 'ALLOWED' }}</div></div>
-  <div class="status-item"><div class="label">Provider</div><div class="value">{{ provider }}</div></div>
-  <div class="status-item"><div class="label">Model</div><div class="value">{{ model or 'default' }}</div></div>
-  <div class="status-item"><div class="label">Storage</div><div class="value">{{ db_type }} — {{ 'connected' if db_connected else 'disconnected' }}</div></div>
-  <div class="status-item"><div class="label">Auth</div><div class="value">{{ 'ENABLED' if auth_enabled else 'DISABLED' }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Closed-loop mode") }}</div><div class="value">{{ t("ON") if local_only else t("OFF") }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Cloud LLMs") }}</div><div class="value">{{ t("BLOCKED") if cloud_blocked else t("ALLOWED") }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Provider") }}</div><div class="value">{{ provider }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Model") }}</div><div class="value">{{ model or t("default") }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Storage") }}</div><div class="value">{{ db_type }} — {{ t("connected") if db_connected else t("disconnected") }}</div></div>
+  <div class="status-item"><div class="label">{{ t("Auth") }}</div><div class="value">{{ t("ENABLED") if auth_enabled else t("DISABLED") }}</div></div>
 </div>
 
 <div class="card">
-  <h2>Pilot Readiness</h2>
+  <h2>{{ t("Pilot Readiness") }}</h2>
   <div class="status-grid">
-    <div class="status-item"><div class="label">Closed-loop</div><div class="value"><span class="{% if local_only %}status-on{% else %}status-off{% endif %}">{{ 'PASS' if local_only else 'FAIL' }}</span></div></div>
-    <div class="status-item"><div class="label">Demo data</div><div class="value"><span class="{% if client_count > 0 %}status-on{% else %}status-off{% endif %}">{{ 'PASS' if client_count > 0 else 'FAIL' }}</span></div></div>
-    <div class="status-item"><div class="label">Server readiness</div><div class="value"><span class="{% if db_connected %}status-on{% else %}status-off{% endif %}">{{ 'PASS' if db_connected else 'FAIL' }}</span></div></div>
-    <div class="status-item"><div class="label">Backup script</div><div class="value"><span class="status-on">available</span></div></div>
-    <div class="status-item"><div class="label">Client pack</div><div class="value"><span class="status-on">available</span></div></div>
+    <div class="status-item"><div class="label">{{ t("Closed-loop") }}</div><div class="value"><span class="{% if local_only %}status-on{% else %}status-off{% endif %}">{{ t("PASS") if local_only else t("FAIL") }}</span></div></div>
+    <div class="status-item"><div class="label">{{ t("Demo data") }}</div><div class="value"><span class="{% if client_count > 0 %}status-on{% else %}status-off{% endif %}">{{ t("PASS") if client_count > 0 else t("FAIL") }}</span></div></div>
+    <div class="status-item"><div class="label">{{ t("Server readiness") }}</div><div class="value"><span class="{% if db_connected %}status-on{% else %}status-off{% endif %}">{{ t("PASS") if db_connected else t("FAIL") }}</span></div></div>
+    <div class="status-item"><div class="label">{{ t("Backup script") }}</div><div class="value"><span class="status-on">{{ t("available") }}</span></div></div>
+    <div class="status-item"><div class="label">{{ t("Client pack") }}</div><div class="value"><span class="status-on">{{ t("available") }}</span></div></div>
   </div>
 </div>
 
 <div class="card">
-  <h2>Quick Actions</h2>
+  <h2>{{ t("Quick Actions") }}</h2>
   <div class="btn-group">
-    <a href="/ui/demo" class="btn btn-primary">Start Guided Demo</a>
-    <a href="/ui/projects" class="btn btn-secondary">Open Projects</a>
-    <a href="/ui/admin/maintenance" class="btn btn-secondary">Maintenance</a>
-    <a href="/ui/evaluations/run" class="btn btn-secondary">Run Evaluation</a>
+    <a href="/ui/demo" class="btn btn-primary">{{ t("Start Guided Demo") }}</a>
+    <a href="/ui/projects" class="btn btn-secondary">{{ t("Open Projects") }}</a>
+    <a href="/ui/admin/maintenance" class="btn btn-secondary">{{ t("Maintenance") }}</a>
+    <a href="/ui/evaluations/run" class="btn btn-secondary">{{ t("Run Evaluation") }}</a>
   </div>
 </div>
 
 <div class="dashboard-grid">
   <a href="/ui/clients" style="text-decoration:none;color:inherit;">
-    <div class="dashboard-card"><h3>Clients</h3><div class="count">{{ client_count }}</div></div>
+    <div class="dashboard-card"><h3>{{ t("Clients") }}</h3><div class="count">{{ client_count }}</div></div>
   </a>
   <a href="/ui/projects" style="text-decoration:none;color:inherit;">
-    <div class="dashboard-card"><h3>Projects</h3><div class="count">{{ project_count }}</div></div>
+    <div class="dashboard-card"><h3>{{ t("Projects") }}</h3><div class="count">{{ project_count }}</div></div>
   </a>
   <a href="/ui/creative-assets" style="text-decoration:none;color:inherit;">
-    <div class="dashboard-card"><h3>Creative Assets</h3><div class="count">{{ asset_count }}</div></div>
+    <div class="dashboard-card"><h3>{{ t("Creative Assets") }}</h3><div class="count">{{ asset_count }}</div></div>
   </a>
   <a href="/ui/brand-profiles" style="text-decoration:none;color:inherit;">
-    <div class="dashboard-card"><h3>Brand Profiles</h3><div class="count">{{ brand_count }}</div></div>
+    <div class="dashboard-card"><h3>{{ t("Brand Profiles") }}</h3><div class="count">{{ brand_count }}</div></div>
   </a>
   <a href="/ui/audience-profiles" style="text-decoration:none;color:inherit;">
-    <div class="dashboard-card"><h3>Audience Profiles</h3><div class="count">{{ audience_count }}</div></div>
+    <div class="dashboard-card"><h3>{{ t("Audience Profiles") }}</h3><div class="count">{{ audience_count }}</div></div>
   </a>
   <a href="/ui/test-runs" style="text-decoration:none;color:inherit;">
-    <div class="dashboard-card"><h3>Test Runs</h3><div class="count">{{ run_count }}</div></div>
+    <div class="dashboard-card"><h3>{{ t("Test Runs") }}</h3><div class="count">{{ run_count }}</div></div>
   </a>
   <a href="/ui/brandbooks" style="text-decoration:none;color:inherit;">
-    <div class="dashboard-card"><h3>Brandbooks</h3><div class="count">{{ brandbook_count }}</div></div>
+    <div class="dashboard-card"><h3>{{ t("Brandbooks") }}</h3><div class="count">{{ brandbook_count }}</div></div>
   </a>
   <a href="/ui/knowledge-base" style="text-decoration:none;color:inherit;">
-    <div class="dashboard-card"><h3>Knowledge Items</h3><div class="count">{{ knowledge_count }}</div></div>
+    <div class="dashboard-card"><h3>{{ t("Knowledge Items") }}</h3><div class="count">{{ knowledge_count }}</div></div>
   </a>
 </div>
 
 {% if recent_runs %}
 <div class="card">
-  <h2>Recent Test Runs</h2>
+  <h2>{{ t("Recent Test Runs") }}</h2>
   <table>
-    <tr><th>ID</th><th>Status</th><th>Created</th><th></th></tr>
+    <tr><th>{{ t("ID") }}</th><th>{{ t("Status") }}</th><th>{{ t("Created") }}</th><th></th></tr>
     {% for run in recent_runs %}
     <tr>
       <td>{{ run.id[:12] }}...</td>
       <td><span class="badge badge-{{ run.status }}">{{ run.status }}</span></td>
       <td>{{ run.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-      <td><a href="/ui/test-runs/{{ run.id }}" class="btn btn-secondary btn-sm">View</a></td>
+      <td><a href="/ui/test-runs/{{ run.id }}" class="btn btn-secondary btn-sm">{{ t("View") }}</a></td>
     </tr>
     {% endfor %}
   </table>
 </div>
 {% endif %}
 
-<p><a href="/docs" target="_blank" style="font-size:0.9rem;">OpenAPI Documentation</a> &middot; <a href="/version" style="font-size:0.9rem;">Version Info</a></p>
+<p><a href="/docs" target="_blank" style="font-size:0.9rem;">{{ t("OpenAPI Documentation") }}</a> &middot; <a href="/version" style="font-size:0.9rem;">{{ t("Version Info") }}</a></p>
 
 {% endblock %}

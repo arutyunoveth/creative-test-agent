@@ -1,61 +1,61 @@
 {% extends "base.html" %}
-{% block title %}Asset Detail — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Asset Detail") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 <div class="breadcrumbs">
-  <a href="/ui">Dashboard</a> &gt; <a href="/ui/creative-assets">Assets</a> &gt; {{ asset.title }}
+  <a href="/ui">{{ t("Dashboard") }}</a> &gt; <a href="/ui/creative-assets">{{ t("Assets") }}</a> &gt; {{ asset.title }}
 </div>
-<div class="page-header"><h1>Creative Asset: {{ asset.title[:50] }}</h1></div>
+<div class="page-header"><h1>{{ t("Creative Asset") }}: {{ asset.title[:50] }}</h1></div>
 
 <div class="card">
   <div class="detail-grid">
-    <div class="detail-field"><span class="field-label">ID</span><div class="field-value">{{ asset.id }}</div></div>
-    <div class="detail-field"><span class="field-label">Type</span><div class="field-value">{{ asset.asset_type }}</div></div>
-    <div class="detail-field"><span class="field-label">Title</span><div class="field-value">{{ asset.title }}</div></div>
-    <div class="detail-field"><span class="field-label">Created</span><div class="field-value">{{ asset.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("ID") }}</span><div class="field-value">{{ asset.id }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Type") }}</span><div class="field-value">{{ asset.asset_type }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Title") }}</span><div class="field-value">{{ asset.title }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Created") }}</span><div class="field-value">{{ asset.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</div></div>
     {% if asset.original_filename %}
-    <div class="detail-field"><span class="field-label">Original File</span><div class="field-value">{{ asset.original_filename }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Original File") }}</span><div class="field-value">{{ asset.original_filename }}</div></div>
     {% endif %}
     {% if asset.mime_type %}
-    <div class="detail-field"><span class="field-label">MIME Type</span><div class="field-value">{{ asset.mime_type }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("MIME Type") }}</span><div class="field-value">{{ asset.mime_type }}</div></div>
     {% endif %}
     {% if asset.file_size_bytes %}
-    <div class="detail-field"><span class="field-label">File Size</span><div class="field-value">{{ asset.file_size_bytes }} bytes</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("File Size") }}</span><div class="field-value">{{ asset.file_size_bytes }} {{ t("bytes") }}</div></div>
     {% endif %}
     {% if asset.version_number %}
-    <div class="detail-field"><span class="field-label">Version</span><div class="field-value">v{{ asset.version_number }}{% if asset.version_label %} ({{ asset.version_label }}){% endif %}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Version") }}</span><div class="field-value">v{{ asset.version_number }}{% if asset.version_label %} ({{ asset.version_label }}){% endif %}</div></div>
     {% endif %}
     {% if asset.revision_source %}
-    <div class="detail-field"><span class="field-label">Revision Source</span><div class="field-value">{{ asset.revision_source }}</div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Revision Source") }}</span><div class="field-value">{{ asset.revision_source }}</div></div>
     {% endif %}
     {% if asset.parent_asset_id %}
-    <div class="detail-field"><span class="field-label">Parent Asset</span><div class="field-value"><a href="/ui/creative-assets/{{ asset.parent_asset_id }}">{{ asset.parent_asset_id[:8] }}...</a></div></div>
+    <div class="detail-field"><span class="field-label">{{ t("Parent Asset") }}</span><div class="field-value"><a href="/ui/creative-assets/{{ asset.parent_asset_id }}">{{ asset.parent_asset_id[:8] }}...</a></div></div>
     {% endif %}
   </div>
 
   {% if asset.revision_summary %}
   <div class="detail-section">
-    <h3>Revision Summary</h3>
+    <h3>{{ t("Revision Summary") }}</h3>
     <div class="metadata">{{ asset.revision_summary }}</div>
   </div>
   {% endif %}
 
   {% if asset.text_content %}
   <div class="detail-section">
-    <h3>Text Content</h3>
+    <h3>{{ t("Text Content") }}</h3>
     <div class="metadata">{{ asset.text_content }}</div>
   </div>
   {% endif %}
 
   {% if asset.extracted_text %}
   <div class="detail-section">
-    <h3>Extracted Text</h3>
-    <div class="metadata">{{ asset.extracted_text[:2000] }}{% if asset.extracted_text|length > 2000 %}... (truncated){% endif %}</div>
+    <h3>{{ t("Extracted Text") }}</h3>
+    <div class="metadata">{{ asset.extracted_text[:2000] }}{% if asset.extracted_text|length > 2000 %}... {{ t("(truncated)") }}{% endif %}</div>
   </div>
   {% endif %}
 
   {% if asset.metadata %}
   <div class="detail-section">
-    <h3>Metadata</h3>
+    <h3>{{ t("Metadata") }}</h3>
     <div class="metadata">{{ asset.metadata | tojson(indent=2) }}</div>
   </div>
   {% endif %}
@@ -64,14 +64,14 @@
   {% set va = asset.metadata.get("visual_analysis", {}) %}
   {% if va %}
   <div class="detail-section">
-    <h3>Visual Analysis</h3>
+    <h3>{{ t("Visual Analysis") }}</h3>
     <div class="metadata">
-      <strong>Provider:</strong> {{ va.get("provider", "N/A") }}<br>
-      {% if va.get("visual_summary") %}<strong>Visual Summary:</strong> {{ va["visual_summary"] }}<br>{% endif %}
-      {% if va.get("detected_text") %}<strong>Detected Text:</strong> {{ va["detected_text"][:500] }}{% if va["detected_text"]|length > 500 %}... (truncated){% endif %}<br>{% endif %}
-      {% if va.get("layout_notes") %}<strong>Layout Notes:</strong><ul>{% for note in va["layout_notes"] %}<li>{{ note }}</li>{% endfor %}</ul>{% endif %}
-      {% if va.get("visual_risks") %}<strong>Visual Risks:</strong><ul>{% for r in va["visual_risks"] %}<li>[{{ r.get("level", "unknown")|upper }}] {{ r.get("description", "") }}</li>{% endfor %}</ul>{% endif %}
-      {% if va.get("warnings") %}<strong>Warnings:</strong> {{ va["warnings"] | join(", ") }}{% endif %}
+      <strong>{{ t("Provider") }}:</strong> {{ va.get("provider", t("N/A")) }}<br>
+      {% if va.get("visual_summary") %}<strong>{{ t("Visual Summary") }}:</strong> {{ va["visual_summary"] }}<br>{% endif %}
+      {% if va.get("detected_text") %}<strong>{{ t("Detected Text") }}:</strong> {{ va["detected_text"][:500] }}{% if va["detected_text"]|length > 500 %}... {{ t("(truncated)") }}{% endif %}<br>{% endif %}
+      {% if va.get("layout_notes") %}<strong>{{ t("Layout Notes") }}:</strong><ul>{% for note in va["layout_notes"] %}<li>{{ note }}</li>{% endfor %}</ul>{% endif %}
+      {% if va.get("visual_risks") %}<strong>{{ t("Visual Risks") }}:</strong><ul>{% for r in va["visual_risks"] %}<li>[{{ r.get("level", t("unknown"))|upper }}] {{ r.get("description", "") }}</li>{% endfor %}</ul>{% endif %}
+      {% if va.get("warnings") %}<strong>{{ t("Warnings") }}:</strong> {{ va["warnings"] | join(", ") }}{% endif %}
     </div>
   </div>
   {% endif %}
@@ -79,56 +79,56 @@
 
   {% if asset.asset_type == "image" and asset.file_path %}
   <div class="detail-section">
-    <h3>Image Preview</h3>
+    <h3>{{ t("Image Preview") }}</h3>
     <img src="/creative-assets/{{ asset.id }}/image" alt="{{ asset.title }}" style="max-width:100%; border:1px solid #ddd; border-radius:4px;" />
   </div>
   {% endif %}
 </div>
 
 <div class="card" style="margin-top: 1rem;">
-  <h2>Versions</h2>
-  <div id="version-list">Loading versions...</div>
+  <h2>{{ t("Versions") }}</h2>
+  <div id="version-list">{{ t("Loading versions...") }}</div>
   <details style="margin-top:0.5rem;">
-    <summary>Create New Version</summary>
+    <summary>{{ t("Create New Version") }}</summary>
     <form id="create-version-form" style="margin-top:0.5rem;">
       <div class="form-field">
-        <label>Version Label</label>
-        <input type="text" name="version_label" placeholder="e.g. Revised, Final" />
+        <label>{{ t("Version Label") }}</label>
+        <input type="text" name="version_label" placeholder='{{ t("e.g. Revised, Final") }}' />
       </div>
       <div class="form-field">
-        <label>Revision Summary</label>
-        <textarea name="revision_summary" rows="3" placeholder="What changed in this version?"></textarea>
+        <label>{{ t("Revision Summary") }}</label>
+        <textarea name="revision_summary" rows="3" placeholder='{{ t("What changed in this version?") }}'></textarea>
       </div>
       <div class="form-field">
-        <label>New Title (optional)</label>
-        <input type="text" name="title" placeholder="Leave blank to keep current title" />
+        <label>{{ t("New Title (optional)") }}</label>
+        <input type="text" name="title" placeholder='{{ t("Leave blank to keep current title") }}' />
       </div>
       <div class="form-field">
-        <label>Updated Text Content (optional)</label>
-        <textarea name="text_content" rows="5" placeholder="Updated content for this version"></textarea>
+        <label>{{ t("Updated Text Content (optional)") }}</label>
+        <textarea name="text_content" rows="5" placeholder='{{ t("Updated content for this version") }}'></textarea>
       </div>
       <div class="form-field">
-        <label>Revision Source</label>
+        <label>{{ t("Revision Source") }}</label>
         <select name="revision_source">
-          <option value="manual_revision">Manual Revision</option>
-          <option value="report_recommendation">Report Recommendation</option>
-          <option value="client_feedback">Client Feedback</option>
-          <option value="imported">Imported</option>
+          <option value="manual_revision">{{ t("Manual Revision") }}</option>
+          <option value="report_recommendation">{{ t("Report Recommendation") }}</option>
+          <option value="client_feedback">{{ t("Client Feedback") }}</option>
+          <option value="imported">{{ t("Imported") }}</option>
         </select>
       </div>
       <div class="form-field">
-        <label>Metadata JSON (optional)</label>
-        <textarea name="metadata" rows="3" placeholder='{"key": "value"}'></textarea>
+        <label>{{ t("Metadata JSON (optional)") }}</label>
+        <textarea name="metadata" rows="3" placeholder='{{ t('{"key": "value"}') }}'></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Create Version</button>
+      <button type="submit" class="btn btn-primary">{{ t("Create Version") }}</button>
     </form>
   </details>
 </div>
 
 <div class="card" style="margin-top: 1rem;">
-  <h2>Reviews</h2>
-  <div id="review-list">Loading reviews...</div>
-  <a href="/ui/reviews/new?asset_id={{ asset.id }}" class="btn btn-secondary" style="margin-top:0.5rem;">New Review</a>
+  <h2>{{ t("Reviews") }}</h2>
+  <div id="review-list">{{ t("Loading reviews...") }}</div>
+  <a href="/ui/reviews/new?asset_id={{ asset.id }}" class="btn btn-secondary" style="margin-top:0.5rem;">{{ t("New Review") }}</a>
 </div>
 
 <script>
@@ -138,18 +138,18 @@ async function loadVersions() {
     const versions = await resp.json();
     const container = document.getElementById('version-list');
     if (versions.length === 0) {
-      container.innerHTML = '<p>No versions found.</p>';
+      container.innerHTML = '<p>{{ t("No versions found.") }}</p>';
       return;
     }
-    let html = '<table><tr><th>#</th><th>Label</th><th>Source</th><th>Summary</th><th>Created</th><th></th></tr>';
+    let html = '<table><tr><th>#</th><th>{{ t("Label") }}</th><th>{{ t("Source") }}</th><th>{{ t("Summary") }}</th><th>{{ t("Created") }}</th><th></th></tr>';
     for (const v of versions) {
-      const link = v.id === '{{ asset.id }}' ? 'Current' : `<a href="/ui/creative-assets/${v.id}">View</a>`;
+      const link = v.id === '{{ asset.id }}' ? '{{ t("Current") }}' : '<a href="/ui/creative-assets/${v.id}">{{ t("View") }}</a>';
       html += `<tr><td>${v.version_number || '-'}</td><td>${v.version_label || '-'}</td><td>${v.revision_source || '-'}</td><td>${(v.revision_summary || '').substring(0, 60)}</td><td>${v.created_at ? new Date(v.created_at).toLocaleDateString() : '-'}</td><td>${link}</td></tr>`;
     }
     html += '</table>';
     container.innerHTML = html;
   } catch (e) {
-    document.getElementById('version-list').innerHTML = '<p>Error loading versions.</p>';
+    document.getElementById('version-list').innerHTML = '<p>{{ t("Error loading versions.") }}</p>';
   }
 }
 
@@ -159,17 +159,17 @@ async function loadReviews() {
     const reviews = await resp.json();
     const container = document.getElementById('review-list');
     if (reviews.length === 0) {
-      container.innerHTML = '<p>No reviews yet.</p>';
+      container.innerHTML = '<p>{{ t("No reviews yet.") }}</p>';
       return;
     }
-    let html = '<table><tr><th>Reviewer</th><th>Status</th><th>Decision</th><th>Rating</th><th>Created</th><th></th></tr>';
+    let html = '<table><tr><th>{{ t("Reviewer") }}</th><th>{{ t("Status") }}</th><th>{{ t("Decision") }}</th><th>{{ t("Rating") }}</th><th>{{ t("Created") }}</th><th></th></tr>';
     for (const r of reviews) {
-      html += `<tr><td>${r.reviewer}</td><td>${r.status}</td><td>${r.decision || '-'}</td><td>${r.rating || '-'}</td><td>${new Date(r.created_at).toLocaleDateString()}</td><td><a href="/ui/reviews/${r.id}" class="btn btn-secondary btn-sm">View</a></td></tr>`;
+      html += `<tr><td>${r.reviewer}</td><td>${r.status}</td><td>${r.decision || '-'}</td><td>${r.rating || '-'}</td><td>${new Date(r.created_at).toLocaleDateString()}</td><td><a href="/ui/reviews/${r.id}" class="btn btn-secondary btn-sm">{{ t("View") }}</a></td></tr>`;
     }
     html += '</table>';
     container.innerHTML = html;
   } catch (e) {
-    document.getElementById('review-list').innerHTML = '<p>Error loading reviews.</p>';
+    document.getElementById('review-list').innerHTML = '<p>{{ t("Error loading reviews.") }}</p>';
   }
 }
 
@@ -198,7 +198,7 @@ document.getElementById('create-version-form').addEventListener('submit', async 
     window.location.reload();
   } else {
     const err = await resp.json();
-    alert('Error: ' + (err.detail || 'Unknown error'));
+    alert('{{ t("Error") }}: ' + (err.detail || '{{ t("Unknown error") }}'));
   }
 });
 
@@ -207,9 +207,9 @@ loadReviews();
 </script>
 
 <div style="margin-top:1rem;">
-  <a href="/ui/creative-assets" class="btn btn-secondary">Back to Assets</a>
+  <a href="/ui/creative-assets" class="btn btn-secondary">{{ t("Back to Assets") }}</a>
   {% if asset.project_id %}
-  <a href="/ui/projects/{{ asset.project_id }}" class="btn btn-secondary">View Project</a>
+  <a href="/ui/projects/{{ asset.project_id }}" class="btn btn-secondary">{{ t("View Project") }}</a>
   {% endif %}
 </div>
 

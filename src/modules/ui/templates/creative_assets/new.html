@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}New Creative Asset — Creative Test Agent{% endblock %}
+{% block title %}{{ t("New Creative Asset") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
-<div class="page-header"><h1>New Creative Asset</h1></div>
+<div class="page-header"><h1>{{ t("New Creative Asset") }}</h1></div>
 
 {% if error %}
 <div class="alert alert-error">{{ error }}</div>
@@ -11,35 +11,35 @@
 <div class="card">
   <form method="post" action="/ui/creative-assets" enctype="multipart/form-data">
     <div class="form-group">
-      <label for="title">Title</label>
+      <label for="title">{{ t("Title") }}</label>
       <input type="text" name="title" id="title" required>
     </div>
     <div class="form-group">
-      <label for="asset_type">Type</label>
+      <label for="asset_type">{{ t("Type") }}</label>
       <select name="asset_type" id="asset_type" onchange="toggleTextContent()">
-        <option value="text">Text</option>
-        <option value="file">File upload</option>
+        <option value="text">{{ t("Text") }}</option>
+        <option value="file">{{ t("File upload") }}</option>
       </select>
     </div>
     <div class="form-group" id="text-content-group">
-      <label for="text_content">Text Content</label>
-      <textarea name="text_content" id="text_content" rows="6" placeholder="Paste your creative copy here..."></textarea>
+      <label for="text_content">{{ t("Text Content") }}</label>
+      <textarea name="text_content" id="text_content" rows="6" placeholder='{{ t("Paste your creative copy here...") }}'></textarea>
     </div>
     <div class="form-group" id="file-group" style="display:none;">
-      <label for="file">File</label>
+      <label for="file">{{ t("File") }}</label>
       <input type="file" name="file" id="file">
-      <div class="form-help">Accepted: txt, md, pdf, png, jpg, jpeg, webp</div>
+      <div class="form-help">{{ t("Accepted: txt, md, pdf, png, jpg, jpeg, webp") }}</div>
     </div>
     <div class="form-group">
-      <label for="project_id">Project ID (optional)</label>
-      <input type="text" name="project_id" id="project_id" placeholder="Link to project" value="{{ request.query_params.get('project_id', '') }}">
+      <label for="project_id">{{ t("Project ID (optional)") }}</label>
+      <input type="text" name="project_id" id="project_id" placeholder='{{ t("Link to project") }}' value="{{ request.query_params.get('project_id', '') }}">
     </div>
     <div class="form-group">
-      <label for="metadata">Metadata (JSON, optional)</label>
-      <textarea name="metadata" id="metadata" rows="3" placeholder='{"key": "value"}'></textarea>
+      <label for="metadata">{{ t("Metadata (JSON, optional)") }}</label>
+      <textarea name="metadata" id="metadata" rows="3" placeholder='{{ t('{"key": "value"}') }}'></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a href="/ui/creative-assets" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">{{ t("Create") }}</button>
+    <a href="/ui/creative-assets" class="btn btn-secondary">{{ t("Cancel") }}</a>
   </form>
 </div>
 

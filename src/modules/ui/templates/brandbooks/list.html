@@ -1,30 +1,30 @@
 {% extends "base.html" %}
-{% block title %}Brandbooks — Creative Test Agent{% endblock %}
+{% block title %}{{ t("Brandbooks") }} — {{ t("Creative Test Agent") }}{% endblock %}
 {% block content %}
 
 <div class="page-header">
-  <h1>Brandbook Documents</h1>
-  <a href="/ui/brandbooks/new" class="btn btn-primary">Upload Brandbook</a>
+  <h1>{{ t("Brandbook Documents") }}</h1>
+  <a href="/ui/brandbooks/new" class="btn btn-primary">{{ t("Upload Brandbook") }}</a>
 </div>
 
 {% if docs %}
 <table>
-  <tr><th>Title</th><th>Type</th><th>Created</th><th></th></tr>
+  <tr><th>{{ t("Title") }}</th><th>{{ t("Type") }}</th><th>{{ t("Created") }}</th><th></th></tr>
   {% for d in docs %}
   <tr>
     <td>{{ d.title }}</td>
     <td>{{ d.document_type }}</td>
     <td>{{ d.created_at.strftime('%Y-%m-%d') }}</td>
-    <td><a href="/ui/brandbooks/{{ d.id }}" class="btn btn-secondary btn-sm">View</a></td>
+    <td><a href="/ui/brandbooks/{{ d.id }}" class="btn btn-secondary btn-sm">{{ t("View") }}</a></td>
   </tr>
   {% endfor %}
 </table>
 {% else %}
 <div class="card empty-state">
-  <h3>No brandbooks yet</h3>
-  <p>Brandbooks contain brand guidelines, tone of voice, and compliance rules used to evaluate creative assets.</p>
-  <p><strong>Next step:</strong> Upload a brandbook document and ingest it.</p>
-  <a href="/ui/brandbooks/new" class="btn btn-primary">Upload Brandbook</a>
+  <h3>{{ t("No brandbooks yet") }}</h3>
+  <p>{{ t("Brandbooks contain brand guidelines, tone of voice, and compliance rules used to evaluate creative assets.") }}</p>
+  <p><strong>{{ t("Next step:") }}</strong> {{ t("Upload a brandbook document and ingest it.") }}</p>
+  <a href="/ui/brandbooks/new" class="btn btn-primary">{{ t("Upload Brandbook") }}</a>
 </div>
 {% endif %}
 

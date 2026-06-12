@@ -1,47 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang }}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{% block title %}Creative Test Agent{% endblock %}</title>
+<title>{% block title %}{{ t("Creative Test Agent") }}{% endblock %}</title>
 <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
 
 <div class="status-banner">
   {% if current_user %}
-  <span>User: <strong>{{ current_user.display_name }}</strong> ({{ current_user.role }})</span>
-  <span>Auth: <span class="{% if auth_enabled %}status-on{% else %}status-off{% endif %}">{{ 'ENABLED' if auth_enabled else 'DISABLED' }}</span></span>
+  <span>{{ t("User:") }} <strong>{{ current_user.display_name }}</strong> ({{ current_user.role }})</span>
+  <span>{{ t("Auth:") }} <span class="{% if auth_enabled %}status-on{% else %}status-off{% endif %}">{{ t("ENABLED") if auth_enabled else t("DISABLED") }}</span></span>
   {% endif %}
-  <span>Closed-loop: <span class="{% if local_only %}status-on{% else %}status-off{% endif %}">{{ 'ON' if local_only else 'OFF' }}</span></span>
-  <span>Cloud LLMs: <span class="{% if cloud_blocked %}status-blocked{% else %}status-allowed{% endif %}">{{ 'BLOCKED' if cloud_blocked else 'ALLOWED' }}</span></span>
-  <span>Provider: <strong>{{ provider }}</strong></span>
-  {% if model %}<span>Model: {{ model }}</span>{% endif %}
+  <span>{{ t("Closed-loop:") }} <span class="{% if local_only %}status-on{% else %}status-off{% endif %}">{{ t("ON") if local_only else t("OFF") }}</span></span>
+  <span>{{ t("Cloud LLMs:") }} <span class="{% if cloud_blocked %}status-blocked{% else %}status-allowed{% endif %}">{{ t("BLOCKED") if cloud_blocked else t("ALLOWED") }}</span></span>
+  <span>{{ t("Provider:") }} <strong>{{ provider }}</strong></span>
+  {% if model %}<span>{{ t("Model:") }} {{ model }}</span>{% endif %}
+  <span class="lang-switch">
+    <a href="/lang/ru?ref={{ request.url.path }}" class="{% if lang == 'ru' %}lang-active{% endif %}">RU</a>
+    <a href="/lang/en?ref={{ request.url.path }}" class="{% if lang == 'en' %}lang-active{% endif %}">EN</a>
+  </span>
 </div>
 
 <nav>
-  <span class="brand">Creative Test Agent</span>
-  <a href="/ui">Dashboard</a>
-  <a href="/ui/clients">Clients</a>
-  <a href="/ui/projects">Projects</a>
-  <a href="/ui/creative-assets">Assets</a>
-  <a href="/ui/brand-profiles">Brands</a>
-  <a href="/ui/brandbooks">Brandbooks</a>
-  <a href="/ui/audience-profiles">Audiences</a>
-  <a href="/ui/test-runs">Test Runs</a>
-  <a href="/ui/knowledge-base">Knowledge</a>
-  <a href="/ui/reviews">Reviews</a>
-  <a href="/ui/demo">Demo</a>
-  <a href="/ui/batches">Batches</a>
-  <a href="/ui/exports">Exports</a>
-  <a href="/ui/compare">Compare</a>
-  <a href="/ui/admin/maintenance">Maintenance</a>
+  <span class="brand">{{ t("Creative Test Agent") }}</span>
+  <a href="/ui">{{ t("Dashboard") }}</a>
+  <a href="/ui/clients">{{ t("Clients") }}</a>
+  <a href="/ui/projects">{{ t("Projects") }}</a>
+  <a href="/ui/creative-assets">{{ t("Assets") }}</a>
+  <a href="/ui/brand-profiles">{{ t("Brands") }}</a>
+  <a href="/ui/brandbooks">{{ t("Brandbooks") }}</a>
+  <a href="/ui/audience-profiles">{{ t("Audiences") }}</a>
+  <a href="/ui/test-runs">{{ t("Test Runs") }}</a>
+  <a href="/ui/knowledge-base">{{ t("Knowledge") }}</a>
+  <a href="/ui/reviews">{{ t("Reviews") }}</a>
+  <a href="/ui/demo">{{ t("Demo") }}</a>
+  <a href="/ui/batches">{{ t("Batches") }}</a>
+  <a href="/ui/exports">{{ t("Exports") }}</a>
+  <a href="/ui/compare">{{ t("Compare") }}</a>
+  <a href="/ui/admin/maintenance">{{ t("Maintenance") }}</a>
   {% if current_user and current_user.role == 'admin' %}
-  <a href="/ui/users">Users</a>
+  <a href="/ui/users">{{ t("Users") }}</a>
   {% endif %}
   {% if auth_enabled %}
   <form method="POST" action="/ui/logout" style="display:inline;">
-    <button type="submit" style="background:none;border:none;cursor:pointer;color:#e53935;">Logout</button>
+    <button type="submit" style="background:none;border:none;cursor:pointer;color:#e53935;">{{ t("Logout") }}</button>
   </form>
   {% endif %}
 </nav>
@@ -50,6 +54,6 @@
 {% block content %}{% endblock %}
 </div>
 
-<footer>Creative Test Agent v{{ app_version }} ({{ app_stage }}) &mdash; local-first, closed-loop creative pre-testing</footer>
+<footer>{{ t("Creative Test Agent") }} v{{ app_version }} ({{ app_stage }}) &mdash; {{ t("local-first, closed-loop creative pre-testing") }}</footer>
 </body>
 </html>
