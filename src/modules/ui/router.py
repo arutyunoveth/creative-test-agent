@@ -130,6 +130,11 @@ def serve_css():
     return FileResponse(str(STATIC_DIR / "styles.css"), media_type="text/css")
 
 
+@router.get("/static/logo.svg", include_in_schema=False)
+def serve_logo():
+    return FileResponse(str(STATIC_DIR / "logo.svg"), media_type="image/svg+xml")
+
+
 @router.get("/", include_in_schema=False)
 @router.get("/ui", include_in_schema=False)
 def dashboard(request: Request):

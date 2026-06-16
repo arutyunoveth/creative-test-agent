@@ -24,7 +24,7 @@
 </div>
 
 <nav>
-  <span class="brand">{{ t("Creative Test Agent") }}</span>
+  <span class="brand"><img src="/static/logo.svg" alt="Arvectum" style="height:20px; vertical-align:middle;"> {{ t("Creative Test Agent") }}</span>
   <a href="/ui">{{ t("Dashboard") }}</a>
   <a href="/ui/clients">{{ t("Clients") }}</a>
   <a href="/ui/projects">{{ t("Projects") }}</a>
@@ -54,6 +54,13 @@
 {% block content %}{% endblock %}
 </div>
 
-<footer>{{ t("Creative Test Agent") }} v{{ app_version }} ({{ app_stage }}) &mdash; {{ t("local-first, closed-loop creative pre-testing") }}</footer>
+<footer>
+  <span class="arvectum-footer">
+    <a href="https://arvectum.com" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:inline-flex; align-items:center; gap:0.4rem;">
+      <img src="/static/logo.svg" alt="Arvectum" style="height:14px; vertical-align:middle;">
+      {{ t("Создано в Arvectum") }}
+    </a>
+  </span>
+</footer>
 </body>
 </html>
