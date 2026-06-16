@@ -619,6 +619,25 @@ def ui_brandbooks_ingest(request: Request, doc_id: str):
     return _render(request, "brandbooks/detail.html", doc=doc, ingest_result={"chunks_created": result})
 
 
+@router.post("/ui/brandbooks/{doc_id}/analyze", include_in_schema=False)
+def ui_brandbooks_analyze(request: Request, doc_id: str):
+    from src.modules.brandbooks.service import get_brandbook, analyze_brandbook
+
+    doc = get_brandbook(doc_id)
+    if doc is None:
+        return _error(request, f"Brandbook not found: {doc_id}")
+
+    try:
+        analysis = analyze_brandbook(doc_id)
+        doc = get_brandbook(doc_id)
+    except ValueError as e:
+        return _render(request, "brandbooks/detail.html", doc=doc, error=str(e))
+    except Exception as e:
+        return _render(request, "brandbooks/detail.html", doc=doc, error=f"LLM error: {e}")
+
+    return _render(request, "brandbooks/detail.html", doc=doc, analysis=analysis)
+
+
 # ── Reviews ─────────────────────────────────────────────────────────
 
 @router.get("/ui/reviews", include_in_schema=False)

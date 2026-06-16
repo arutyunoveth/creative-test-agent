@@ -8,6 +8,88 @@
 <div class="alert alert-error">{{ error }}</div>
 {% endif %}
 
+{% set a = analysis or doc.analysis %}
+{% if a %}
+<div class="card">
+  <h2>{{ t("LLM Analysis") }}</h2>
+  {% if a.brand_name %}
+  <div class="status-grid">
+    <div class="status-item"><div class="label">{{ t("Brand") }}</div><div class="value">{{ a.brand_name }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Tone") }}</div><div class="value">{{ a.tone_of_voice }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Audience") }}</div><div class="value">{{ a.target_audience }}</div></div>
+    <div class="status-item"><div class="label">{{ t("Positioning") }}</div><div class="value">{{ a.positioning }}</div></div>
+  </div>
+  {% endif %}
+
+  {% if a.brand_summary %}
+  <div class="detail-section">
+    <h3>{{ t("Summary") }}</h3>
+    <p>{{ a.brand_summary }}</p>
+  </div>
+  {% endif %}
+
+  {% if a.key_messages %}
+  <div class="detail-section">
+    <h3>{{ t("Key Messages") }}</h3>
+    <ul>{% for msg in a.key_messages %}<li>{{ msg }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  {% if a.compliance_rules %}
+  <div class="detail-section">
+    <h3>{{ t("Compliance Rules") }}</h3>
+    <ul>{% for rule in a.compliance_rules %}<li>{{ rule }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  {% if a.restrictions %}
+  <div class="detail-section">
+    <h3>{{ t("Restrictions") }}</h3>
+    <ul>{% for r in a.restrictions %}<li>{{ r }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  {% if a.strengths %}
+  <div class="detail-section">
+    <h3>{{ t("Strengths") }}</h3>
+    <ul>{% for s in a.strengths %}<li>{{ s }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  {% if a.weaknesses %}
+  <div class="detail-section">
+    <h3>{{ t("Weaknesses") }}</h3>
+    <ul>{% for w in a.weaknesses %}<li>{{ w }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  {% if a.recommendations %}
+  <div class="detail-section">
+    <h3>{{ t("Recommendations") }}</h3>
+    <ul>{% for r in a.recommendations %}<li>{{ r }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  {% if a.visual_identity %}
+  <div class="detail-section">
+    <h3>{{ t("Visual Identity") }}</h3>
+    <p>{{ a.visual_identity }}</p>
+  </div>
+  {% endif %}
+
+  {% if a.brand_values %}
+  <div class="detail-section">
+    <h3>{{ t("Brand Values") }}</h3>
+    <ul>{% for v in a.brand_values %}<li>{{ v }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  {% if a.parse_error %}
+  <div class="alert alert-info"><pre>{{ a.raw_response }}</pre></div>
+  {% endif %}
+</div>
+{% endif %}
+
 <div class="card">
   <div class="detail-grid">
     <div class="detail-field"><span class="field-label">{{ t("ID") }}</span><div class="field-value">{{ doc.id }}</div></div>
@@ -34,6 +116,9 @@
 </div>
 
 <div class="btn-group">
+  <form method="POST" action="/ui/brandbooks/{{ doc.id }}/analyze" style="display:inline;">
+    <button type="submit" class="btn btn-primary">{{ t("Analyze with LLM") }}</button>
+  </form>
   <form method="POST" action="/ui/brandbooks/{{ doc.id }}/ingest" style="display:inline;">
     <button type="submit" class="btn btn-success">{{ t("Ingest to Knowledge Base") }}</button>
   </form>

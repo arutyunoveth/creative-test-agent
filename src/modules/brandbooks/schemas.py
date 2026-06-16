@@ -15,6 +15,7 @@ class BrandbookDocumentResponse(BaseModel):
     text_content: str | None = None
     extracted_text: str | None = None
     file_path: str | None = None
+    analysis: dict | None = None
     metadata: dict = {}
     created_at: datetime
     updated_at: datetime | None = None

@@ -1,5 +1,8 @@
 import os
 
+import json as _json
+
+from src.shared.config.settings import get_settings
 from src.shared.db.repository import db_session, json_dumps, json_loads
 
 from .models import BrandbookDocument
@@ -97,7 +100,72 @@ def _to_response(doc: BrandbookDocument) -> BrandbookDocumentResponse:
         title=doc.title,
         document_type=doc.document_type,
         text_content=doc.text_content or doc.extracted_text,
+        extracted_text=doc.extracted_text,
+        file_path=doc.file_path,
+        analysis=json_loads(doc.analysis_json) if doc.analysis_json else None,
         metadata=json_loads(doc.metadata_json),
         created_at=doc.created_at,
         updated_at=doc.updated_at,
     )
+
+
+ANALYSIS_PROMPT = """You are a brand strategist and creative director. Analyze this brandbook document and provide a structured expert assessment.
+
+Brandbook text:
+---
+{brandbook_text}
+---
+
+Respond in valid JSON only (no markdown fences) with this exact structure:
+{{
+  "brand_name": "detected brand name or 'unknown'",
+  "brand_summary": "2-3 sentence summary of what this brand is about",
+  "tone_of_voice": "primary tone and communication style",
+  "target_audience": "who this brand speaks to",
+  "visual_identity": "visual style guidelines if mentioned",
+  "key_messages": ["list of core messages the brand communicates"],
+  "restrictions": ["list of things the brand forbids or restricts"],
+  "compliance_rules": ["specific rules creatives must follow"],
+  "brand_values": ["core brand values if mentioned"],
+  "positioning": "how the brand positions itself vs competitors",
+  "strengths": ["brand strengths identified from the document"],
+  "weaknesses": ["gaps or weaknesses in the brandbook"],
+  "recommendations": ["actionable recommendations for creatives working with this brand"]
+}}"""
+
+
+def analyze_brandbook(doc_id: str) -> dict:
+    doc = get_brandbook(doc_id)
+    if doc is None:
+        raise ValueError(f"brandbook_not_found: {doc_id}")
+    text = doc.extracted_text or doc.text_content or ""
+    if not text.strip():
+        raise ValueError(f"brandbook_empty: {doc_id}")
+
+    from src.shared.llm.factory import get_llm_provider
+    provider = get_llm_provider()
+    prompt = ANALYSIS_PROMPT.format(brandbook_text=text[:12000])
+    result = provider.generate(prompt)
+    content = result.get("content", "")
+
+    analysis = {}
+    try:
+        content_clean = content.strip()
+        if content_clean.startswith("```"):
+            lines = content_clean.split("\n")
+            content_clean = "\n".join(lines[1:-1])
+        start = content_clean.find("{")
+        end = content_clean.rfind("}") + 1
+        if start != -1 and end > start:
+            content_clean = content_clean[start:end]
+        analysis = _json.loads(content_clean)
+    except _json.JSONDecodeError:
+        analysis = {"raw_response": content, "parse_error": "Could not parse LLM response as JSON"}
+
+    with db_session() as db:
+        db_doc = db.query(BrandbookDocument).filter(BrandbookDocument.id == doc_id).first()
+        if db_doc:
+            db_doc.analysis_json = _json.dumps(analysis, ensure_ascii=False)
+            db.flush()
+
+    return analysis

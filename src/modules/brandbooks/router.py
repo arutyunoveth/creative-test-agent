@@ -116,3 +116,14 @@ def get_brandbook_by_id(brandbook_id: str):
     if doc is None:
         raise HTTPException(status_code=404, detail="Brandbook document not found")
     return doc
+
+
+@router.post("/{brandbook_id}/analyze")
+def post_analyze_brandbook(brandbook_id: str):
+    from .service import analyze_brandbook
+    try:
+        result = analyze_brandbook(brandbook_id)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    write_audit_event("brandbook_analyzed", "brandbook_document", brandbook_id, {})
+    return result

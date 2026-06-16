@@ -706,5 +706,20 @@
   "demo.create_review.title": "Создать ревью",
   "demo.create_review.description": "Добавить ревью с решением, оценкой и обратной связью.",
   "demo.save_knowledge.title": "Сохранить в базу знаний",
-  "demo.save_knowledge.description": "Сохранить выводы и уроки в базу знаний."
+  "demo.save_knowledge.description": "Сохранить выводы и уроки в базу знаний.",
+  "LLM Analysis": "Анализ LLM",
+  "Brand": "Бренд",
+  "Tone": "Тон общения",
+  "Audience": "Аудитория",
+  "Positioning": "Позиционирование",
+  "Summary": "Резюме",
+  "Key Messages": "Ключевые сообщения",
+  "Compliance Rules": "Правила соответствия",
+  "Restrictions": "Ограничения",
+  "Strengths": "Сильные стороны",
+  "Weaknesses": "Слабые стороны",
+  "Recommendations": "Рекомендации",
+  "Visual Identity": "Визуальная идентичность",
+  "Brand Values": "Ценности бренда",
+  "Analyze with LLM": "Проанализировать через LLM"
 }
