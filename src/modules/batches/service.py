@@ -124,6 +124,7 @@ def queue_batch(batch_id: str) -> BatchRunResponse | None:
                     "test_rubric_id": batch.test_rubric_id,
                     "input_context": json_loads(batch.input_context_json) or {},
                 },
+                _db=db,
             )
             item.job_id = job.id
             db.flush()

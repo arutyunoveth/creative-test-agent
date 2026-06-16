@@ -35,7 +35,23 @@ def enqueue_job(
     payload: dict | None = None,
     priority: int = 0,
     max_attempts: int = 3,
+    _db=None,
 ) -> JobResponse:
+    if _db is not None:
+        job = Job(
+            job_type=job_type,
+            status="queued",
+            priority=priority,
+            entity_type=entity_type,
+            entity_id=entity_id,
+            project_id=project_id,
+            payload_json=json_dumps(payload or {}),
+            max_attempts=max_attempts,
+        )
+        _db.add(job)
+        _db.flush()
+        _db.refresh(job)
+        return _to_response(job)
     with db_session() as db:
         job = Job(
             job_type=job_type,

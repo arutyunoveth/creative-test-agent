@@ -1,6 +1,6 @@
 import re
 
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, event, text
 from sqlalchemy.orm import Session, sessionmaker
 
 from src.shared.config.settings import get_settings
@@ -13,7 +13,23 @@ def get_engine():
     global _engine
     if _engine is None:
         settings = get_settings()
-        _engine = create_engine(settings.database_url, echo=settings.debug, connect_args={"check_same_thread": False})
+        _engine = create_engine(
+            settings.database_url,
+            echo=settings.debug,
+            connect_args={"check_same_thread": False},
+            pool_pre_ping=True,
+        )
+        if settings.database_url.startswith("sqlite"):
+            @event.listens_for(_engine, "connect")
+            def _set_sqlite_pragma(dbapi_conn, _):
+                cursor = dbapi_conn.cursor()
+                cursor.execute("PRAGMA journal_mode=WAL")
+                cursor.execute("PRAGMA busy_timeout=30000")
+                cursor.close()
+            with _engine.connect() as conn:
+                conn.execute(text("PRAGMA journal_mode=WAL"))
+                conn.execute(text("PRAGMA busy_timeout=30000"))
+                conn.commit()
     return _engine
 
 
