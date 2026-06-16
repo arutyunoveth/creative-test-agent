@@ -15,16 +15,16 @@ from src.modules.audit_log.service import write_audit_event
 router = APIRouter()
 
 DEMO_STEPS = [
-    {"id": "load_profile", "title": "Load demo profile", "description": "Load the NovaBank demo profile with client, brandbook, and creatives.", "link": None},
-    {"id": "open_client", "title": "Open NovaBank client", "description": "View the NovaBank client workspace.", "link": "/ui/clients"},
-    {"id": "open_project", "title": "Open project workspace", "description": "Open the project workspace to see all campaign materials.", "link": "/ui/projects"},
-    {"id": "upload_brandbook", "title": "Upload/read brandbook", "description": "Upload the NovaBank brandbook and ingest it for testing.", "link": "/ui/brandbooks"},
-    {"id": "review_creatives", "title": "Review A/B/C creatives", "description": "Review the creative variants before running tests.", "link": "/ui/creative-assets"},
-    {"id": "run_batch", "title": "Run batch test", "description": "Create and run a batch test campaign with all variants.", "link": "/ui/batches"},
-    {"id": "campaign_summary", "title": "Open campaign summary", "description": "View the aggregated batch summary with scores and risks.", "link": None},
-    {"id": "export_report", "title": "Export DOCX/PPTX/PDF-ready", "description": "Export the test report in DOCX, PPTX, or HTML format.", "link": "/ui/exports"},
-    {"id": "create_review", "title": "Create review", "description": "Add a human review with decision, rating, and feedback.", "link": "/ui/reviews"},
-    {"id": "save_knowledge", "title": "Save feedback to knowledge", "description": "Save insights and lessons learned to the knowledge base.", "link": "/ui/knowledge-base"},
+    {"id": "load_profile", "title": "demo.load_profile.title", "description": "demo.load_profile.description", "link": None},
+    {"id": "open_client", "title": "demo.open_client.title", "description": "demo.open_client.description", "link": "/ui/clients"},
+    {"id": "open_project", "title": "demo.open_project.title", "description": "demo.open_project.description", "link": "/ui/projects"},
+    {"id": "upload_brandbook", "title": "demo.upload_brandbook.title", "description": "demo.upload_brandbook.description", "link": "/ui/brandbooks"},
+    {"id": "review_creatives", "title": "demo.review_creatives.title", "description": "demo.review_creatives.description", "link": "/ui/creative-assets"},
+    {"id": "run_batch", "title": "demo.run_batch.title", "description": "demo.run_batch.description", "link": "/ui/batches"},
+    {"id": "campaign_summary", "title": "demo.campaign_summary.title", "description": "demo.campaign_summary.description", "link": None},
+    {"id": "export_report", "title": "demo.export_report.title", "description": "demo.export_report.description", "link": "/ui/exports"},
+    {"id": "create_review", "title": "demo.create_review.title", "description": "demo.create_review.description", "link": "/ui/reviews"},
+    {"id": "save_knowledge", "title": "demo.save_knowledge.title", "description": "demo.save_knowledge.description", "link": "/ui/knowledge-base"},
 ]
 
 
