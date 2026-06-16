@@ -12,8 +12,10 @@ a:hover { color: #4dd4a6; }
 .status-allowed { color: #4ade80; }
 
 nav { background: #0d0d14; border-bottom: 1px solid #1a1a28; padding: 0.7rem 1.5rem; display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
-nav .brand { font-weight: 700; font-size: 1.05rem; color: #3bb390; letter-spacing: 0.02em; display: flex; align-items: center; gap: 0.5rem; }
-nav .brand img { height: 20px; }
+nav .brand { font-weight: 700; font-size: 1.05rem; color: #3bb390; letter-spacing: 0.02em; display: inline-flex; align-items: center; }
+nav .brand img { height: 22px; vertical-align: middle; }
+nav a.brand { text-decoration: none; }
+nav a.brand:hover { opacity: 0.8; }
 nav a { font-size: 0.85rem; color: #8888a0; transition: color 0.2s; }
 nav a:hover { color: #3bb390; text-decoration: none; }
 
@@ -121,10 +123,9 @@ td { font-size: 0.9rem; color: #d0d0dc; }
 
 .status-grid .value { font-weight: 600; font-size: 1rem; }
 
-footer { text-align: center; padding: 1.5rem; font-size: 0.78rem; color: #55556a; border-top: 1px solid #1a1a28; margin-top: 2rem; }
-footer a { color: #8888a0; }
-footer a:hover { color: #3bb390; }
-.arvectum-footer { display: inline-flex; align-items: center; gap: 0.3rem; }
+footer { text-align: center; padding: 1.5rem; color: #55556a; border-top: 1px solid #1a1a28; margin-top: 2rem; }
+.arvectum-footer { display: inline-block; opacity: 0.6; transition: opacity 0.2s; }
+.arvectum-footer:hover { opacity: 1; }
 
 .lang-switch { float: right; }
 .lang-switch a { color: #55556a; margin: 0 0.2rem; font-weight: 600; font-size: 0.78rem; transition: color 0.2s; }
