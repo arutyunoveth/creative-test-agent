@@ -30,7 +30,7 @@
 
 <div class="card">
   <h3>{{ t("Content Preview") }}</h3>
-  <pre class="content-preview">{{ doc.text_content[:2000] }}{% if doc.text_content and doc.text_content|length > 2000 %}...{% endif %}</pre>
+  <pre class="content-preview">{{ (doc.extracted_text or doc.text_content or '')[:2000] }}{% if (doc.extracted_text or doc.text_content or '')|length > 2000 %}...{% endif %}</pre>
 </div>
 
 <div class="btn-group">

@@ -10,7 +10,7 @@ def ingest_brandbook(doc_id: str, auto: bool = False) -> int:
     if doc is None:
         raise ValueError(f"brandbook_not_found: {doc_id}")
 
-    text = doc.text_content or ""
+    text = doc.extracted_text or doc.text_content or ""
     if not text.strip():
         raise ValueError(f"brandbook_empty: {doc_id}")
 

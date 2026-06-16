@@ -69,7 +69,7 @@ async def post_upload_brandbook(
 
         raw = await file.read()
         parsed = parse_pdf(raw)
-        text = parsed.text_content or ""
+        text = parsed.extracted_text or ""
         settings = get_settings()
         storage_path = os.path.join(settings.storage_root, "brandbooks")
         os.makedirs(storage_path, exist_ok=True)
