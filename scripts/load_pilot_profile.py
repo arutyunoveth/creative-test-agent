@@ -103,7 +103,7 @@ def load_profile(json_path: str, profile_name: str | None = None) -> int:
 
     # ── Client ─────────────────────────────────────────────────────
     client_obj = profile.get("client")
-    db_client = None
+    client_id = None
     if client_obj and client_obj.get("name"):
         with db_session() as db:
             if not _entity_exists(db, Client, "name", client_obj["name"], effective_profile_name):
@@ -116,29 +116,30 @@ def load_profile(json_path: str, profile_name: str | None = None) -> int:
                 db.add(db_client)
                 db.flush()
                 db.refresh(db_client)
-                print(f"  ✓ Client '{client_obj['name']}' created (id={db_client.id[:12]}...).")
+                client_id = db_client.id
+                print(f"  ✓ Client '{client_obj['name']}' created (id={client_id[:12]}...).")
                 created += 1
             else:
                 existing = db.query(Client).all()
                 for e in existing:
                     meta = json.loads(e.metadata_json) if e.metadata_json else {}
                     if meta.get("profile_name") == effective_profile_name and e.name == client_obj["name"]:
-                        db_client = e
+                        client_id = e.id
                         break
                 print(f"  ✓ Client '{client_obj['name']}' already exists, skipping.")
 
     # ── Project ─────────────────────────────────────────────────────
     project_def = profile.get("project")
-    if project_def and project_def.get("name") and db_client:
+    if project_def and project_def.get("name") and client_id:
         with db_session() as db:
             if not _entity_exists(db, Project, "name", project_def["name"], effective_profile_name):
                 db.add(Project(
-                    client_id=db_client.id,
+                    client_id=client_id,
                     name=project_def["name"],
                     description=project_def.get("description"),
                     metadata_json=json_dumps({**metadata_base, "demo": profile.get("demo", False)}),
                 ))
-                print(f"  ✓ Project '{project_def['name']}' created for client '{db_client.name}'.")
+                print(f"  ✓ Project '{project_def['name']}' created.")
                 created += 1
             else:
                 print(f"  ✓ Project '{project_def['name']}' already exists, skipping.")
