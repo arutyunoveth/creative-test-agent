@@ -109,7 +109,31 @@ def _to_response(doc: BrandbookDocument) -> BrandbookDocumentResponse:
     )
 
 
-ANALYSIS_PROMPT = """You are a brand strategist and creative director. Analyze this brandbook document and provide a structured expert assessment.
+ANALYSIS_PROMPT_RU = """Вы — бренд-стратег и креативный директор. Проанализируйте этот брендбук и дайте структурированное экспертное заключение на русском языке.
+
+Текст брендбука:
+---
+{brandbook_text}
+---
+
+Отвечайте только валидным JSON (без markdown fences) с точной структурой:
+{{
+  "brand_name": "название бренда или 'неизвестно'",
+  "brand_summary": "резюме 2-3 предложения о чём этот бренд",
+  "tone_of_voice": "основной тон и стиль коммуникации",
+  "target_audience": "для кого бренд говорит",
+  "visual_identity": "гайдлайны визуального стиля если упоминаются",
+  "key_messages": ["список ключевых сообщений бренда"],
+  "restrictions": ["список запретов и ограничений бренда"],
+  "compliance_rules": ["конкретные правила которых должны придерживаться креативы"],
+  "brand_values": ["ценностные ориентиры бренда если упоминаются"],
+  "positioning": "как бренд позиционирует себя относительно конкурентов",
+  "strengths": ["сильные стороны бренда выявленные из документа"],
+  "weaknesses": ["пробелы или слабые стороны брендбука"],
+  "recommendations": ["практические рекомендации для работы с этим брендом"]
+}}"""
+
+ANALYSIS_PROMPT_EN = """You are a brand strategist and creative director. Analyze this brandbook document and provide a structured expert assessment.
 
 Brandbook text:
 ---
@@ -134,7 +158,7 @@ Respond in valid JSON only (no markdown fences) with this exact structure:
 }}"""
 
 
-def analyze_brandbook(doc_id: str) -> dict:
+def analyze_brandbook(doc_id: str, lang: str = "ru") -> dict:
     doc = get_brandbook(doc_id)
     if doc is None:
         raise ValueError(f"brandbook_not_found: {doc_id}")
@@ -144,7 +168,8 @@ def analyze_brandbook(doc_id: str) -> dict:
 
     from src.shared.llm.factory import get_llm_provider
     provider = get_llm_provider()
-    prompt = ANALYSIS_PROMPT.format(brandbook_text=text[:12000])
+    template = ANALYSIS_PROMPT_RU if lang == "ru" else ANALYSIS_PROMPT_EN
+    prompt = template.format(brandbook_text=text[:12000])
     result = provider.generate(prompt)
     content = result.get("content", "")
 

@@ -119,10 +119,10 @@ def get_brandbook_by_id(brandbook_id: str):
 
 
 @router.post("/{brandbook_id}/analyze")
-def post_analyze_brandbook(brandbook_id: str):
+def post_analyze_brandbook(brandbook_id: str, lang: str = Query("ru")):
     from .service import analyze_brandbook
     try:
-        result = analyze_brandbook(brandbook_id)
+        result = analyze_brandbook(brandbook_id, lang=lang)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     write_audit_event("brandbook_analyzed", "brandbook_document", brandbook_id, {})

@@ -627,8 +627,10 @@ def ui_brandbooks_analyze(request: Request, doc_id: str):
     if doc is None:
         return _error(request, f"Brandbook not found: {doc_id}")
 
+    lang = _detect_lang(request)
+
     try:
-        analysis = analyze_brandbook(doc_id)
+        analysis = analyze_brandbook(doc_id, lang=lang)
         doc = get_brandbook(doc_id)
     except ValueError as e:
         return _render(request, "brandbooks/detail.html", doc=doc, error=str(e))
